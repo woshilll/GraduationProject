@@ -1,13 +1,13 @@
 package com.yang.graduation.commons.mapper;
 
 
-import com.yang.graduation.commons.domain.Admin;
+import com.yang.graduation.commons.domain.News;
 import com.yang.graduation.commons.tk.mybatis.MyMapper;
-
 /**
- * 管理员mapper
+ * 新闻mapper
  * @author yangge666
  */
-public interface AdminMapper extends MyMapper<Admin> {
+
+public interface NewsMapper extends MyMapper<News> {
 
 }

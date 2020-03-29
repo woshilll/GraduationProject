@@ -2,6 +2,8 @@ package com.yang.graduation.provider.api;
 
 import com.yang.graduation.commons.domain.Admin;
 
+import java.util.List;
+
 /**
  * @author 李洋
  * @date 2020/3/28 23:13
@@ -22,11 +24,18 @@ public interface AdminService {
     Admin getAdmin(String name);
 
     /**
-     * 查找admin
+     * 查找admins
      * @param admin {@link Admin}
      * @return {@link Admin}
      */
-    Admin getAdmin(Admin admin);
+    List<Admin> getAdmins(Admin admin);
+
+    /**
+     * 根据id删除admin
+     * @param id admin id
+     * @return 1 true 0 false
+     */
+    int deleteById(String id);
 
 
 }

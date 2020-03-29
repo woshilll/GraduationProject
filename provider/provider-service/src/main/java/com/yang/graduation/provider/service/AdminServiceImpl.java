@@ -10,6 +10,7 @@ import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.List;
 
 /**
  * 管理员service
@@ -51,13 +52,25 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
-     * find admin
+     * find admins
      * @param admin {@link Admin}
      * @return {@link Admin}
      */
     @Override
-    public Admin getAdmin(Admin admin) {
-        return adminMapper.selectOne(admin);
+    public List<Admin> getAdmins(Admin admin) {
+        return adminMapper.select(admin);
+    }
+
+    /**
+     * 删除admin
+     * @param id admin id
+     * @return 1 true o false
+     */
+    @Override
+    public int deleteById(String id) {
+        Example example = new Example(Admin.class);
+        example.createCriteria().andEqualTo("id", id);
+        return adminMapper.deleteByExample(example);
     }
 
     /**
