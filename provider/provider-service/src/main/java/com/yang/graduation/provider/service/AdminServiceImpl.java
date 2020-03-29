@@ -3,6 +3,7 @@ package com.yang.graduation.provider.service;
 import com.yang.graduation.commons.domain.Admin;
 import com.yang.graduation.commons.mapper.AdminMapper;
 import com.yang.graduation.provider.api.AdminService;
+import com.yang.graduation.provider.util.IdWorker;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import tk.mybatis.mapper.entity.Example;
@@ -23,6 +24,9 @@ public class AdminServiceImpl implements AdminService {
 
     @Resource
     private BCryptPasswordEncoder passwordEncoder;
+
+    @Resource
+    private IdWorker idWorker;
     /**
      * 注册管理员
      * @param admin admin
@@ -61,6 +65,8 @@ public class AdminServiceImpl implements AdminService {
      * @param admin
      */
     private void initAdmin(Admin admin) {
+        //设置雪花分布式Id
+        admin.setId(idWorker.nextId() + "");
         //设置创建时间
         admin.setRegistTime(new Date());
         //设置最后登录时间

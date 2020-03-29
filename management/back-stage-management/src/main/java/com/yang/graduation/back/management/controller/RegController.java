@@ -34,7 +34,7 @@ public class RegController {
             int result = adminService.regAdmin(admin);
 
             //注册成功
-            if (result > 1) {
+            if (result > 0) {
                  admin = adminService.getAdmin(admin.getName());
                  return new ResponseResult<>(HttpStatus.OK.value(), "用户注册成功!", admin);
             }
