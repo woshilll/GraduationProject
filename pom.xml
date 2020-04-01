@@ -21,6 +21,7 @@
         <module>commons</module>
         <module>management</module>
         <module>gateway</module>
+        <module>aliyun-oss</module>
     </modules>
 
     <properties>
