@@ -10,6 +10,9 @@
     <result column="token" jdbcType="VARCHAR" property="token" />
     <result column="email" jdbcType="VARCHAR" property="email" />
     <result column="admin_icon" jdbcType="VARCHAR" property="adminIcon" />
+    <result column="nick_name" jdbcType="VARCHAR" property="nickName" />
+    <result column="node" jdbcType="VARCHAR" property="node" />
+    <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
 
 </mapper>

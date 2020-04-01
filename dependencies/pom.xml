@@ -20,6 +20,9 @@
         <spring-cloud.version>Hoxton.RELEASE</spring-cloud.version>
         <spring-cloud-alibaba.version>2.2.0.RELEASE</spring-cloud-alibaba.version>
         <alibaba-spring-context-support.version>1.0.6</alibaba-spring-context-support.version>
+
+        <!--commons utils-->
+        <okhttp30.version>4.0.1</okhttp30.version>
     </properties>
 
 
@@ -129,6 +132,12 @@
                 <version>${spring-boot-mapper.version}</version>
             </dependency>
 
+
+            <dependency>
+                <groupId>com.squareup.okhttp3</groupId>
+                <artifactId>okhttp</artifactId>
+                <version>${okhttp30.version}</version>
+            </dependency>
 
         </dependencies>
     </dependencyManagement>

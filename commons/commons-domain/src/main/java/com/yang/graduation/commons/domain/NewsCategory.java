@@ -3,21 +3,30 @@ package com.yang.graduation.commons.domain;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * news_category
  * @author woshilll
  */
 @Data
+@Table(name = "news_category")
 public class NewsCategory implements Serializable {
     /**
      * 分类id
      */
+    @Id
     private Integer id;
 
     /**
      * 分类名
      */
+    @NotNull(message = "分类名不能为空!")
+    @Length(min = 1, max = 10, message = "分类名最多有十位!")
     private String name;
 
     /**

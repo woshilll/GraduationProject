@@ -37,5 +37,11 @@ public interface AdminService {
      */
     int deleteById(String id);
 
+    /**
+     * 通过id更新admin
+     * @param admin {@link Admin}
+     * @return 1 success 0 fail
+     */
+    int updateById(Admin admin);
 
 }

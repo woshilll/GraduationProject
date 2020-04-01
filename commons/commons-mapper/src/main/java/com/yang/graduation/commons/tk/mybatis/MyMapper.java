@@ -5,7 +5,7 @@ import tk.mybatis.mapper.common.MySqlMapper;
 
 /**
  * 通用mapper
- * @author 李洋
+ * @author woshilll
  * @date 2020/3/28 17:36
  */
 public interface MyMapper<T> extends Mapper<T>, MySqlMapper<T> {

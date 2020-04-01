@@ -3,31 +3,43 @@ package com.yang.graduation.commons.domain;
 import java.io.Serializable;
 import java.util.Date;
 import lombok.Data;
+import org.hibernate.validator.constraints.Length;
+
+import javax.persistence.Id;
+import javax.persistence.Table;
+import javax.validation.constraints.NotNull;
 
 /**
  * news
  * @author woshilll
  */
 @Data
+@Table(name = "news")
 public class News implements Serializable {
     /**
      * 新闻id
      */
+    @Id
     private String id;
 
     /**
      * 新闻标题
      */
+    @NotNull(message = "新闻标题不能为空!")
+    @Length(min = 4, max = 255, message = "新闻的标题至少是4位!")
     private String title;
 
     /**
      * 新闻摘要
      */
+    @NotNull(message = "新闻摘要不能为空!")
+    @Length(min = 4, message = "新闻的摘要至少是4位!")
     private String content;
 
     /**
      * 新闻内容
      */
+    @NotNull(message = "新闻内容要不能为空!")
     private String contentHtml;
 
     /**
@@ -58,6 +70,7 @@ public class News implements Serializable {
     /**
      * 上传用户id
      */
+    @NotNull(message = "上传用户不能为空!")
     private String userId;
 
     /**

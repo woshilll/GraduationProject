@@ -23,8 +23,7 @@ import javax.validation.Valid;
  * @date 2020/3/29 00:05
  */
 @RestController
-@CrossOrigin(origins = "*", maxAge = 3600)
-@RequestMapping("/reg")
+@RequestMapping("/back/reg")
 public class RegController {
 
     @Reference(version = "1.0.0")

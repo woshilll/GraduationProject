@@ -14,6 +14,7 @@
 
     <modules>
         <module>back-stage-management</module>
+        <module>oauth2</module>
     </modules>
 
 </project>

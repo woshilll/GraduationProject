@@ -16,6 +16,7 @@
     <module>commons-dto</module>
     <module>commons-domain</module>
     <module>commons-mapper</module>
+    <module>commons-utils</module>
 </modules>
 
 

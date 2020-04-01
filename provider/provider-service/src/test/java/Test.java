@@ -46,7 +46,10 @@ public class Test {
      */
     @org.junit.Test
     public void findAdmins() {
-        for (Admin admin : adminService.getAdmins(new Admin())) {
+        Admin admins = new Admin();
+        admins.setName("1");
+        admins.setId("2979251879936");
+        for (Admin admin : adminService.getAdmins(admins)) {
             System.out.println(admin.getName());
         }
     }
@@ -57,6 +60,15 @@ public class Test {
     @org.junit.Test
     public void deleteByIdTest() {
         int res = adminService.deleteById("666");
+        Assert.assertEquals(1, res);
+    }
+
+    @org.junit.Test
+    public void updateTest() {
+        Admin admin = new Admin();
+        admin.setId("12345");
+        admin.setName("yangyang");
+        int res = adminService.updateById(admin);
         Assert.assertEquals(1, res);
     }
 }

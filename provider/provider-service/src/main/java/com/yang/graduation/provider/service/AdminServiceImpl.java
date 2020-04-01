@@ -74,6 +74,16 @@ public class AdminServiceImpl implements AdminService {
     }
 
     /**
+     * 更新admin
+     * @param admin {@link Admin}
+     * @return 1 success 0 fail
+     */
+    @Override
+    public int updateById(Admin admin) {
+        return adminMapper.updateByPrimaryKeySelective(admin);
+    }
+
+    /**
      * 对admin进行初始化操作
      * @param admin
      */
