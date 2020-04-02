@@ -1,8 +1,10 @@
 package com.yang.graduation.provider.api;
 
 import com.yang.graduation.commons.domain.Admin;
+import com.yang.graduation.commons.domain.PageInfo;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author 李洋
@@ -43,5 +45,27 @@ public interface AdminService {
      * @return 1 success 0 fail
      */
     int updateById(Admin admin);
+
+    /**
+     * 修改头像
+     * @param path 新的头像地址
+     * @param username 用户名
+     * @return 1 success 0 fail
+     */
+    int modifyIcon(String path, String username);
+
+    /**
+     * 得到所有的管理用户
+     * @param map 模糊查询 + 分页
+     * @return {@link PageInfo}
+     */
+    PageInfo<Admin> getAdminList(Map<String, Object> map);
+
+    /**
+     * 获得模糊查询的总量
+     * @param map name,email
+     * @return {@link Integer}
+     */
+    int count(Map<String, Object> map);
 
 }

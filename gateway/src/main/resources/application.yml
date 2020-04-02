@@ -36,11 +36,11 @@ spring:
             - StripPrefix=1
         # OSS上传
         - id: ALIYUN-OSS
-            uri: lb://aliyun-oss
-            predicates:
-              - Path=/api/upload/**
-            filters:
-              - StripPrefix=1
+          uri: lb://aliyun-oss
+          predicates:
+            - Path=/api/upload/**
+          filters:
+            - StripPrefix=1
 
 
 

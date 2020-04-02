@@ -1,6 +1,7 @@
 package com.yang.graduation.provider.service;
 
 import com.yang.graduation.commons.domain.Admin;
+import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.commons.mapper.AdminMapper;
 import com.yang.graduation.provider.api.AdminService;
 import com.yang.graduation.provider.util.IdWorker;
@@ -11,6 +12,7 @@ import tk.mybatis.mapper.entity.Example;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 管理员service
@@ -80,7 +82,55 @@ public class AdminServiceImpl implements AdminService {
      */
     @Override
     public int updateById(Admin admin) {
-        return adminMapper.updateByPrimaryKeySelective(admin);
+        Admin newAdmin = getAdmin(admin.getName());
+        newAdmin.setEmail(admin.getEmail());
+        newAdmin.setNickName(admin.getNickName());
+        newAdmin.setNode(admin.getNode());
+        newAdmin.setStatus(admin.getStatus());
+        return adminMapper.updateByPrimaryKeySelective(newAdmin);
+    }
+
+    /**
+     * 更新用户头像
+     * @param path 新的头像地址
+     * @param username 用户名
+     * @return 1 success 0 fail
+     */
+    @Override
+    public int modifyIcon(String path, String username) {
+        Admin admin = getAdmin(username);
+        admin.setAdminIcon(path);
+        return adminMapper.updateByPrimaryKey(admin);
+    }
+
+    /**
+     *查询全部
+     * @param map 模糊查询 + 分页
+     * @return {@link PageInfo}
+     */
+    @Override
+    public PageInfo<Admin> getAdminList(Map<String, Object> map) {
+        PageInfo<Admin> pageInfo = new PageInfo<>();
+        pageInfo.setDraw(0);
+        map.put("page", ((int)map.get("page") - 1) * 10);
+        pageInfo.setStart((Integer) map.get("page"));
+        pageInfo.setLength((Integer) map.get("limit"));
+        List<Admin> admins = adminMapper.page(map);
+        pageInfo.setData(admins);
+        int count = count(map);
+        pageInfo.setRecordsTotal(count);
+        pageInfo.setRecordsFiltered(count);
+        return pageInfo;
+    }
+
+    /**
+     * 模糊查询的总数
+     * @param map name,email
+     * @return {@link Integer}
+     */
+    @Override
+    public int count(Map<String, Object> map) {
+        return adminMapper.count(map);
     }
 
     /**

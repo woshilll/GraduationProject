@@ -149,5 +149,10 @@ public class ResponseResult<T> implements Serializable {
          * 上传失败
          */
         public static final Integer UPLOAD_FAIL = 50002;
+
+        /**
+         * 删除失败
+         */
+        public static final Integer DELETE_FAIL = 50003;
     }
 }
