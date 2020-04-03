@@ -1,0 +1,64 @@
+package com.yang.graduation.provider.api;
+
+import com.yang.graduation.commons.domain.PageInfo;
+import com.yang.graduation.commons.domain.User;
+
+import java.util.Map;
+
+/**
+ * @author woshilll
+ * @version v1.0.0
+ * @date 2020/4/2 21:35
+ */
+public interface UserService {
+    /**
+     * 注册user
+     * @param user {@link User}
+     * @return 1 success 0 fail
+     */
+    int regUser(User user);
+
+    /**
+     * 通过用户名查找用户
+     * @param username 用户名
+     * @return {@link User}
+     */
+    User getUser(String username);
+
+    /**
+     * 删除
+     * @param id user id
+     * @return 1 success 0 fail
+     */
+    int deleteById(String id);
+
+    /**
+     * 通过id更新user
+     * @param user {@link User}
+     * @return 1 success 0 fail
+     */
+    int updateById(User user);
+
+    /**
+     * 修改用户头像
+     * @param path 头像上传地址
+     * @param username 用户名
+     * @return 1 success 0 fail
+     */
+    int modifyIcon(String path, String username);
+
+    /**
+     * 获得查询的总量
+     * @param map 查询条件字段 name email nickName
+     * @return 查询总数
+     */
+    int count(Map<String, Object> map);
+
+    /**
+     * 得到所用的用户
+     * @param map 模糊查询 + 分页
+     * 一定包含的字段{page(当前页起始位置) limit(每页数据数) name(名称) email(邮箱) nickName(昵称)}
+     * @return {@link PageInfo}
+     */
+    PageInfo<User> getUserList(Map<String, Object> map);
+}

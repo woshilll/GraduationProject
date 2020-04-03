@@ -15,5 +15,38 @@
     <result column="last_login_time" jdbcType="TIMESTAMP" property="lastLoginTime" />
     <result column="banned" jdbcType="INTEGER" property="banned" />
   </resultMap>
+    <select id="page" resultType="com.yang.graduation.commons.domain.User">
+      select id, phone, name, password, email, nick_name as nickName,
+      user_icon as userIcon, talk, regist_time as registTime,
+      last_login_time as lastLoginTime, banned
+      from user
+      <where>
+        <if test="name != null and name != ''">
+          and name like concat('%', #{name}, '%')
+        </if>
+        <if test="email != null and email != ''">
+          and email like concat('%', #{email}, '%')
+        </if>
+        <if test="nickName != null and nickName != ''">
+          and nick_name like concat('%', #{nickName}, '%')
+        </if>
+      </where>
+      limit #{page}, #{limit}
+    </select>
+
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from user
+    <where>
+      <if test="name != null and name != ''">
+        AND name LIKE concat ('%',#{name},'%')
+      </if>
+      <if test="email != null and email != ''">
+        AND email LIKE concat ('%',#{email},'%')
+      </if>
+      <if test="nickName != null and nickName != ''">
+        and nick_name like concat('%', #{nickName}, '%')
+      </if>
+    </where>
+  </select>
 
 </mapper>
