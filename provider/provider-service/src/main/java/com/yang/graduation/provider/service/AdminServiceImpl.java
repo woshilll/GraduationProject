@@ -133,6 +133,13 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.count(map);
     }
 
+    @Override
+    public int updateLoginTime(String username) {
+        Admin admin = getAdmin(username);
+        admin.setLastLoginTime(new Date());
+        return adminMapper.updateByPrimaryKeySelective(admin);
+    }
+
     /**
      * 对admin进行初始化操作
      * @param admin

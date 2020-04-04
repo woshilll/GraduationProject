@@ -8,6 +8,7 @@ import com.yang.graduation.dto.ResponseResult;
 import com.yang.graduation.oauth2.dto.LoginInfo;
 import com.yang.graduation.oauth2.dto.LoginParam;
 
+import com.yang.graduation.oauth2.service.UserDetailsServiceImpl;
 import com.yang.graduation.provider.api.AdminService;
 import okhttp3.Response;
 import org.apache.dubbo.config.annotation.Reference;
@@ -69,6 +70,9 @@ public class UserLoginController {
         if (userDetails == null || !passwordEncoder.matches(loginParam.getPassword(), userDetails.getPassword())) {
             return new ResponseResult<>(ResponseResult.CodeStatus.LOGIN_FAIL, "账号或密码错误!", null);
         }
+        if (UserDetailsServiceImpl.BANNED.equals(userDetails.getUsername())) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.COUNT_BANNED, "该账号已被封禁!请联系伟大洋洋管理员!", null);
+        }
         Map<String, String> params = Maps.newHashMap();
         params.put("username", loginParam.getUsername());
         params.put("password", loginParam.getPassword());
@@ -85,7 +89,7 @@ public class UserLoginController {
         } catch (Exception e) {
             e.printStackTrace();
         }
-
+        adminService.updateLoginTime(userDetails.getUsername());
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "登录成功!", result);
     }
 

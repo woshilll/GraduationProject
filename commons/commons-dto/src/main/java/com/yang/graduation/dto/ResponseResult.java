@@ -154,5 +154,10 @@ public class ResponseResult<T> implements Serializable {
          * 删除失败
          */
         public static final Integer DELETE_FAIL = 50003;
+
+        /**
+         * 账号封禁
+         */
+        public static final Integer COUNT_BANNED = 50004;
     }
 }

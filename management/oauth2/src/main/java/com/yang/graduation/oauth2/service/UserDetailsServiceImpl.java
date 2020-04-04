@@ -23,7 +23,7 @@ import java.util.List;
  */
 @Service
 public class UserDetailsServiceImpl implements UserDetailsService {
-
+    public static final String BANNED = "this user is banned, so you can not login in";
 
     @Reference(version = "1.0.0")
     private AdminService adminService;
@@ -37,6 +37,10 @@ public class UserDetailsServiceImpl implements UserDetailsService {
         grantedAuthorities.add(grantedAuthority);
         //用户存在
         if (admin != null) {
+            if (admin.getStatus() != 0) {
+                //说明账号禁用!
+                return new User(BANNED, admin.getPassword(), Lists.newArrayList(new SimpleGrantedAuthority("BANNED")));
+            }
             return new User(admin.getName(), admin.getPassword(), grantedAuthorities);
         }
         //用户不存在

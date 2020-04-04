@@ -50,22 +50,22 @@
       :fit="true"
       highlight-current-row
     >
-      <el-table-column align="center" label="序号" width="90" :resizable="false" show-overflow-tooltip="true">
+      <el-table-column align="center" label="序号" width="90" :resizable="false" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{ scope.$index }}
         </template>
       </el-table-column>
-      <el-table-column label="用户名" align="center" width="170" :resizable="false" show-overflow-tooltip="true">
+      <el-table-column label="用户名" align="center" width="170" :resizable="false" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{ scope.row.name }}
         </template>
       </el-table-column>
-      <el-table-column label="邮箱" width="180" align="center" :resizable="false" show-overflow-tooltip="true">
+      <el-table-column label="邮箱" width="180" align="center" :resizable="false" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <span>{{ scope.row.email }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="昵称" width="150" align="center" :resizable="false" show-overflow-tooltip="true">
+      <el-table-column label="昵称" width="150" align="center" :resizable="false" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{ scope.row.nickName }}
         </template>
@@ -75,13 +75,13 @@
           <el-avatar :src="scope.row.userIcon" :size="35"/>
         </template>
       </el-table-column>
-      <el-table-column label="个人介绍" width="200" align="center" :resizable="false" show-overflow-tooltip="true">
+      <el-table-column label="个人介绍" width="200" align="center" :resizable="false" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <span>{{ scope.row.talk }}</span>
         </template>
       </el-table-column>
 
-      <el-table-column align="center" prop="created_at" label="上次登录时间" width="200" :resizable="false" show-overflow-tooltip="true">
+      <el-table-column align="center" prop="created_at" label="上次登录时间" width="200" :resizable="false" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <i class="el-icon-time"/>
           <span>{{ scope.row.lastLoginTime }}</span>

@@ -13,6 +13,61 @@
     <result column="category_id" jdbcType="INTEGER" property="categoryId" />
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="status" jdbcType="INTEGER" property="status" />
+    <result column="is_delete" jdbcType="INTEGER" property="isDelete" />
+    <result column="audit" jdbcType="VARCHAR" property="audit" />
   </resultMap>
 
+  <select id="count" resultType="java.lang.Integer">
+    select count(*) from news
+    <where>
+      <if test="title != null and title != ''">
+        AND title LIKE concat ('%',#{title},'%')
+      </if>
+      <if test="status != null and status != ''">
+        AND status = #{status}
+      </if>
+      <if test="start != null and start != ''">
+        and post_time &gt; #{start}
+      </if>
+      <if test="end != null and end != ''">
+        and post_time &lt; #{end}
+      </if>
+    </where>
+  </select>
+  <select id="page" resultType="com.yang.graduation.commons.domain.NewsParam">
+    select news.id,
+    title,
+    content,
+    content_html as contentHtml,
+    image,
+    post_time as postTime,
+    like_count as likeCount,
+    comment_count as commentCount,
+    category_id as categoryId,
+    user_id as userId,
+    u.name as authorName,
+    news.status,
+    is_delete as isDelete,
+    audit,
+    news_category.name as categoryName
+    from news, news_category, user u
+    <where>
+      category_id = news_category.id
+      and
+      user_id = u.id
+      <if test="title != null and title != ''">
+        AND title LIKE concat ('%',#{title},'%')
+      </if>
+      <if test="status != null and status != ''">
+        AND news.status = #{status}
+      </if>
+      <if test="start != null and start != ''">
+        and post_time &gt; #{start}
+      </if>
+      <if test="end != null and end != ''">
+        and post_time &lt; #{end}
+      </if>
+    </where>
+    limit #{page}, #{limit}
+  </select>
 </mapper>

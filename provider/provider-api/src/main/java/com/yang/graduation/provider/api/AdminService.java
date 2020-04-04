@@ -68,4 +68,10 @@ public interface AdminService {
      */
     int count(Map<String, Object> map);
 
+    /**
+     * 更新登录时间
+     * @param username id
+     * @return 1 0
+     */
+    int updateLoginTime(String username);
 }

@@ -1,45 +1,35 @@
 package com.yang.graduation.commons.domain;
 
+import lombok.Data;
+
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
-import org.hibernate.validator.constraints.Length;
-
-import javax.persistence.Id;
-import javax.persistence.Table;
-import javax.validation.constraints.NotNull;
 
 /**
- * news
  * @author woshilll
+ * @version v1.0.0
+ * @date 2020/4/3 22:39
  */
 @Data
-@Table(name = "news")
-public class News implements Serializable {
+public class NewsParam implements Serializable {
     /**
      * 新闻id
      */
-    @Id
     private String id;
 
     /**
      * 新闻标题
      */
-    @NotNull(message = "新闻标题不能为空!")
-    @Length(min = 4, max = 255, message = "新闻的标题至少是4位!")
     private String title;
 
     /**
      * 新闻摘要
      */
-    @NotNull(message = "新闻摘要不能为空!")
-    @Length(min = 4, message = "新闻的摘要至少是4位!")
     private String content;
 
     /**
      * 新闻内容
      */
-    @NotNull(message = "新闻内容要不能为空!")
     private String contentHtml;
 
     /**
@@ -63,15 +53,22 @@ public class News implements Serializable {
     private Integer commentCount;
 
     /**
-     * 分类
+     * 分类 id
      */
     private Integer categoryId;
 
     /**
+     * 分类名
+     */
+    private String categoryName;
+    /**
      * 上传用户id
      */
-    @NotNull(message = "上传用户不能为空!")
     private String userId;
+    /**
+     * 上传作者名
+     */
+    private String authorName;
 
     /**
      * 0 待审核 1 审核通过 2 审核失败
@@ -82,11 +79,9 @@ public class News implements Serializable {
      * 审核人
      */
     private String audit;
-
     /**
      * 0 没有删除 1 删除
      */
     private Integer isDelete;
 
-    private static final long serialVersionUID = 1L;
 }

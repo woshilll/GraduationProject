@@ -51,7 +51,7 @@ export const constantRoutes = [
       path: 'dashboard',
       name: 'Dashboard',
       component: () => import('@/views/dashboard/index'),
-      meta: { title: 'Dashboard', icon: 'dashboard' }
+      meta: { title: '首页', icon: 'dashboard' }
     }]
   },
 
@@ -68,7 +68,7 @@ export const constantRoutes = [
         path: 'info',
         name: 'AdminInfo',
         component: () => import('@/views/admin/info'),
-        meta: { title: '修改信息', icon: 'el-icon-edit' }
+        meta: { title: '修改信息', icon: 'edit' }
       },
       {
         path: 'password',
@@ -105,12 +105,19 @@ export const constantRoutes = [
         component: () => import('@/views/user/list'),
         meta: { title: '用户管理', icon: 'people' }
       },
-      // {
-      //   path: 'newsList',
-      //   name: 'NewsList',
-      //   component: () => import('@/views/news/list'),
-      //   meta: { title: '新闻管理', icon: 'list' }
-      // },
+      {
+        path: 'newsList',
+        name: 'NewsList',
+        component: () => import('@/views/news/list'),
+        meta: { title: '新闻管理', icon: 'list' }
+      },
+      {
+        path: 'edit/:id(\\d+)',
+        component: () => import('@/views/news/edit'),
+        name: 'EditNews',
+        meta: { title: '编辑新闻', noCache: true, activeMenu: '/news/list' },
+        hidden: true
+      },
     ]
   },
 

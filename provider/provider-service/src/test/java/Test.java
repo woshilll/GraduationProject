@@ -1,6 +1,9 @@
 import com.yang.graduation.commons.domain.Admin;
+import com.yang.graduation.commons.domain.NewsParam;
+import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.provider.ProviderApplication;
 import com.yang.graduation.provider.api.AdminService;
+import com.yang.graduation.provider.api.NewsService;
 import org.junit.Assert;
 import org.junit.runner.RunWith;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -8,6 +11,8 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import javax.annotation.Resource;
 import java.util.Date;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * @author 李洋
@@ -18,6 +23,8 @@ import java.util.Date;
 public class Test {
     @Resource
     private AdminService adminService;
+    @Resource
+    private NewsService newsService;
 
 
     /**
@@ -70,5 +77,15 @@ public class Test {
         admin.setName("yangyang");
         int res = adminService.updateById(admin);
         Assert.assertEquals(1, res);
+    }
+
+    @org.junit.Test
+    public void newsTest() {
+        Map<String, Object> map = new HashMap<>();
+        map.put("status", "0");
+        map.put("page", 1);
+        map.put("limit", 10);
+        PageInfo<NewsParam> newsList = newsService.getNewsList(map);
+        System.out.println(newsList);
     }
 }
