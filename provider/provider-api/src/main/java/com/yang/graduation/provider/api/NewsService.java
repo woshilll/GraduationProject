@@ -38,4 +38,11 @@ public interface NewsService {
      * @return {@link NewsParam}
      */
     NewsParam getNewsById(String id);
+
+    /**
+     * 更新新闻
+     * @param newsParam {@link NewsParam}
+     * @return 1 0
+     */
+    int updateNews(NewsParam newsParam);
 }

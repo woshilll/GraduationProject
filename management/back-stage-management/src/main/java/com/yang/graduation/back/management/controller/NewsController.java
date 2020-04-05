@@ -43,4 +43,13 @@ public class NewsController {
         NewsParam newsParam = newsService.getNewsById(id);
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "查询成功", newsParam);
     }
+
+    @PostMapping("/update")
+    public ResponseResult<Void> updateNews(@RequestBody NewsParam newsParam) {
+        int res = newsService.updateNews(newsParam);
+        if (res > 0) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "更新成功!");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "更新失败");
+    }
 }

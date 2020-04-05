@@ -23,3 +23,15 @@ export function getNewsById(data) {
     method: 'get'
   })
 }
+
+/**
+ * 更新新闻
+ * @param data
+ */
+export function updateNews(data) {
+  return request({
+    url: '/back/news/update',
+    method: 'post',
+    data
+  })
+}

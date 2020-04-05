@@ -93,6 +93,18 @@ public class NewsServiceImpl implements NewsService {
         return newsParam;
     }
 
+    /**
+     * 更新新闻
+     * @param newsParam {@link NewsParam}
+     * @return 1 0
+     */
+    @Override
+    public int updateNews(NewsParam newsParam) {
+        News news = new News();
+        BeanUtils.copyProperties(newsParam, news);
+        return newsMapper.updateByPrimaryKeySelective(news);
+    }
+
     private void initNews(News news) {
         news.setId(idWorker.nextId() + "");
         news.setPostTime(new Date());

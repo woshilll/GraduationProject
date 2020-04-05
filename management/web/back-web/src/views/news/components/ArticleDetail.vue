@@ -3,9 +3,24 @@
     <el-form ref="postForm" :model="postForm" :rules="rules" class="form-container">
 
       <sticky :z-index="10" class-name="sub-navbar" >
-        <CommentDropdown v-model="postForm.comment_disabled" />
-        <PlatformDropdown v-model="postForm.platforms" />
-        <SourceUrlDropdown v-model="postForm.source_uri" />
+        <el-popover
+          placement="top-start"
+          title="评论数"
+          width="200"
+          trigger="hover"
+          :content="'共有'+postForm.commentCount+'个评论。'">
+          <el-button slot="reference" type="info">评论数</el-button>
+        </el-popover>
+        <el-popover
+          style="margin-left: 10px"
+          placement="top-start"
+          title="点赞数"
+          width="200"
+          trigger="hover"
+          :content="'共有'+postForm.likeCount+'个点赞。'">
+          <el-button slot="reference"  type="info">点赞数</el-button>
+        </el-popover>
+        <IsDelete v-model="postForm.isDelete" style="margin-left: 10px" />
         <el-button v-loading="loading" style="margin-left: 10px;" type="success" @click="submitForm">
           发布
         </el-button>
@@ -78,29 +93,23 @@ import Tinymce from '@/components/Tinymce'
 import Upload from '@/components/Upload/SingleImage3'
 import MDinput from '@/components/MDinput'
 import Sticky from '@/components/Sticky' // 粘性header组件
-import { validURL } from '@/utils/validate'
-import { getNewsById } from '@/api/news'
+import { getNewsById , updateNews} from '@/api/news'
 import {getAll} from "../../../api/newsCategory";
 import Warning from './Warning'
-import { CommentDropdown, PlatformDropdown, SourceUrlDropdown } from './Dropdown'
+import IsDelete from "./Dropdown/IsDelete";
 
 const defaultForm = {
-  status: 'draft',
+  status: '',
   title: '', // 文章题目
   contentHtml: '', // 文章内容
   content: '', // 文章摘要
-  source_uri: '', // 文章外链
-  image_uri: '', // 文章图片
-  display_time: undefined, // 前台展示时间
-  id: undefined,
-  platforms: ['a-platform'],
-  comment_disabled: false,
-  importance: 0
+  image: '', // 文章图片
+
 };
 
 export default {
   name: 'NewsDetail',
-  components: { Tinymce, MDinput, Upload, Sticky, Warning, CommentDropdown, PlatformDropdown, SourceUrlDropdown },
+  components: {IsDelete, Tinymce, MDinput, Upload, Sticky, Warning },
   props: {
     isEdit: {
       type: Boolean,
@@ -113,27 +122,13 @@ export default {
         this.$message({
           message: rule.field + '为必传项',
           type: 'error'
-        })
+        });
         callback(new Error(rule.field + '为必传项'))
       } else {
         callback()
       }
-    }
-    const validateSourceUri = (rule, value, callback) => {
-      if (value) {
-        if (validURL(value)) {
-          callback()
-        } else {
-          this.$message({
-            message: '外链url填写不正确',
-            type: 'error'
-          })
-          callback(new Error('外链url填写不正确'))
-        }
-      } else {
-        callback()
-      }
-    }
+    };
+
     return {
       postForm: Object.assign({}, defaultForm),
       loading: false,
@@ -208,13 +203,24 @@ export default {
       this.$refs.postForm.validate(valid => {
         if (valid) {
           this.loading = true;
-          this.$notify({
-            title: '成功',
-            message: '发布文章成功',
-            type: 'success',
-            duration: 2000
+          //设置更新的管理员名
+          this.postForm.audit = this.$store.getters.name;
+          this.postForm.status = 1;
+          updateNews(this.postForm).then(response => {
+            this.$notify({
+              title: '成功',
+              message: '发布文章成功',
+              type: 'success',
+              duration: 2000
+            });
+          }).catch(() =>{
+            this.$notify({
+              title: '失败',
+              message: '发布文章失败',
+              type: 'error',
+              duration: 2000
+            });
           });
-          this.postForm.status = 'published'
           this.loading = false
         } else {
           console.log('错误的提交!!');
@@ -235,7 +241,7 @@ export default {
         type: 'success',
         showClose: true,
         duration: 1000
-      })
+      });
       this.postForm.status = 'draft'
     },
 
@@ -280,4 +286,5 @@ export default {
     border-bottom: 1px solid #bfcbd9;
   }
 }
+
 </style>

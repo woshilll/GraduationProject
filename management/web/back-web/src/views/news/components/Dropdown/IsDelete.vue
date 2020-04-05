@@ -1,17 +1,17 @@
 <template>
   <el-dropdown :show-timeout="100" trigger="click">
-    <el-button plain>
-      {{ !comment_disabled?'Comment: opened':'Comment: closed' }}
+    <el-button plain >
+      {{ isDelete === 0 ?'是否删除: 未删除':'是否删除: 已删除' }}
       <i class="el-icon-caret-bottom el-icon--right" />
     </el-button>
     <el-dropdown-menu slot="dropdown" class="no-padding">
       <el-dropdown-item>
-        <el-radio-group v-model="comment_disabled" style="padding: 10px;">
-          <el-radio :label="true">
-            Close comment
+        <el-radio-group v-model="isDelete" style="padding: 10px;">
+          <el-radio :label="0">
+            未删除
           </el-radio>
-          <el-radio :label="false">
-            Open comment
+          <el-radio :label="1">
+            已删除
           </el-radio>
         </el-radio-group>
       </el-dropdown-item>
@@ -23,12 +23,12 @@
 export default {
   props: {
     value: {
-      type: Boolean,
-      default: false
+      type: Number,
+      default: 0
     }
   },
   computed: {
-    comment_disabled: {
+    isDelete: {
       get() {
         return this.value
       },
