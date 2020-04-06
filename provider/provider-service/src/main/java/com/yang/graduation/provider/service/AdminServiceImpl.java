@@ -133,10 +133,28 @@ public class AdminServiceImpl implements AdminService {
         return adminMapper.count(map);
     }
 
+    /**
+     * 更新登录时间
+     * @param username id
+     * @return 1 0
+     */
     @Override
     public int updateLoginTime(String username) {
         Admin admin = getAdmin(username);
         admin.setLastLoginTime(new Date());
+        return adminMapper.updateByPrimaryKeySelective(admin);
+    }
+
+    /**
+     * 更新密码
+     * @param name name
+     * @param newPwd new password
+     * @return 1 0
+     */
+    @Override
+    public int updatePwd(String name, String newPwd) {
+        Admin admin = getAdmin(name);
+        admin.setPassword(passwordEncoder.encode(newPwd));
         return adminMapper.updateByPrimaryKeySelective(admin);
     }
 

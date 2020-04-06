@@ -159,5 +159,9 @@ public class ResponseResult<T> implements Serializable {
          * 账号封禁
          */
         public static final Integer COUNT_BANNED = 50004;
+        /**
+         * 密码错误
+         */
+        public static final Integer VALIDATE_PWD = 50005;
     }
 }

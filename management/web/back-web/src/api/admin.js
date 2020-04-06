@@ -57,3 +57,29 @@ export function deleteById(data) {
     method: 'post'
   })
 }
+
+/**
+ * 根据用户id删除用户
+ */
+export function validatePwd(name, pwd) {
+  return request({
+    url: '/back/admin/validate/password?name='+name +'&password='+pwd,
+    method: 'get'
+  })
+}
+
+/**
+ * 更新用户密码
+ * @param name
+ * @param newPwd
+ */
+export function updatePwd(name, newPwd) {
+  return request({
+    url: '/back/admin/update/pwd',
+    method: 'post',
+    params: {
+      name: name,
+      newPwd: newPwd
+    }
+  })
+}

@@ -5,8 +5,9 @@
     <div class="main-container">
       <div :class="{'fixed-header':fixedHeader}">
         <navbar />
+        <tags-view />    <!-- 此处增加tag-->
       </div>
-      <tags-view />    <!-- 此处增加tag-->
+
       <app-main />
     </div>
   </div>

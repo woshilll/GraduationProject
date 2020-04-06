@@ -74,4 +74,12 @@ public interface AdminService {
      * @return 1 0
      */
     int updateLoginTime(String username);
+
+    /**
+     * 更新密码
+     * @param name name
+     * @param newPwd new password
+     * @return 1 0
+     */
+    int updatePwd(String name, String newPwd);
 }

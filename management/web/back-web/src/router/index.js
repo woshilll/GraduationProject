@@ -54,6 +54,20 @@ export const constantRoutes = [
       meta: {title: '首页', icon: 'dashboard', affix: true}
     }]
   },
+  {
+    path: '/profile',
+    component: Layout,
+    redirect: '/profile/index',
+    hidden: true,
+    children: [
+      {
+        path: 'index',
+        component: () => import('@/views/profile/index'),
+        name: 'Profile',
+        meta: { title: '个人中心', icon: 'user', noCache: true }
+      }
+    ]
+  },
 
   //当前用户管理模块
 
@@ -69,12 +83,6 @@ export const constantRoutes = [
         name: 'AdminInfo',
         component: () => import('@/views/admin/info'),
         meta: {title: '修改信息', icon: 'edit'}
-      },
-      {
-        path: 'password',
-        name: 'AdminPassword',
-        component: () => import('@/views/tree/index'),
-        meta: {title: '修改密码', icon: 'password'}
       },
       {
         path: 'icon',
