@@ -1,7 +1,9 @@
 package com.yang.graduation.provider.service;
 
 import com.yang.graduation.commons.domain.Admin;
+import com.yang.graduation.commons.domain.AdminLogs;
 import com.yang.graduation.commons.domain.PageInfo;
+import com.yang.graduation.commons.mapper.AdminLogsMapper;
 import com.yang.graduation.commons.mapper.AdminMapper;
 import com.yang.graduation.provider.api.AdminService;
 import com.yang.graduation.provider.util.IdWorker;
@@ -156,6 +158,30 @@ public class AdminServiceImpl implements AdminService {
         Admin admin = getAdmin(name);
         admin.setPassword(passwordEncoder.encode(newPwd));
         return adminMapper.updateByPrimaryKeySelective(admin);
+    }
+
+    @Resource
+    private AdminLogsMapper adminLogsMapper;
+    /**
+     * 记录登录日志
+     * @param adminLogs 日志信息
+     * @return 1 0
+     */
+    @Override
+    public int loginLogs(AdminLogs adminLogs) {
+        Admin admin = getAdmin(adminLogs.getName());
+        adminLogs.setLoginTime(new Date());
+        adminLogs.setAdminId(admin.getId());
+        return adminLogsMapper.insert(adminLogs);
+    }
+
+    /**
+     * 得到所有的登录日志
+     * @return {@link List<AdminLogs>}
+     */
+    @Override
+    public List<AdminLogs> getAdminLogs() {
+        return adminLogsMapper.getAll();
     }
 
     /**

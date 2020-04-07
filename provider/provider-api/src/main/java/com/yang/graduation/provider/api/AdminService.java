@@ -1,6 +1,7 @@
 package com.yang.graduation.provider.api;
 
 import com.yang.graduation.commons.domain.Admin;
+import com.yang.graduation.commons.domain.AdminLogs;
 import com.yang.graduation.commons.domain.PageInfo;
 
 import java.util.List;
@@ -82,4 +83,17 @@ public interface AdminService {
      * @return 1 0
      */
     int updatePwd(String name, String newPwd);
+
+    /**
+     * 登录日志记录
+     * @param adminLogs 日志信息
+     * @return 1 success 0 fail
+     */
+    int loginLogs(AdminLogs adminLogs);
+
+    /**
+     * 得到所有的登录日志
+     * @return {@link List<AdminLogs>}
+     */
+    List<AdminLogs> getAdminLogs();
 }

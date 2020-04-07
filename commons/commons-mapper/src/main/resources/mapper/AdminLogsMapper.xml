@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.yang.graduation.commons.mapper.AdminLogsMapper">
+    <resultMap id="BaseResultMap" type="com.yang.graduation.commons.domain.AdminLogs">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="ip" jdbcType="VARCHAR" property="ip"/>
+        <result column="browser" jdbcType="VARCHAR" property="browser"/>
+        <result column="admin_id" jdbcType="VARCHAR" property="adminId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="login_time" jdbcType="TIMESTAMP" property="loginTime"/>
+        <result column="city" jdbcType="VARCHAR" property="city"/>
+    </resultMap>
+    <select id="getAll" resultType="com.yang.graduation.commons.domain.AdminLogs">
+        select id, ip, browser, admin_id as adminId, name, login_time as loginTime, city
+        from admin_logs
+        order by login_time desc
+    </select>
+
+</mapper>

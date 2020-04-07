@@ -83,3 +83,13 @@ export function updatePwd(name, newPwd) {
     }
   })
 }
+
+/**
+ * 更得到所有的登录日志
+ */
+export function getAdminLogs() {
+  return request({
+    url: '/back/admin/getAdminLogs',
+    method: 'get',
+  })
+}

@@ -1,6 +1,7 @@
 package com.yang.graduation.back.management.controller;
 
 import com.yang.graduation.commons.domain.Admin;
+import com.yang.graduation.commons.domain.AdminLogs;
 import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.dto.ResponseResult;
 import com.yang.graduation.dto.param.IconParam;
@@ -15,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import javax.annotation.Resource;
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -112,6 +114,12 @@ public class AdminController {
         return new ResponseResult<>(ResponseResult.CodeStatus.VALIDATE_PWD, "密码错误!!!");
     }
 
+    /**
+     * 更新密码
+     * @param name 当前用户
+     * @param newPwd 新密码
+     * @return {@link ResponseResult}
+     */
     @PostMapping("/update/pwd")
     public ResponseResult<Void> updatePwd(String name, String newPwd){
         int res = adminService.updatePwd(name, newPwd);
@@ -119,5 +127,14 @@ public class AdminController {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "更新密码成功!");
         }
         return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "更新密码失败!");
+    }
+
+    /**
+     * 得到所有的登录日志
+     * @return {@link ResponseResult<List<AdminLogs>>}
+     */
+    @GetMapping("/getAdminLogs")
+    public ResponseResult<List<AdminLogs>> getAdminLogs() {
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "成功!", adminService.getAdminLogs());
     }
 }

@@ -8,4 +8,11 @@
     <result column="created" jdbcType="TIMESTAMP" property="created" />
     <result column="updated" jdbcType="TIMESTAMP" property="updated" />
   </resultMap>
+    <select id="categoryNewsCount"
+            resultType="com.yang.graduation.commons.domain.analyze.CategoryNewsCountParam">
+      select news_category.name as categoryName, count(*) as newsCount
+      from news_category, news
+      where news.category_id = news_category.id
+      group by news.category_id
+    </select>
 </mapper>

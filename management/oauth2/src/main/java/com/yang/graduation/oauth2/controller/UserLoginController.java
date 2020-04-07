@@ -2,6 +2,7 @@ package com.yang.graduation.oauth2.controller;
 
 import com.google.common.collect.Maps;
 import com.yang.graduation.commons.domain.Admin;
+import com.yang.graduation.commons.domain.AdminLogs;
 import com.yang.graduation.commons.utils.MapperUtil;
 import com.yang.graduation.commons.utils.OkHttpClientUtil;
 import com.yang.graduation.dto.ResponseResult;
@@ -9,10 +10,12 @@ import com.yang.graduation.oauth2.dto.LoginInfo;
 import com.yang.graduation.oauth2.dto.LoginParam;
 
 import com.yang.graduation.oauth2.service.UserDetailsServiceImpl;
+import com.yang.graduation.oauth2.utils.WebUtil;
 import com.yang.graduation.provider.api.AdminService;
 import okhttp3.Response;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpRequest;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -20,7 +23,6 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
-import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -62,7 +64,7 @@ public class UserLoginController {
      * @return {@link ResponseResult}
      */
     @PostMapping(value = "/user/login")
-    public ResponseResult<Map<String, Object>> login(@RequestBody LoginParam loginParam) {
+    public ResponseResult<Map<String, Object>> login(@RequestBody LoginParam loginParam, HttpServletRequest request) {
         Map<String, Object> result = Maps.newHashMap();
         //验证密码是否正确
         UserDetails userDetails = userDetailsService.loadUserByUsername(loginParam.getUsername());
@@ -70,9 +72,11 @@ public class UserLoginController {
         if (userDetails == null || !passwordEncoder.matches(loginParam.getPassword(), userDetails.getPassword())) {
             return new ResponseResult<>(ResponseResult.CodeStatus.LOGIN_FAIL, "账号或密码错误!", null);
         }
+        //账号被封禁
         if (UserDetailsServiceImpl.BANNED.equals(userDetails.getUsername())) {
             return new ResponseResult<>(ResponseResult.CodeStatus.COUNT_BANNED, "该账号已被封禁!请联系伟大洋洋管理员!", null);
         }
+        //请求oauth/token得到token
         Map<String, String> params = Maps.newHashMap();
         params.put("username", loginParam.getUsername());
         params.put("password", loginParam.getPassword());
@@ -89,8 +93,26 @@ public class UserLoginController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        //设置登录时间
         adminService.updateLoginTime(userDetails.getUsername());
+        AdminLogs adminLogs = new AdminLogs();
+        adminLogs.setName(userDetails.getUsername());
+        initAdminLogs(request, adminLogs);
+        //登录日志
+        adminService.loginLogs(adminLogs);
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "登录成功!", result);
+    }
+
+    /**
+     * 初始化登录日志.
+     *
+     * @param request
+     * @param adminLogs
+     */
+    private void initAdminLogs(HttpServletRequest request, AdminLogs adminLogs) {
+        adminLogs.setIp(request.getRemoteAddr());
+        adminLogs.setBrowser(WebUtil.getBrowserName(request.getHeader("User-Agent")));
+        adminLogs.setCity(WebUtil.getCityByIP(request.getRemoteAddr()));
     }
 
 
