@@ -52,4 +52,12 @@ public class NewsController {
         }
         return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "更新失败");
     }
+    @PostMapping("/insert")
+    public ResponseResult<Void> insert(@RequestBody NewsParam newsParam) {
+        int res = newsService.insertNews(newsParam);
+        if (res > 0) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "新增新闻成功!");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.INSERT_FAIL, "新增新闻失败!");
+    }
 }

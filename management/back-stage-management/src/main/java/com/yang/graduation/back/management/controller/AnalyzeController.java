@@ -2,6 +2,7 @@ package com.yang.graduation.back.management.controller;
 
 import com.yang.graduation.commons.domain.CountParam;
 import com.yang.graduation.commons.domain.analyze.CategoryNewsCountParam;
+import com.yang.graduation.commons.domain.analyze.CommentAndLikeParam;
 import com.yang.graduation.dto.ResponseResult;
 import com.yang.graduation.provider.api.AnalyzeService;
 import org.apache.dubbo.config.annotation.Reference;
@@ -42,5 +43,14 @@ public class AnalyzeController {
     public ResponseResult<List<CategoryNewsCountParam>> analyzeCategoryNewsCount() {
         List<CategoryNewsCountParam> categoryNewsCountParamList = analyzeService.analyzeCategoryNewsCountParam();
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "查询成功!", categoryNewsCountParamList);
+    }
+
+    /**
+     * 分析每个分类下点赞和评论数量
+     * @return {@link ResponseResult}
+     */
+    @GetMapping("/commentAndLikeCount")
+    public ResponseResult<List<CommentAndLikeParam>> analyzeCommentAndLikeCount() {
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "查询成功!", analyzeService.analyzeCommentCountAndLikeCountInCategory());
     }
 }

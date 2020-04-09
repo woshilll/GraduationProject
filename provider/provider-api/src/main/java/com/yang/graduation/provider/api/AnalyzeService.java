@@ -2,6 +2,7 @@ package com.yang.graduation.provider.api;
 
 import com.yang.graduation.commons.domain.CountParam;
 import com.yang.graduation.commons.domain.analyze.CategoryNewsCountParam;
+import com.yang.graduation.commons.domain.analyze.CommentAndLikeParam;
 
 import java.util.List;
 
@@ -23,4 +24,10 @@ public interface AnalyzeService {
      * @return {@link List<CategoryNewsCountParam>}
      */
     List<CategoryNewsCountParam> analyzeCategoryNewsCountParam();
+
+    /**
+     * 分析每个分类下点赞和评论数
+     * @return {@link List<CommentAndLikeParam>}
+     */
+    List<CommentAndLikeParam> analyzeCommentCountAndLikeCountInCategory();
 }

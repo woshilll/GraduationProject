@@ -19,3 +19,13 @@ export function analyzeCategoryNewsCount() {
     method: 'get'
   })
 }
+
+/**
+ * 分析每个分类下评论和点赞数
+ */
+export function analyzeCommentAndLikeCount() {
+  return request({
+    url: '/back/analyze/commentAndLikeCount',
+    method: 'get'
+  })
+}

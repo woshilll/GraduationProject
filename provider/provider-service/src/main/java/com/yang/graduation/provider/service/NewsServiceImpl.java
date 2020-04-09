@@ -45,6 +45,11 @@ public class NewsServiceImpl implements NewsService {
      */
     @Override
     public int insertNews(NewsParam newsParam) {
+        //说明此时为管理员新增新闻,管理员专用用户账号8个8
+        if (newsParam.getUserId() == null || newsParam.getUserId().equals("")) {
+            newsParam.setUserId("88888888");
+            newsParam.setStatus(1);
+        }
         News news = new News();
         BeanUtils.copyProperties(newsParam, news);
         initNews(news);
@@ -109,6 +114,7 @@ public class NewsServiceImpl implements NewsService {
         news.setId(idWorker.nextId() + "");
         news.setPostTime(new Date());
         news.setIsDelete(0);
-        news.setStatus(0);
+        news.setCommentCount(0);
+        news.setLikeCount(0);
     }
 }

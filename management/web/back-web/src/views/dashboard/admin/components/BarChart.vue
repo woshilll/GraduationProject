@@ -4,10 +4,11 @@
 
 <script>
 import echarts from 'echarts'
-require('echarts/theme/macarons') // echarts theme
+require('echarts/theme/macarons'); // echarts theme
 import resize from './mixins/resize'
+import {analyzeCommentAndLikeCount} from "../../../../api/analyze";
 
-const animationDuration = 6000
+const animationDuration = 6000;
 
 export default {
   mixins: [resize],
@@ -30,21 +31,22 @@ export default {
       chart: null
     }
   },
+  created() {
+    this.fetchData();
+  },
   mounted() {
-    this.$nextTick(() => {
-      this.initChart()
-    })
+
   },
   beforeDestroy() {
     if (!this.chart) {
       return
     }
-    this.chart.dispose()
+    this.chart.dispose();
     this.chart = null
   },
   methods: {
-    initChart() {
-      this.chart = echarts.init(this.$el, 'macarons')
+    initChart(xData, commentData, likeData) {
+      this.chart = echarts.init(this.$el, 'macarons');
 
       this.chart.setOption({
         tooltip: {
@@ -62,7 +64,7 @@ export default {
         },
         xAxis: [{
           type: 'category',
-          data: ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'],
+          data: xData,
           axisTick: {
             alignWithLabel: true
           }
@@ -74,27 +76,36 @@ export default {
           }
         }],
         series: [{
-          name: 'pageA',
+          name: '评论数',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
-          data: [79, 52, 200, 334, 390, 330, 220],
+          data: commentData,
           animationDuration
-        }, {
-          name: 'pageB',
+        },{
+          name: '点赞数',
           type: 'bar',
           stack: 'vistors',
           barWidth: '60%',
-          data: [80, 52, 200, 334, 390, 330, 220],
-          animationDuration
-        }, {
-          name: 'pageC',
-          type: 'bar',
-          stack: 'vistors',
-          barWidth: '60%',
-          data: [30, 52, 200, 334, 390, 330, 220],
+          data: likeData,
           animationDuration
         }]
+      })
+    },
+    fetchData() {
+      let xData = [];
+      let commentData = [];
+      let likeData = [];
+      analyzeCommentAndLikeCount().then(response => {
+        let data = response.data;
+        for (let i = 0; i < data.length; i++) {
+          xData.push(data[i].categoryName);
+          commentData.push(data[i].commentCount);
+          likeData.push(data[i].likeCount);
+        }
+        this.$nextTick(() => {
+          this.initChart(xData, commentData, likeData)
+        })
       })
     }
   }

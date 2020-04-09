@@ -7,8 +7,10 @@
       :multiple="false"
       :show-file-list="false"
       :on-success="handleImageSuccess"
+      :on-error="handleImageFail"
       class="image-uploader"
       drag
+      accept="image/*"
       :action="uploadUrl"
     >
       <i class="el-icon-upload" />
@@ -17,7 +19,7 @@
       </div>
     </el-upload>
     <div class="image-preview image-app-preview">
-      <div v-show="imageUrl.length>1" class="image-preview-wrapper">
+      <div v-show="value.length>1" class="image-preview-wrapper">
         <img :src="imageUrl">
         <div class="image-preview-action">
           <i class="el-icon-delete" @click="rmImage" />
@@ -25,7 +27,7 @@
       </div>
     </div>
     <div class="image-preview">
-      <div v-show="imageUrl.length>1" class="image-preview-wrapper">
+      <div v-show="value.length>1" class="image-preview-wrapper">
         <img :src="imageUrl">
         <div class="image-preview-action">
           <i class="el-icon-delete" @click="rmImage" />
@@ -73,7 +75,17 @@ export default {
       this.$emit('input', val)
     },
     handleImageSuccess(response, file) {
-      this.emitInput(response.data.path)
+      this.emitInput(response.data.path);
+      this.$message({
+        message: '上传图片成功!',
+        type: 'success'
+      })
+    },
+    handleImageFail() {
+      this.$message({
+        message: '上传图片失败!',
+        type: 'error'
+      })
     }
   }
 }

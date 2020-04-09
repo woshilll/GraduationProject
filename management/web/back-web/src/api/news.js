@@ -35,3 +35,15 @@ export function updateNews(data) {
     data
   })
 }
+
+/**
+ * 新增新闻
+ * @param data
+ */
+export function addNews(data) {
+  return request({
+    url: '/back/news/insert',
+    method: 'post',
+    data
+  })
+}

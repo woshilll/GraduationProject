@@ -3,6 +3,7 @@ package com.yang.graduation.commons.mapper;
 
 import com.yang.graduation.commons.domain.NewsCategory;
 import com.yang.graduation.commons.domain.analyze.CategoryNewsCountParam;
+import com.yang.graduation.commons.domain.analyze.CommentAndLikeParam;
 import com.yang.graduation.commons.tk.mybatis.MyMapper;
 
 import java.util.List;
@@ -18,4 +19,10 @@ public interface NewsCategoryMapper extends MyMapper<NewsCategory> {
      * @return {@link List<CategoryNewsCountParam>}
      */
     List<CategoryNewsCountParam> categoryNewsCount();
+
+    /**
+     * 分析每个分类下点赞数和评论数
+     * @return {@link List<CommentAndLikeParam>}
+     */
+    List<CommentAndLikeParam> categoryCommentAndLikeCount();
 }

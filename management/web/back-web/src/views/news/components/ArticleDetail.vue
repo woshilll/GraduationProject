@@ -10,7 +10,7 @@
            </span>
           <el-dropdown-menu slot="dropdown">
             <el-dropdown-item class="clearfix">
-              评论
+              <el-button type="text" @click="openDialog(postForm.id)">评论</el-button>
               <el-badge class="mark" :value="postForm.commentCount"/>
             </el-dropdown-item>
             <el-dropdown-item class="clearfix">
@@ -85,6 +85,29 @@
         </el-form-item>
       </div>
     </el-form>
+    <el-dialog title="查看评论" :visible.sync="dialogTableVisible">
+      <el-table :data="commentsList" :default-sort = "{prop: 'date', order: 'ascending'}" max-height="400px">
+        <el-table-column property="date" label="评论时间" width="200" prop="date" :sortable="true">
+          <template slot-scope="scope">
+            <i class="el-icon-time"/>
+            <span>{{ scope.row.commentDate }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column property="name" label="评论内容" width="250" :show-overflow-tooltip="true">
+          <template slot-scope="scope">
+            <span>{{ scope.row.details }}</span>
+          </template>
+        </el-table-column>
+        <el-table-column property="address" label="评论状态">
+          <template slot-scope="scope">
+            <el-radio-group v-model="scope.row.status" @change="commentStatusChange(scope.row)">
+              <el-radio :label="0">启用</el-radio>
+              <el-radio :label="1">禁用</el-radio>
+            </el-radio-group>
+          </template>
+        </el-table-column>
+      </el-table>
+    </el-dialog>
   </div>
 </template>
 
@@ -96,6 +119,7 @@
   import {getNewsById, updateNews} from '@/api/news'
   import {getAll} from "../../../api/newsCategory";
   import IsDelete from "./Dropdown/IsDelete";
+  import {getCommentsByNewsId, updateComment} from "../../../api/newsComment";
 
   const defaultForm = {
     status: '',
@@ -136,7 +160,9 @@
           content: [{validator: validateRequire}],
         },
         tempRoute: {},
-        categoryList: []
+        categoryList: [],
+        dialogTableVisible: false,
+        commentsList: []
       }
     },
     computed: {
@@ -230,6 +256,15 @@
           });
         })
 
+      },
+      openDialog(newsId) {
+        getCommentsByNewsId(newsId).then(response => {
+          this.commentsList = response.data;
+          this.dialogTableVisible = true;
+        })
+      },
+      commentStatusChange(data) {
+        updateComment(data);
       }
 
     }

@@ -5,6 +5,7 @@ import java.util.Date;
 import lombok.Data;
 import org.hibernate.validator.constraints.Length;
 
+import javax.persistence.Column;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import javax.validation.constraints.NotNull;
@@ -26,12 +27,14 @@ public class NewsComment implements Serializable {
      * 新闻id
      */
     @NotNull(message = "新闻id是必须的!")
+    @Column(name = "news_id")
     private String newsId;
 
     /**
      * 评论用户id
      */
     @NotNull(message = "用户id是必须的!")
+    @Column(name = "comment_user_id")
     private String commentUserId;
 
     /**
@@ -44,6 +47,7 @@ public class NewsComment implements Serializable {
     /**
      * 评论时间
      */
+    @Column(name = "comment_date")
     private Date commentDate;
 
     /**

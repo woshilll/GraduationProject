@@ -1,26 +1,27 @@
 <template>
   <el-card class="box-card-component" style="margin-left:8px;">
     <div slot="header" class="box-card-header">
-      <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">
+<!--      <img src="https://wpimg.wallstcn.com/e7d23d71-cf19-4b90-a1cc-f56af8c0903d.png">-->
+      <img src="https://graduation-woshilll.oss-cn-beijing.aliyuncs.com/first.png">
     </div>
     <div style="position:relative;">
       <pan-thumb :image="avatar" class="panThumb" />
       <mallki class-name="mallki-text" text="vue-element-admin" />
-      <div style="padding-top:35px;" class="progress-item">
-        <span>Vue</span>
+      <div class="progress-item" style="padding-top:35px;">
+        <span>吹</span>
+        <el-progress :percentage="100" status="success" />
+      </div>
+      <div  class="progress-item">
+        <span>说</span>
         <el-progress :percentage="70" />
       </div>
       <div class="progress-item">
-        <span>JavaScript</span>
+        <span>谈</span>
         <el-progress :percentage="18" />
       </div>
       <div class="progress-item">
-        <span>Css</span>
+        <span>唱</span>
         <el-progress :percentage="12" />
-      </div>
-      <div class="progress-item">
-        <span>ESLint</span>
-        <el-progress :percentage="100" status="success" />
       </div>
     </div>
   </el-card>

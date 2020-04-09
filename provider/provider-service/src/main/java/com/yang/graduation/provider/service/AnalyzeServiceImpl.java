@@ -6,6 +6,7 @@ import com.yang.graduation.commons.domain.News;
 import com.yang.graduation.commons.domain.NewsComment;
 import com.yang.graduation.commons.domain.User;
 import com.yang.graduation.commons.domain.analyze.CategoryNewsCountParam;
+import com.yang.graduation.commons.domain.analyze.CommentAndLikeParam;
 import com.yang.graduation.commons.mapper.AdminMapper;
 import com.yang.graduation.commons.mapper.NewsCategoryMapper;
 import com.yang.graduation.commons.mapper.NewsCommentMapper;
@@ -61,5 +62,14 @@ public class AnalyzeServiceImpl implements AnalyzeService {
     @Override
     public List<CategoryNewsCountParam> analyzeCategoryNewsCountParam() {
         return newsCategoryMapper.categoryNewsCount();
+    }
+
+    /**
+     * 分析每个分类下评论数和点赞数
+     * @return {@link List<CommentAndLikeParam>}
+     */
+    @Override
+    public List<CommentAndLikeParam> analyzeCommentCountAndLikeCountInCategory() {
+        return newsCategoryMapper.categoryCommentAndLikeCount();
     }
 }

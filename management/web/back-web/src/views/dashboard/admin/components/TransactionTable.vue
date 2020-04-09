@@ -1,5 +1,5 @@
 <template>
-  <el-table :data="list" style="width: 100%;padding-top: 15px;">
+  <el-table :data="list" style="width: 100%;padding-top: 15px;" max-height="500">
     <el-table-column label="登录时间" width="170">
       <template slot-scope="scope">
         {{ scope.row.loginTime}}

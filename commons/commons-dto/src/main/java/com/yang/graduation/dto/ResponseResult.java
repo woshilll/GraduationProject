@@ -163,5 +163,10 @@ public class ResponseResult<T> implements Serializable {
          * 密码错误
          */
         public static final Integer VALIDATE_PWD = 50005;
+
+        /**
+         * 新增失败
+         */
+        public static final Integer INSERT_FAIL = 50006;
     }
 }
