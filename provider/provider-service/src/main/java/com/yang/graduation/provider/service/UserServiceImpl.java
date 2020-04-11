@@ -116,6 +116,33 @@ public class UserServiceImpl implements UserService {
         pageInfo.setRecordsFiltered(count);
         return pageInfo;
     }
+
+    /**
+     * 通过手机号,用户名或者邮箱验证用户是否存在
+     * @param key 可以是手机号, 用户名, 邮箱
+     * @return {@link User}
+     */
+    @Override
+    public User validateUser(String key) {
+        Example example = new Example(User.class);
+        Example.Criteria criteria = example.createCriteria();
+        criteria.orEqualTo("phone", key)
+                .orEqualTo("name", key)
+                .orEqualTo("email", key);
+        return userMapper.selectOneByExample(example);
+    }
+
+    /**
+     * 更新登录时间
+     * @param username 可以是手机号, 用户名, 邮箱
+     */
+    @Override
+    public void updateLoginTime(String username) {
+        User user = validateUser(username);
+        user.setLastLoginTime(new Date());
+        userMapper.updateByPrimaryKeySelective(user);
+    }
+
     private void initUser(User user) {
         //设置雪花分布式id
         user.setId(idWorker.nextId() + "");

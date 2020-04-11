@@ -61,4 +61,17 @@ public interface UserService {
      * @return {@link PageInfo}
      */
     PageInfo<User> getUserList(Map<String, Object> map);
+
+    /**
+     * 通过手机号,用户名或者邮箱验证用户是否存在
+     * @param key 可以是手机号, 用户名, 邮箱
+     * @return {@link User}
+     */
+    User validateUser(String key);
+
+    /**
+     * 更新登录时间
+     * @param username 可以是手机号, 用户名, 邮箱
+     */
+    void updateLoginTime(String username);
 }

@@ -27,6 +27,12 @@ spring:
             # 前缀过滤，默认配置下，我们的请求路径是 http://localhost:8888/oauth2/** 这时会路由到指定的服务
             # 此处配置去掉 1 个路径前缀，再配置上面的 Path=/api/**，就能按照 http://localhost:8888/api/** 的方式访问了
             - StripPrefix=1
+        - id: OAUTH2-FRONT
+          uri: lb://oauth2-front
+          predicates:
+            - Path=/api/front/**
+          filters:
+            - StripPrefix=1
         # 后端
         - id: BACK-STAGE-MANAGEMENT
           uri: lb://back-stage-management

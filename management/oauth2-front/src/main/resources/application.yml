@@ -1,0 +1,35 @@
+spring:
+  application:
+    name: oauth2-front
+  main:
+    allow-bean-definition-overriding: true
+  jackson:
+    time-zone: GMT+8
+    date-format: yyyy-MM-dd HH:mm:ss
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://10.211.55.34:8848
+dubbo:
+  scan:
+    base-packages: com.yang.graduation.oauth2.controller
+  protocol:
+    name: dubbo
+    port: -1
+    serialization: kryo
+  registry:
+    address: nacos://10.211.55.34:8848
+server:
+  # ${random.int[9000,9999]} 随机端口
+  port: 9200
+management:
+  endpoints:
+    web:
+      exposure:
+        include: "*"
+
+graduation:
+  oauth2:
+    grant_type: password
+    client_id: client
+    client_secret: secret
