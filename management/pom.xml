@@ -16,7 +16,6 @@
         <module>back-stage-management</module>
         <module>oauth2</module>
         <module>front</module>
-        <module>oauth2-front</module>
     </modules>
 
 </project>

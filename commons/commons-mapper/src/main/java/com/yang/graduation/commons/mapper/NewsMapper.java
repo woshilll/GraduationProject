@@ -29,4 +29,34 @@ public interface NewsMapper extends MyMapper<News> {
      * @return {@link List}
      */
     List<NewsParam> page(Map<String, Object> map);
+
+    /**
+     * 得到最新的4条新闻
+     * @return
+     */
+    List<News> least4();
+
+    /**
+     * 点赞最多4条新闻
+     * @return
+     */
+    List<NewsParam> likeMost4();
+
+    /**
+     * 评论最多的两条
+     * @return
+     */
+    List<NewsParam> commentMost2();
+
+    /**
+     * 随机五条新闻
+     * @return
+     */
+    List<NewsParam> random5();
+
+    /**
+     * admin发布的4条
+     * @return
+     */
+    List<NewsParam> adminPost4();
 }

@@ -110,6 +110,51 @@ public class NewsServiceImpl implements NewsService {
         return newsMapper.updateByPrimaryKeySelective(news);
     }
 
+    /**
+     * 最新的4条新闻
+     * @return
+     */
+    @Override
+    public List<News> least4() {
+        return newsMapper.least4();
+    }
+
+    /**
+     * 点赞数最多的4条新闻
+     * @return
+     */
+    @Override
+    public List<NewsParam> likeMost4() {
+        return newsMapper.likeMost4();
+    }
+
+    /**
+     * 评论最多的两个
+     * @return
+     */
+    @Override
+    public List<NewsParam> commentMost2() {
+        return newsMapper.commentMost2();
+    }
+
+    /**
+     * 随机五条新闻
+     * @return
+     */
+    @Override
+    public List<NewsParam> random5() {
+        return newsMapper.random5();
+    }
+
+    /**
+     * admin发布的新闻 4条
+     * @return
+     */
+    @Override
+    public List<NewsParam> adminPost4() {
+        return newsMapper.adminPost4();
+    }
+
     private void initNews(News news) {
         news.setId(idWorker.nextId() + "");
         news.setPostTime(new Date());

@@ -1,8 +1,10 @@
 package com.yang.graduation.provider.api;
 
+import com.yang.graduation.commons.domain.News;
 import com.yang.graduation.commons.domain.NewsParam;
 import com.yang.graduation.commons.domain.PageInfo;
 
+import java.util.List;
 import java.util.Map;
 
 /**
@@ -45,4 +47,34 @@ public interface NewsService {
      * @return 1 0
      */
     int updateNews(NewsParam newsParam);
+
+    /**
+     * 得到最新的四条新闻
+     * @return
+     */
+    List<News> least4();
+
+    /**
+     * 点赞数最多的四个新闻
+     * @return
+     */
+    List<NewsParam> likeMost4();
+
+    /**
+     * 评论最多的两个
+     * @return
+     */
+    List<NewsParam> commentMost2();
+
+    /**
+     * 随机五条新闻
+     * @return
+     */
+    List<NewsParam> random5();
+
+    /**
+     * admin发布的新闻
+     * @return
+     */
+    List<NewsParam> adminPost4();
 }
