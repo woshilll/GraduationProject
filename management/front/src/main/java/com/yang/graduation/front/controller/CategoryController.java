@@ -13,6 +13,8 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ * 用于获取分类信息,不需要认证
+ *
  * @author woshilll
  * @version v1.0.0
  * @date 2020/4/12 22:22

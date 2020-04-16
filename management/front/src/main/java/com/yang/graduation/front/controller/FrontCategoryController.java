@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 
 
 /**
+ * 分类页
+ * 不需要认证
  * @author woshilll
  * @version v1.0.0
  * @date 2020/4/12 22:04

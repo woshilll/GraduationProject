@@ -92,4 +92,31 @@ public interface NewsService {
      * @return
      */
     List<NewsParam> search(String title);
+
+    /**
+     * 找到用户最受欢迎的3条新闻
+     * @param id
+     * @return
+     */
+    List<News> getLikeMost3ByUserId(String id);
+
+    /**
+     * 根据用户id找到评论最多的新闻
+     * @param id
+     * @return
+     */
+    News getCommentMostByUserId(String id);
+    /**
+     * 根据用户id找到点赞最多的新闻
+     * @param id
+     * @return
+     */
+    News getLikeMostByUserId(String id);
+
+    /**
+     * 找到当前用户所有新闻
+     * @param id
+     * @return
+     */
+    List<News> selectAllByUserId(String id);
 }

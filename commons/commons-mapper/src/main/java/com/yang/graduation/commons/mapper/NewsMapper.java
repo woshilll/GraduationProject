@@ -73,4 +73,31 @@ public interface NewsMapper extends MyMapper<News> {
      * @return
      */
     List<NewsParam> search(@Param("title") String title);
+
+    /**
+     * 找到最受欢迎的三个新闻
+     * @param id
+     * @return
+     */
+    List<News> getLikeMost3ByUserId(@Param("id") String id);
+
+    /**
+     * 根据用户id找到评论最多的新闻
+     * @param id
+     * @return
+     */
+    News getCommentMostByUserId(@Param("id") String id);
+    /**
+     * 根据用户id找到点赞最多的新闻
+     * @param id
+     * @return
+     */
+    News getLikeMostByUserId(@Param("id") String id);
+
+    /**
+     * 找一个最新的新闻
+     * @param id
+     * @return
+     */
+    News selectOneByNew(@Param("id") String id);
 }

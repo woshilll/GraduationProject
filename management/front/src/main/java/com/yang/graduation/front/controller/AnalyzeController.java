@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 /**
+ * 不需要认证
  * @author woshilll
  * @version v1.0.0
  * @date 2020/4/11 16:05

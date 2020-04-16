@@ -238,4 +238,45 @@ where news.user_id = u.id
       )
 order by post_time desc
     </select>
+    <select id="getLikeMost3ByUserId" resultType="com.yang.graduation.commons.domain.News">
+        select id, title
+        from news
+        where user_id = #{id}
+        and status = 1
+        and is_delete = 0
+        order by post_time desc
+        limit 3
+    </select>
+    <select id="getCommentMostByUserId" resultType="com.yang.graduation.commons.domain.News">
+        select n.id, n.title
+        from news n, news_comment c
+        where n.id = c.news_id
+        and n.user_id = #{id}
+        and n.status = 1
+        and n.is_delete = 0
+        and c.status = 0
+        group by n.id
+        order by count(c.id) desc
+        limit 1
+    </select>
+    <select id="getLikeMostByUserId" resultType="com.yang.graduation.commons.domain.News">
+        select n.id, n.title
+        from news n, news_like l
+        where n.id = l.news_id
+        and n.user_id = #{id}
+        and n.status = 1
+        and n.is_delete = 0
+        group by n.id
+        order by count(l.id) desc
+        limit 1
+    </select>
+    <select id="selectOneByNew" resultType="com.yang.graduation.commons.domain.News">
+        select n.id, n.title
+        from news n
+        where n.status = 1
+        and n.is_delete = 0
+        and n.user_id = #{id}
+        order by post_time desc
+        limit 1
+    </select>
 </mapper>

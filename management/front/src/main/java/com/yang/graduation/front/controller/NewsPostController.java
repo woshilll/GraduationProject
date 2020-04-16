@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.servlet.ModelAndView;
 
 /**
+ * 页面跳转 新闻详情以及搜索
+ * 不需要认证
  * @author woshilll
  * @version v1.0.0
  * @date 2020/4/12 15:35

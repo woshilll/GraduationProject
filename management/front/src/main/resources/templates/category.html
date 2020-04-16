@@ -171,7 +171,11 @@
                     }
                 });
                 localStorage.removeItem("token");
+                localStorage.removeItem("name");
                 window.location.reload();
+            },
+            toProfile() {
+                window.location.href = '/user/' + localStorage.getItem("name") + '/' + localStorage.getItem("token");
             }
         }
     })

@@ -19,6 +19,7 @@ import com.yang.graduation.provider.util.IdWorker;
 import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
+import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
 import java.util.Date;
@@ -168,14 +169,80 @@ public class NewsServiceImpl implements NewsService {
         return initCount(newsMapper.adminPost4());
     }
 
+    /**
+     * 通过分类得到新闻
+     * @param categoryId
+     * @return
+     */
     @Override
     public List<NewsParam> getNewsByCategory(Integer categoryId) {
         return initCount(newsMapper.getNewsByCategory(categoryId));
     }
 
+    /**
+     * 查找新闻
+     * @param title
+     * @return
+     */
     @Override
     public List<NewsParam> search(String title) {
         return initCount(newsMapper.search(title));
+    }
+
+    /**
+     * 个人中心展示
+     * @param id
+     * @return
+     */
+    @Override
+    public List<News> getLikeMost3ByUserId(String id) {
+        List<News> newsList = newsMapper.getLikeMost3ByUserId(id);
+        for (News news : newsList) {
+            news.setCommentCount(newsCommentService.getCommentsCountByNewsId(news.getId()));
+            news.setLikeCount(newsLikeService.getLikeCountsByNewsId(news.getId()));
+        }
+        return newsList;
+    }
+
+    /**
+     * 根据用户id找到评论最多的新闻
+     * @param id
+     * @return
+     */
+    @Override
+    public News getCommentMostByUserId(String id) {
+        News commentMostByUserId = newsMapper.getCommentMostByUserId(id);
+        if (commentMostByUserId == null) {
+            commentMostByUserId = newsMapper.selectOneByNew(id);
+        }
+        return commentMostByUserId;
+    }
+
+    /**
+     * 根据用户id找到点赞最多的新闻
+     * @param id
+     * @return
+     */
+    @Override
+    public News getLikeMostByUserId(String id) {
+        News likeMostByUserId = newsMapper.getLikeMostByUserId(id);
+        if (likeMostByUserId == null) {
+            likeMostByUserId = newsMapper.selectOneByNew(id);
+        }
+        return likeMostByUserId;
+    }
+    /**
+     * 找到当前用户所有新闻
+     * @param id
+     * @return
+     */
+    @Override
+    public List<News> selectAllByUserId(String id) {
+        Example example = new Example(News.class);
+        example.createCriteria().andEqualTo("userId", id)
+                .andEqualTo("status", 1)
+                .andEqualTo("isDelete", 0);
+        return newsMapper.selectByExample(example);
     }
 
     private void initNews(News news) {
