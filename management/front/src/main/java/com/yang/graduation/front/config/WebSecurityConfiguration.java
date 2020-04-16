@@ -51,7 +51,7 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web) throws Exception {
-        web.ignoring().antMatchers("/front/login", "/static/**", "/index", "*.html", "/analyze/**", "/news/**");
+        //web.ignoring().antMatchers("/front/login", "/static/**", "/index", "*.html", "/analyze/**", "/news/**", "/category/**", "/user/**");
     }
 
     @Override
@@ -62,6 +62,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 //增加授权访问配置
-                .antMatchers("/**").hasAuthority("USER");
+                .antMatchers("/front/logout", "/post/**", "/profile/**").hasAuthority("USER");
     }
 }

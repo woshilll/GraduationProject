@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
 
-    <title th:text="${'新闻类别 - ' + categoryName}">新闻类别</title>
+    <title>搜索结果</title>
 
     <!-- Bootstrap -->
     <link href="http://cdn.bootstrapmb.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -40,7 +40,7 @@
      element-loading-text="拼命加载中"
      element-loading-spinner="el-icon-loading">
     <div th:replace="head.html"></div>
-    <input type="hidden" th:value="${categoryId}" id="categoryId"/>
+    <input type="hidden" th:value="${title}" id="title"/>
     <!--Breadcrumb-->
     <section class="breadcrumb-section gray-bg-2">
         <div class="container">
@@ -48,10 +48,10 @@
                 <div class="col">
                     <ul>
                         <li><a href="/index">首页</a></li>
-                        <li>{{category.name}}</li>
+                        <li>搜索</li>
                     </ul>
                     <div class="banner-title">
-                        <h2>{{category.name}}</h2>
+                        <h2>搜索结果</h2>
                     </div>
                 </div>
             </div>
@@ -65,31 +65,28 @@
                 <div class="col-xl-8 col-lg-8 col-md-6 col-sm-6">
                     <div class="row">
                         <div class="col-xl-12">
-                            <div class="row single-post-2" v-for="(item, index) in categoryNewsList" v-if="index < 7">
+                            <div class="row single-post-2" v-for="(item, index) in searchNewsList" v-if="index < 7">
                                 <div class="col-xl-6">
-                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt="" style="width: 370px;height: 246px"></a>
+                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                                                            style="width: 370px;height: 246px"></a>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="post-inside-content">
-                                        <div class="category-tag"><a href="" class="primary-bg">{{category.name}}</a></div>
+                                        <div class="category-tag"><a href=""
+                                                                     class="primary-bg">{{item.categoryName}}</a></div>
                                         <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
                                         <p>{{item.content}}</p>
                                         <div class="post-meta">
                                             <span th:replace="userHover.html"></span>
-                                            <a :href="'/news/post/' + item.id">
-                                                {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
-                                            </a>
                                             <a class="date">{{item.postTime}}</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                             <div class="row single-post-2">
-                                <div class="col-xl-12" v-if="loadMore <= categoryNewsList.length">
-                                    <a @click="loadMore = loadMore + 6" class="bttn-mid btn-fill w-100 centered">加载更多</a>
-                                </div>
-                                <div class="col-xl-12" v-if="categoryNewsList.length > 6 && loadMore > categoryNewsList.length">
-                                    <a @click="loadMore = 6" class="bttn-mid btn-fill w-100 centered">没有更多啦!是否收起?</a>
+                                <div class="col-xl-12">
+                                    <a href="" class="bttn-mid btn-fill w-100 centered">{{searchNewsList.length <= 7 ?
+                                        '没有更多啦' : '加载更多'}}</a>
                                 </div>
                             </div>
                         </div>
@@ -106,7 +103,6 @@
     </section><!--/Content Section-->
 
 
-
     <div th:replace="foot.html"></div>
 
 </div>
@@ -118,28 +114,23 @@
         el: '#app',
         data() {
             return {
-                categoryId: Number,
-                categoryNewsList: [],
-                category: {},
+                title: '',
+                searchNewsList: [],
                 categoryNewsCountParam: [],//分类下新闻数
                 least4: [],//最新4条
-                title: '',
+                searchTitle: '',
                 name: '',
                 loading: false,
-                loadMore: 6
             }
         },
         created() {
-            this.categoryId = document.getElementById("categoryId").value;
-            this.fetchData(this.categoryId);
+            this.title = document.getElementById("title").value;
+            this.fetchData(this.title);
         },
         methods: {
-            fetchData(categoryId) {
-                axios.get('/category/category/' + categoryId).then(response => {
-                    this.category = response.data.data;
-                });
-                axios.get('/category/getNews/' + categoryId).then(response => {
-                    this.categoryNewsList = response.data.data;
+            fetchData(title) {
+                axios.get('/news/search/' + title).then(response => {
+                    this.searchNewsList = response.data.data;
                 });
                 /**
                  * 得到每个分类下新闻数
@@ -156,10 +147,10 @@
                 if (this.isLogin()) {
                     this.name = localStorage.getItem("name");
                 }
-                
+
             },
             search() {
-                window.location.href = '/news/search/front/' + this.title;
+                window.location.href = '/news/search/front/' + this.searchTitle;
             },
             isLogin() {
                 return localStorage.getItem('token') !== null;

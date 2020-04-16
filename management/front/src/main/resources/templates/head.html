@@ -1,0 +1,119 @@
+<!-- Preloader -->
+<div class="preloader">
+    <div class="spinner">
+        <span class="spinner-rotate"></span>
+    </div>
+</div><!-- /Preloader -->
+
+
+<!--Header Top-->
+<div class="header-top white-bg">
+    <div class="container">
+        <div class="row">
+            <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
+                <div class="single-header-top">
+                    <p><i class="fa fa-calendar"></i>{{new Date().toLocaleDateString()}}</p>
+                </div>
+            </div>
+            <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
+                <div class="single-header-top">
+                    <ul>
+                        <li><a href="">欢迎来到由zzuli的同学开发的学习平台</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4">
+                <div class="single-header-top">
+                    <div class="social">
+                        <a><i class="fa fa-facebook"></i></a>
+                        <a><i class="fa fa-twitter"></i></a>
+                        <a><i class="fa fa-instagram"></i></a>
+                        <a><i class="fa fa-linkedin"></i></a>
+                        <a><i class="fa fa-pinterest"></i></a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4" v-if="!isLogin()">
+                <div class="single-header-top last">
+                    <ul>
+                        <li><a href="/login"  data-target="#account"><i class="fa fa-lock"></i>账号</a>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-4" v-if="isLogin()">
+                <div class="single-header-top last">
+                    <ul>
+                        <li>
+                                <span>
+                                    <a data-toggle="modal" data-target="#account">
+                                        <i class="el-icon-s-custom"></i>{{name}}
+                                    </a>,&nbsp;
+                                    <a @click="logout"
+                                             data-toggle="modal"
+                                             data-target="#account">注销
+                                    </a>
+                                </span>
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><!--/Header Top-->
+
+
+<!--Header Area-->
+<header class="header-area gradient-bg-1">
+    <nav class="navbar navbar-expand-lg main-menu">
+        <div class="container">
+
+            <a class="navbar-brand" href="http://www.zzuli.edu.cn/"><img src="/static/assets/images/logo-2.png"
+                                                                         class="d-inline-block align-top"
+                                                                         alt="郑州轻工业大学"
+                                                                         style="width: 177px;height: 26px"></a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse"
+                    data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
+                    aria-expanded="false" aria-label="Toggle navigation">
+                <span class="menu-toggle"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav ml-auto">
+                    <li class="nav-item">
+                        <a class="nav-link" href="/index" role="button"
+                           aria-expanded="false">首页</a>
+                    </li>
+                    <li class="nav-item"><a class="nav-link" href="/category/1">推荐</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/category/2">要闻</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/category/3">综合</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/category/8">国际</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/category/9">热点</a></li>
+                    <li class="nav-item"><a class="nav-link" href="/category/4">教育</a></li>
+                    <li class="nav-item dropdown">
+                        <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
+                           aria-haspopup="true" aria-expanded="false">其他</a>
+                        <ul class="dropdown-menu">
+                            <li><a class="dropdown-item" href="/category/5">军事</a></li>
+                            <li><a class="dropdown-item" href="/category/6">文化</a></li>
+                            <li><a class="dropdown-item" href="/category/7">党史</a></li>
+                            <li><a class="dropdown-item" href="/category/10">娱乐</a></li>
+                        </ul>
+                    </li>
+                    <li v-if="isLogin()" class="nav-item"><a class="nav-link" href="#">个人中心</a></li>
+                </ul>
+                <li class="nav-item" style="margin-left: 30px">
+                    <input v-model="title"
+                           style="width: 100px;background-color: #FF416C;color: #ffffff"
+                           type="text" placeholder="搜索"
+                           @keyup.native.enter="search()"/>
+                </li>
+                <div class="header-btn justify-content-end">
+                    <button type="button" class="search-btn" @click="search()"><i class="fa fa-search"></i></button>
+                </div>
+            </div>
+        </div>
+    </nav>
+</header><!--/Header Area-->

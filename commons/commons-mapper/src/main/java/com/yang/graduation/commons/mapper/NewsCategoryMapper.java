@@ -21,6 +21,12 @@ public interface NewsCategoryMapper extends MyMapper<NewsCategory> {
     List<CategoryNewsCountParam> categoryNewsCount();
 
     /**
+     * 分析每个分类下新闻的数量 未删除和状态为1
+     * @return {@link List<CategoryNewsCountParam>}
+     */
+    List<CategoryNewsCountParam> categoryNewsCount2();
+
+    /**
      * 分析每个分类下点赞数和评论数
      * @return {@link List<CommentAndLikeParam>}
      */

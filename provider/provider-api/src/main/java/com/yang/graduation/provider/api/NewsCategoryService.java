@@ -15,4 +15,11 @@ public interface NewsCategoryService {
      * @return {@link List}
      */
     List<NewsCategory> getAll();
+
+    /**
+     * 得到一个
+     * @param id
+     * @return
+     */
+    NewsCategory getOne(Integer id);
 }

@@ -9,5 +9,25 @@
     <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
     <result column="status" jdbcType="INTEGER" property="status" />
   </resultMap>
+    <select id="getFrontCommentsByNewsId" resultType="com.yang.graduation.commons.domain.dto.FrontCommentsDto">
+        select
+    c.details,c.comment_date as commentDate, u.name as username, u.user_icon as icon
+from news_comment c, user u
+where c.comment_user_id = u.id
+  and c.status = 0
+  and c.news_id = #{id}
+order by comment_date desc
+    </select>
+  <select id="getCommentCountByNewsAuthorId" resultType="java.lang.Integer">
+select count(*)
+from news_comment
+where status = 0
+  and news_id in
+      (select news.id as newsId
+       from news
+       where user_id = #{id}
+         and is_delete = 0
+         and status = 1);
+  </select>
 
 </mapper>

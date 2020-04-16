@@ -26,4 +26,9 @@ public class NewsCategoryServiceImpl implements NewsCategoryService {
     public List<NewsCategory> getAll() {
         return newsCategoryMapper.selectAll();
     }
+
+    @Override
+    public NewsCategory getOne(Integer id) {
+        return newsCategoryMapper.selectByPrimaryKey(id);
+    }
 }

@@ -23,4 +23,13 @@
         where news.category_id = news_category.id
         group by news.category_id
     </select>
+    <select id="categoryNewsCount2"
+            resultType="com.yang.graduation.commons.domain.analyze.CategoryNewsCountParam">
+        select news_category.id as categoryId,news_category.name as categoryName ,count(t.category_id) as newsCount
+from news_category left join
+    (select * from news where news.status = 1 and news.is_delete = 0) t
+    on t.category_id = news_category.id
+group by news_category.id
+order by news_category.id
+    </select>
 </mapper>

@@ -6,4 +6,10 @@ package com.yang.graduation.provider.api;
  * @date 2020/4/2 21:37
  */
 public interface NewsLikeService {
+    /**
+     * 通过新闻id得到点赞数
+     * @param newsId
+     * @return
+     */
+    int getLikeCountsByNewsId(String newsId);
 }

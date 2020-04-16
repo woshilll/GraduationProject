@@ -2,6 +2,7 @@ package com.yang.graduation.provider.api;
 
 import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.commons.domain.User;
+import com.yang.graduation.commons.domain.dto.UserHoverDto;
 
 import java.util.Map;
 
@@ -74,4 +75,17 @@ public interface UserService {
      * @param username 可以是手机号, 用户名, 邮箱
      */
     void updateLoginTime(String username);
+
+    /**
+     * 通过id查找
+     * @param id
+     * @return
+     */
+    User getById(String id);
+    /**
+     * 通过用户名获取
+     * @param name
+     * @return {@link UserHoverDto}
+     */
+    UserHoverDto getUserHoverDto(String name);
 }

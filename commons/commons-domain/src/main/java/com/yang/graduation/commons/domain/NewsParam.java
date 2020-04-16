@@ -84,4 +84,9 @@ public class NewsParam implements Serializable {
      */
     private Integer isDelete;
 
+    private String nickName;
+    private Integer authorStatus;
+    private String talk;
+    private String userIcon;
+
 }

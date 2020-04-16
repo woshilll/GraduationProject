@@ -5,12 +5,18 @@ import com.yang.graduation.commons.domain.NewsCategory;
 import com.yang.graduation.commons.domain.NewsParam;
 import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.commons.domain.User;
+import com.yang.graduation.commons.domain.dto.UserHoverDto;
 import com.yang.graduation.commons.mapper.NewsCategoryMapper;
+import com.yang.graduation.commons.mapper.NewsCommentMapper;
+import com.yang.graduation.commons.mapper.NewsLikeMapper;
 import com.yang.graduation.commons.mapper.NewsMapper;
 import com.yang.graduation.commons.mapper.UserMapper;
+import com.yang.graduation.provider.api.NewsCommentService;
+import com.yang.graduation.provider.api.NewsLikeService;
 import com.yang.graduation.provider.api.NewsService;
 import com.yang.graduation.provider.api.UserService;
 import com.yang.graduation.provider.util.IdWorker;
+import org.apache.dubbo.config.annotation.Reference;
 import org.apache.dubbo.config.annotation.Service;
 import org.springframework.beans.BeanUtils;
 
@@ -37,6 +43,11 @@ public class NewsServiceImpl implements NewsService {
 
     @Resource
     private UserMapper userMapper;
+    @Reference(version = "1.0.0")
+    private NewsCommentService newsCommentService;
+    @Reference(version = "1.0.0")
+    private NewsLikeService newsLikeService;
+
 
     /**
      * 新增新闻
@@ -95,6 +106,8 @@ public class NewsServiceImpl implements NewsService {
         newsParam.setCategoryName(newsCategory.getName());
         User user = userMapper.selectByPrimaryKey(newsParam.getUserId());
         newsParam.setAuthorName(user.getName());
+        newsParam.setCommentCount(newsCommentService.getCommentsCountByNewsId(id));
+        newsParam.setLikeCount(newsLikeService.getLikeCountsByNewsId(id));
         return newsParam;
     }
 
@@ -125,7 +138,7 @@ public class NewsServiceImpl implements NewsService {
      */
     @Override
     public List<NewsParam> likeMost4() {
-        return newsMapper.likeMost4();
+        return initCount(newsMapper.likeMost4());
     }
 
     /**
@@ -134,7 +147,7 @@ public class NewsServiceImpl implements NewsService {
      */
     @Override
     public List<NewsParam> commentMost2() {
-        return newsMapper.commentMost2();
+        return initCount(newsMapper.commentMost2());
     }
 
     /**
@@ -143,7 +156,7 @@ public class NewsServiceImpl implements NewsService {
      */
     @Override
     public List<NewsParam> random5() {
-        return newsMapper.random5();
+        return initCount(newsMapper.random5());
     }
 
     /**
@@ -152,7 +165,17 @@ public class NewsServiceImpl implements NewsService {
      */
     @Override
     public List<NewsParam> adminPost4() {
-        return newsMapper.adminPost4();
+        return initCount(newsMapper.adminPost4());
+    }
+
+    @Override
+    public List<NewsParam> getNewsByCategory(Integer categoryId) {
+        return initCount(newsMapper.getNewsByCategory(categoryId));
+    }
+
+    @Override
+    public List<NewsParam> search(String title) {
+        return initCount(newsMapper.search(title));
     }
 
     private void initNews(News news) {
@@ -161,5 +184,12 @@ public class NewsServiceImpl implements NewsService {
         news.setIsDelete(0);
         news.setCommentCount(0);
         news.setLikeCount(0);
+    }
+    private List<NewsParam> initCount(List<NewsParam> newsParams) {
+        for (NewsParam newsParam : newsParams) {
+            newsParam.setCommentCount(newsCommentService.getCommentsCountByNewsId(newsParam.getId()));
+            newsParam.setLikeCount(newsLikeService.getLikeCountsByNewsId(newsParam.getId()));
+        }
+        return newsParams;
     }
 }

@@ -4,27 +4,23 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-
-
-    <link rel="shortcut icon" href="../static/assets/images/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="../static/assets/images/favicon.ico" type="image/x-icon">
-
     <title>Graduation Project - 首页</title>
-
+    <link rel="shortcut icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
     <!-- Bootstrap -->
     <link href="http://cdn.bootstrapmb.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+    <link href="/static/assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/assets/css/magnific-popup.css" rel="stylesheet">
+    <link href="/static/assets/css/jquery-ui.css" rel="stylesheet">
 
-    <link href="../static/assets/css/font-awesome.min.css" rel="stylesheet">
-    <link href="../static/assets/css/magnific-popup.css" rel="stylesheet">
-    <link href="../static/assets/css/jquery-ui.css" rel="stylesheet">
 
-
-    <link href="../static/assets/css/animate.css" rel="stylesheet">
-    <link href="../static/assets/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="/static/assets/css/animate.css" rel="stylesheet">
+    <link href="/static/assets/css/owl.carousel.min.css" rel="stylesheet">
 
 
     <!-- Main css -->
-    <link href="../static/assets/css/main.css" rel="stylesheet">
+    <link href="/static/assets/css/main.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,198 +31,10 @@
 
 </head>
 <body>
-<div id="app">
-    <!-- Preloader -->
-    <div class="preloader">
-        <div class="spinner">
-            <span class="spinner-rotate"></span>
-        </div>
-    </div><!-- /Preloader -->
-
-    <!--Header Top-->
-    <div class="header-top white-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
-                    <div class="single-header-top">
-                        <p><i class="fa fa-calendar"></i>{{new Date().toLocaleDateString()}}</p>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                    <div class="single-header-top">
-                        <ul>
-                            <li><a href="">欢迎来到由zzuli的同学开发的学习平台</a></li>
-                        </ul>
-                    </div>
-                </div>
-
-                <div class="col-xl-5 col-lg-5 col-md-4 col-sm-6">
-                    <div class="single-header-top">
-                        <div class="social">
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-twitter"></i></a>
-                            <a href=""><i class="fa fa-instagram"></i></a>
-                            <a href=""><i class="fa fa-linkedin"></i></a>
-                            <a href=""><i class="fa fa-pinterest"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-6">
-                    <div class="single-header-top last">
-                        <ul>
-                            <li><a href="" data-toggle="modal" data-target="#account"><i class="fa fa-lock"></i>账号</a>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!--/Header Top-->
-
-    <!-- Modal -->
-    <div class="modal fade" id="account" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5>账号访问</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <i class="fa fa-times"></i>
-                    </button>
-                </div>
-                <div class="modal-body">
-                    <ul class="nav nav-pills mb-40 acc-tab-btn" id="pills-tab" role="tablist">
-                        <li class="nav-item">
-                            <a class="active" id="pills-login-tab" data-toggle="pill" href="#pills-login" role="tab"
-                               aria-controls="pills-login" aria-selected="true">登录</a>
-                        </li>
-                        <li class="nav-item">
-                            <a id="pills-signup-tab" data-toggle="pill" href="#pills-signup" role="tab"
-                               aria-controls="pills-signup" aria-selected="false">注册</a>
-                        </li>
-                    </ul>
-                    <div class="tab-content" id="pills-tabContent">
-                        <div class="tab-pane fade show active" id="pills-login" role="tabpanel"
-                             aria-labelledby="pills-login-tab">
-                            <div class="acc-form">
-                                <form action="#">
-                                    <input type="text" v-model="loginAccount.username" placeholder="请输入手机号/用户名/邮箱"
-                                           required>
-                                    <input type="password" v-model="loginAccount.password" placeholder="请输入密码" required>
-                                    <button type="button" class="bttn-mid btn-fill" @click="login">登录</button>
-                                </form>
-                            </div>
-                        </div>
-                        <div class="tab-pane fade" id="pills-signup" role="tabpanel" aria-labelledby="pills-signup-tab">
-                            <div class="acc-form">
-                                <form action="#">
-                                    <input type="text" placeholder="请输入手机号" required>
-                                    <input type="text" placeholder="请输入用户名" required>
-                                    <input type="email" placeholder="请输入邮箱" required>
-                                    <input type="password" placeholder="请输入密码" required>
-                                    <button type="submit" class="bttn-mid btn-fill">创建账号</button>
-                                </form>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <!--Header Area-->
-    <header class="header-area gradient-bg-1">
-        <nav class="navbar navbar-expand-lg main-menu">
-            <div class="container">
-
-                <a class="navbar-brand"><img src="../static/assets/images/logo-2.png"
-                                                               class="d-inline-block align-top" alt=""></a>
-                <button class="navbar-toggler" type="button" data-toggle="collapse"
-                        data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent"
-                        aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="menu-toggle"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">Home</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="index.html">Home one</a></li>
-                                <li><a class="dropdown-item" href="index-2.html">Home two</a></li>
-
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="category-5.html">Technology</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">Lifestyle</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="category.html">Sports</a></li>
-                                <li><a class="dropdown-item" href="category-2.html">Fashion</a></li>
-                                <li><a class="dropdown-item" href="category-3.html">Travel</a></li>
-                                <li><a class="dropdown-item" href="category-4.html">Food</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="category.html">Sports</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">Post Layout</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="post-right-sidebar.html">With Sidebar Right</a></li>
-                                <li><a class="dropdown-item" href="post-left-sidebar.html">With Sidebar left</a></li>
-                                <li><a class="dropdown-item" href="post-full.html">Full post</a></li>
-                                <li><a class="dropdown-item" href="post-full-2.html">Without sidebar</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">Post Features</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="gallery-post.html">Gallery Post</a></li>
-                                <li><a class="dropdown-item" href="video-post.html">Video Post</a></li>
-                                <li><a class="dropdown-item" href="audio-post.html">Audio Post</a></li>
-                                <li><a class="dropdown-item" href="quote-post.html">Quote Post</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown"
-                               aria-haspopup="true" aria-expanded="false">Features</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="about.html">About us</a></li>
-                                <li><a class="dropdown-item" href="contact.html">Contact</a></li>
-                                <li><a class="dropdown-item" href="error.html">404 error</a></li>
-                                <li><a class="dropdown-item" href="privacy.html">Privacy</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="header-btn justify-content-end">
-                        <button><i class="fa fa-random"></i></button>
-                    </div>
-                    <div class="header-btn justify-content-end">
-                        <button type="button" class="search-btn"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header><!--/Header Area-->
-
-    <!--Full Search-->
-    <div class="search-full">
-        <button type="submit" class="search-close"><i class="fa fa-close"></i></button>
-        <div class="search-full--inner">
-            <div class="conatiner">
-                <div class="row justify-content-center mb-30">
-                    <div class="col-xl-6 col-lg-6 col-md-10 col-sm-10">
-                        <form class="main-search-form">
-                            <input type="search" name="main_search" id="main_search" placeholder="Search here...">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!--/Full Search-->
+<div id="app" v-loading="loading"
+     element-loading-text="拼命加载中"
+     element-loading-spinner="el-icon-loading">
+    <div th:replace="head.html"></div>
 
     <!--Hero Section-->
     <section class="hero-area gray-bg">
@@ -234,7 +42,7 @@
             <div class="row">
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
                     <div class="single-post">
-                        <a href=""><img src="../static/assets/images/post/21.jpg" alt=""></a>
+                        <a href=""><img src="/static/assets/images/post/21.jpg" alt=""></a>
                         <div class="post-inside-content">
                             <div class="category-tag"><a href="" class="blue-bg-2">News</a></div>
                             <h2><a href="">Phasellus consequat rutrum</a></h2>
@@ -247,7 +55,7 @@
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
                     <div class="single-post">
-                        <a href=""><img src="../static/assets/images/post/19.jpg" alt=""></a>
+                        <a href=""><img src="/static/assets/images/post/19.jpg" alt=""></a>
                         <div class="post-inside-content">
                             <div class="category-tag"><a href="" class="green-bg">Fashion</a></div>
                             <h2><a href="">Morbi leo lorem, cursus quis</a></h2>
@@ -260,7 +68,7 @@
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
                     <div class="single-post">
-                        <a href=""><img src="../static/assets/images/post/3.jpg" alt=""></a>
+                        <a href=""><img src="/static/assets/images/post/3.jpg" alt=""></a>
                         <div class="post-inside-content">
                             <div class="category-tag"><a href="" class="blue-bg">Nature</a></div>
                             <h2><a href="">Ellentesque ultricies ullamcorper magna</a></h2>
@@ -275,7 +83,7 @@
             <div class="row">
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                     <div class="single-post">
-                        <a href=""><img src="../static/assets/images/post/17.jpg" alt=""></a>
+                        <a href=""><img src="/static/assets/images/post/17.jpg" alt=""></a>
                         <div class="post-inside-content">
                             <div class="category-tag"><a href="" class="primary-bg">Food</a></div>
                             <h2><a href="">Nulla eget enim eget mauris aliquam</a></h2>
@@ -288,7 +96,7 @@
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                     <div class="single-post">
-                        <a href=""><img src="../static/assets/images/post/24.jpg" alt=""></a>
+                        <a href=""><img src="/static/assets/images/post/24.jpg" alt=""></a>
                         <div class="post-inside-content">
                             <div class="category-tag"><a href="" class="mint-bg">Football</a></div>
                             <h2><a href="">Quisque sed ex egestas, dignissim</a></h2>
@@ -301,7 +109,7 @@
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                     <div class="single-post">
-                        <a href=""><img src="../static/assets/images/post/11.jpg" alt=""></a>
+                        <a href=""><img src="/static/assets/images/post/11.jpg" alt=""></a>
                         <div class="post-inside-content">
                             <div class="category-tag"><a href="" class="yellow-bg">Music</a></div>
                             <h2><a href="">Nam suscipit luctus ante, vel iaculis</a></h2>
@@ -314,7 +122,7 @@
                 </div>
                 <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
                     <div class="single-post">
-                        <a href=""><img src="../static/assets/images/post/23.jpg" alt=""></a>
+                        <a href=""><img src="/static/assets/images/post/23.jpg" alt=""></a>
                         <div class="post-inside-content">
                             <div class="category-tag"><a href="" class="blue-bg-2">Politics</a></div>
                             <h2><a href="">Proin non arcu lacus. Etiam est quam</a></h2>
@@ -343,29 +151,39 @@
                         <div class="col-xl-12">
                             <div class="row single-post-2" v-for="(item, index) in adminPost4" v-if="index === 0">
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <a href=""><img :src="item.image" alt="" style="height: 250px"></a>
+                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                                                            style="height: 250px"></a>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                     <div class="post-inside-content">
-                                        <div class="category-tag"><a href="" class="primary-bg">Modelling</a></div>
-                                        <h2><a href="">{{item.title}}</a></h2>
+                                        <div class="category-tag"><a class="primary-bg"
+                                                                     :href="'/category/' + item.categoryId">{{item.categoryName}}</a>
+                                        </div>
+                                        <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
                                         <p>{{item.content}}</p>
+                                        <p>
+                                            <el-link :underline="false" type="info" :href="'/news/post/' + item.id">
+                                                {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
+                                            </el-link>
+                                        </p>
                                         <div class="post-meta">
-                                            <a href="" class="author">{{item.authorName}}</a>
-                                            <a href="" class="date">{{item.postTime}}</a>
+                                            <span th:replace="userHover.html"></span>
+                                            <a class="date">{{item.postTime}}</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12" v-for="(item, index) in adminPost4" v-if="index != 0">
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12" v-for="(item, index) in adminPost4"
+                             v-if="index != 0">
                             <div class="single-post-2">
-                                <a href=""><img :src="item.image" alt="" style="width: 237px;height: 158px"></a>
+                                <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                                                        style="width: 237px;height: 158px"></a>
                                 <div class="post-inside-content">
-                                    <h2><a href="">{{item.title}}</a></h2>
+                                    <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
                                     <div class="post-meta">
-                                        <a href="" class="author">{{item.authorName}}</a>
-                                        <a href="" class="date">{{item.postTime}}</a>
+                                        <span th:replace="userHover.html"></span>
+                                        <a class="date">{{item.postTime}}</a>
                                     </div>
                                 </div>
                             </div>
@@ -385,14 +203,16 @@
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="single-post" v-if="index === 0" v-for="(item, index) in likeMost4">
-                                    <a href=""><img :src="item.image" alt="" style="width: 370px;height: 300px"></a>
+                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                                                            style="width: 370px;height: 300px"></a>
                                     <div class="post-inside-content">
-                                        <div class="category-tag"><a href="" class="green-bg">{{item.categoryName}}</a>
+                                        <div class="category-tag"><a :href="'/category/' + item.categoryId"
+                                                                     class="green-bg">{{item.categoryName}}</a>
                                         </div>
-                                        <h2><a href="">{{item.title}}</a></h2>
+                                        <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
                                         <div class="post-meta">
-                                            <a href="" class="author">{{item.authorName}}</a>
-                                            <a href="" class="date">{{item.postTime}}</a>
+                                            <span th:replace="userHover.html"></span>
+                                            <a class="date">{{item.postTime}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -400,14 +220,18 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="single-list-post" v-if="index != 0" v-for="(item, index) in likeMost4">
                                     <div class="list-post-img">
-                                        <a href=""><img :src="item.image" alt=""></a>
+                                        <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""></a>
                                     </div>
                                     <div class="list-post-content">
-                                        <a href="" class="cl-mint">{{item.categoryName}}</a>
-                                        <h4><a href="">{{item.title}}</a></h4>
+                                        <a :href="'/category/' + item.categoryId"
+                                           class="cl-mint">{{item.categoryName}}</a>
+                                        <h4><a :href="'/news/post/' + item.id">{{item.title}}</a></h4>
+                                        <h4><a :href="'/news/post/' + item.id">
+                                            {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
+                                        </a></h4>
                                         <div class="post-date">
-                                            <a href="" class="author">{{item.authorName}}</a>
-                                            <a href="" class="date">{{item.postTime}}</a>
+                                            <span th:replace="userHover.html"></span>
+                                            <a class="date">{{item.postTime}}</a>
                                         </div>
                                     </div>
                                 </div>
@@ -422,48 +246,63 @@
                             </div>
                         </div>
                     </div>
-<!--                    <div class="post-carousel owl-carousel">-->
-                        <div class="row">
-                            <div class="col-xl-12" >
-                                <div class="row single-post-2" v-for="(item, index) in commentMost2" v-if="index === 0">
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <a href=""><img :src="item.image" alt="" style="width: 370px;height: 245px"></a>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                        <div class="post-inside-content">
-                                            <div class="category-tag"><a href="" class="primary-bg">{{item.categoryName}}</a></div>
-                                            <h2><a href="">{{item.title}}</a></h2>
-                                            <p>{{item.content}}</p>
-                                            <div class="post-meta">
-                                                <a href="" class="author">{{item.authorName}}</a>
-                                                <a href="" class="date">{{item.postTime}}</a>
-                                            </div>
+                    <!--                    <div class="post-carousel owl-carousel">-->
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="row single-post-2" v-for="(item, index) in commentMost2" v-if="index === 0">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                                                            style="width: 370px;height: 245px"></a>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
+                                    <div class="post-inside-content">
+                                        <div class="category-tag"><a :href="'/category/' + item.categoryId"
+                                                                     class="primary-bg">{{item.categoryName}}</a></div>
+                                        <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
+                                        <p>{{item.content}}</p>
+                                        <p>
+                                            <el-link :underline="false" type="info" :href="'/news/post/' + item.id">
+                                                {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
+                                            </el-link>
+                                        </p>
+                                        <div class="post-meta">
+                                            <span th:replace="userHover.html"></span>
+                                            <a class="date">{{item.postTime}}</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="row">
-                            <div class="col-xl-12" >
-                                <div class="row single-post-2" v-for="(item, index) in commentMost2" v-if="index === 1">
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                        <a href=""><img :src="item.image" alt="" style="width: 370px;height: 245px"></a>
-                                    </div>
-                                    <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                        <div class="post-inside-content">
-                                            <div class="category-tag"><a href="" class="green-bg">{{item.categoryName}}</a></div>
-                                            <h2><a href="">{{item.title}}</a></h2>
-                                            <p>{{item.content}}</p>
-                                            <div class="post-meta">
-                                                <a href="" class="author">{{item.authorName}}</a>
-                                                <a href="" class="date">{{item.postTime}}</a>
-                                            </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-xl-12">
+                            <div class="row single-post-2" v-for="(item, index) in commentMost2" v-if="index === 1">
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                                                            style="width: 370px;height: 245px"></a>
+                                </div>
+                                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
+                                    <div class="post-inside-content">
+                                        <div class="category-tag"><a :href="'/category/' + item.categoryId"
+                                                                     class="green-bg">{{item.categoryName}}</a>
+                                        </div>
+                                        <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
+                                        <p>{{item.content}}</p>
+                                        <p>
+                                            <el-link :underline="false" type="info" :href="'/news/post/' + item.id">
+                                                {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
+                                            </el-link>
+                                        </p>
+                                        <div class="post-meta">
+                                            <span th:replace="userHover.html"></span>
+                                            <a class="date">{{item.postTime}}</a>
                                         </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-<!--                    </div>-->
+                    </div>
+                    <!--                    </div>-->
 
                     <div class="row">
                         <div class="col-xl-12">
@@ -475,122 +314,55 @@
                             <div class="single-post-3" v-for="(item, index) in random5">
                                 <div class="list-post-img">
                                     <img :src="item.image" alt="" style="width: 192px; height: 128px">
-                                    <a :class="colorArr[Math.floor((Math.random()*colorArr.length))]">{{item.categoryName}}</a>
+                                    <a :href="'/category/' + item.categoryId"
+                                       :class="colorArr[Math.floor((Math.random()*colorArr.length))]">{{item.categoryName}}</a>
                                 </div>
                                 <div class="list-post-content">
-                                    <h4><a href="">{{item.title}}</a></h4>
+                                    <h4><a :href="'/news/post/' + item.id">{{item.title}}</a></h4>
                                     <p>{{item.content}}</p>
+                                    <p>
+                                        <el-link :underline="false" type="info" :href="'/news/post/' + item.id">
+                                            {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
+                                        </el-link>
+                                    </p>
                                     <div class="post-date">{{item.postTime}}</div>
                                 </div>
                             </div>
                         </div>
-<!--                        <div class="col-xl-12 centered">-->
-<!--                            <a class="bttn-mid btn-emt w-100" href="">Load more</a>-->
-<!--                        </div>-->
                     </div>
 
                 </div>
                 <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
                     <aside class="site-sidebar">
-                        <div class="single-sidebar">
-                            <div class="section-title">
-                                <h3><a>新闻分类</a></h3>
-                            </div>
-                            <div class="site-category">
-                                <ul>
-                                    <li v-for="item in categoryNewsCountParam"><a>{{item.categoryName}}</a> <span>{{item.newsCount}}</span>
-                                    </li>
-                                </ul>
-                            </div>
-                        </div>
-                        <div class="single-sidebar">
-                            <div class="section-title">
-                                <h3><a>最新新闻</a></h3>
-                            </div>
-                            <div class="sidebar-content">
-                                <div class="tab-content" id="pills-tabContent3">
-                                    <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
-                                         aria-labelledby="pills-home-tab">
-                                        <div class="single-list-post" v-for="item in least4">
-                                            <div class="list-post-img">
-                                                <a href=""><img :src="item.image" alt=""></a>
-                                            </div>
-                                            <div class="list-post-content">
-                                                <a href="" class="cl-mint">{{item.title}}</a>
-                                                <h4><a href="">{{item.content}}</a></h4>
-                                                <div class="post-date">{{item.postTime}}</div>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                        <div th:replace="sidebar.html"></div>
                     </aside>
                 </div>
             </div>
         </div>
     </section><!--/Content Section-->
 
-    <!--Copyright-->
-    <div class="copyright">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                    <p>&copy;Copyright 2020 <a href="https://www.github.com/woshilll">woshilll</a>.</p>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                    <ul>
-                        <li><a href="">Disclaimer</a></li>
-                        <li><a href="">Privacy</a></li>
-                        <li><a href="">Advertisement</a></li>
-                        <li><a href="">Contact us</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div><!--Copyright-->
+    <div th:replace="foot.html"></div>
 </div>
 
 
-<!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-<script src="../static/assets/js/jquery-3.2.1.min.js"></script>
-<script src="../static/assets/js/jquery-migrate.js"></script>
-
-<script src="../static/assets/js/popper.js"></script>
-<script src="http://cdn.bootstrapmb.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-<script src="../static/assets/js/owl.carousel.min.js"></script>
-
-<script src="../static/assets/js/magnific-popup.min.js"></script>
-<script src="../static/assets/js/imagesloaded.pkgd.min.js"></script>
-<script src="../static/assets/js/isotope.pkgd.min.js"></script>
-
-<script src="../static/assets/js/waypoints.min.js"></script>
-<script src="../static/assets/js/jquery.counterup.min.js"></script>
-<script src="../static/assets/js/wow.min.js"></script>
-<script src="../static/assets/js/scrollUp.min.js"></script>
-
-<script src="../static/assets/js/plugin.js"></script>
-<script src="../static/assets/js/script.js"></script>
-<script src="../static/assets/js/axios.js"></script>
-<script src="../static/assets/js/vue.js"></script>
+<div th:replace="js.html"></div>
 </body>
 <script>
     new Vue({
         el: '#app',
         data() {
             return {
-                loginAccount: {
-                    username: '',
-                    password: ''
-                },
                 colorArr: ["tag yellow-bg", "tag green-bg", "tag blue-bg", "tag primary-bg", "tag mint-bg"],
                 categoryNewsCountParam: [],//分类下新闻数
                 least4: [],//最新4条
                 likeMost4: [], //最受欢迎4条
                 commentMost2: [], //评论最多的2条
                 random5: [], //随机5条新闻
-                adminPost4: [] //admin4条新闻
-            }
+                adminPost4: [], //admin4条新闻
+                title: '',
+                name: '',
+                loading: false,
+            };
         },
         created() {
             this.fetchData();
@@ -632,15 +404,28 @@
                  */
                 axios.get('/news/adminPost4').then(response => {
                     this.adminPost4 = response.data.data;
-                })
+                });
+                if (this.isLogin()) {
+                    this.name = localStorage.getItem("name");
+                }
 
             },
-            login() {
-                axios.post('/front/login', this.loginAccount).then(response => {
-                    localStorage.setItem("token", response.data.data.token);
-                    window.location.href = '/index'
-                })
-            }
+            search() {
+                window.location.href = '/news/search/front/' + this.title;
+            },
+            isLogin() {
+                return localStorage.getItem('token') !== null;
+            },
+            logout() {
+                axios.post('/front/logout', {access_token: localStorage.getItem('token')}, {
+                    headers: {
+                        "Authorization": 'Bearer ' + localStorage.getItem("token")
+                    }
+                }
+                );
+                localStorage.removeItem("token");
+                window.location.reload();
+            },
         }
     })
 </script>

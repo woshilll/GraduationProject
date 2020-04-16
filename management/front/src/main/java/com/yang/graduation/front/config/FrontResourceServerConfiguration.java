@@ -1,11 +1,9 @@
 package com.yang.graduation.front.config;
 
-import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.config.annotation.web.configuration.EnableResourceServer;
 import org.springframework.security.oauth2.config.annotation.web.configuration.ResourceServerConfigurerAdapter;
 import org.springframework.security.oauth2.config.annotation.web.configurers.ResourceServerSecurityConfigurer;
@@ -26,7 +24,7 @@ public class FrontResourceServerConfiguration extends ResourceServerConfigurerAd
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasAuthority("USER");
+                .antMatchers("/front/logout", "/post/**", "/profile/**").hasAuthority("USER");
     }
 
     @Override
@@ -34,9 +32,4 @@ public class FrontResourceServerConfiguration extends ResourceServerConfigurerAd
         //配置资源id 对应oauth2里的AuthorizationServerConfiguration
         resources.resourceId("front-resources");
     }
-
-//    @Bean
-//    public BCryptPasswordEncoder bCryptPasswordEncoder() {
-//        return new BCryptPasswordEncoder();
-//    }
 }

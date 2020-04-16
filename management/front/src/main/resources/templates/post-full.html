@@ -1,30 +1,30 @@
 ﻿<!DOCTYPE html>
-<html lang="en">
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        
-        
-    <link rel="shortcut icon" href="assets/images/favicon.ico" type="image/x-icon">
-    <link rel="icon" href="assets/images/favicon.ico" type="image/x-icon">
 
-    <title>Meverex - Magazine HTML Template</title>
+
+    <link rel="shortcut icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
+
+    <title>新闻 - Magazine HTML Template</title>
 
     <!-- Bootstrap -->
     <link href="http://cdn.bootstrapmb.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
-        
-    <link href="assets/css/font-awesome.min.css" rel="stylesheet">
-    <link href="assets/css/magnific-popup.css" rel="stylesheet">
-    <link href="assets/css/jquery-ui.css" rel="stylesheet">
 
+    <link href="/static/assets/css/font-awesome.min.css" rel="stylesheet">
+    <link href="/static/assets/css/magnific-popup.css" rel="stylesheet">
+    <link href="/static/assets/css/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
 
-    <link href="assets/css/animate.css" rel="stylesheet">
-    <link href="assets/css/owl.carousel.min.css" rel="stylesheet">
+    <link href="/static/assets/css/animate.css" rel="stylesheet">
+    <link href="/static/assets/css/owl.carousel.min.css" rel="stylesheet">
 
 
     <!-- Main css -->
-    <link href="assets/css/main.css" rel="stylesheet">
+    <link href="/static/assets/css/main.css" rel="stylesheet">
 
     <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -35,215 +35,30 @@
 
 </head>
 <body>
-    
-    <!-- Preloader -->
-	<div class="preloader">
-		<div class="spinner">
-		   <span class="spinner-rotate"></span>
-		</div>
-	</div><!-- /Preloader -->
+<div id="app" v-loading="loading"
+     element-loading-text="拼命加载中"
+     element-loading-spinner="el-icon-loading">
+    <div th:replace="head.html"></div>
 
-
-    <!--Header Top-->
-    <div class="header-top white-bg">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-2 col-lg-2 col-md-3 col-sm-6">
-                    <div class="single-header-top">
-                        <p><i class="fa fa-calendar"></i>24 September 2019</p>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                    <div class="single-header-top">
-                        <ul>
-                            <li><a href="">News</a></li>
-                            <li><a href="">Fashion</a></li>
-                            <li><a href="">Food</a></li>
-                            <li><a href="">Travel</a></li>
-                        </ul>
-                    </div>
-                </div>
-                
-                <div class="col-xl-5 col-lg-5 col-md-4 col-sm-6">
-                    <div class="single-header-top">
-                        <div class="social">
-                            <a href=""><i class="fa fa-facebook"></i></a>
-                            <a href=""><i class="fa fa-twitter"></i></a>
-                            <a href=""><i class="fa fa-instagram"></i></a>
-                            <a href=""><i class="fa fa-linkedin"></i></a>
-                            <a href=""><i class="fa fa-pinterest"></i></a>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-xl-1 col-lg-1 col-md-1 col-sm-6">
-                    <div class="single-header-top last">
-                        <ul>
-                            <li><a href="" data-toggle="modal" data-target="#account"><i class="fa fa-lock"></i>Account</a></li>
-                        </ul>
-                    </div>
-                </div>
-            </div>    
-        </div>
-    </div><!--/Header Top-->
-
-    <!-- Modal -->
-    <div class="modal fade" id="account" tabindex="-1" role="dialog" aria-hidden="true">
-        <div class="modal-dialog" role="document">
-          <div class="modal-content">
-            <div class="modal-header">
-                <h5>Account access</h5>  
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                    <i class="fa fa-times"></i>
-                </button>
-            </div>
-            <div class="modal-body">
-                <ul class="nav nav-pills mb-40 acc-tab-btn" id="pills-tab" role="tablist">
-                    <li class="nav-item">
-                        <a class="active" id="pills-login-tab" data-toggle="pill" href="#pills-login" role="tab" aria-controls="pills-login" aria-selected="true">Login</a>
-                    </li>
-                    <li class="nav-item">
-                        <a id="pills-signup-tab" data-toggle="pill" href="#pills-signup" role="tab" aria-controls="pills-signup" aria-selected="false">Signup</a>
-                    </li>
-                </ul>
-                <div class="tab-content" id="pills-tabContent">
-                    <div class="tab-pane fade show active" id="pills-login" role="tabpanel" aria-labelledby="pills-login-tab">
-                        <div class="social-login">
-                            <a href="" class="facebook-bg"><i class="fa fa-facebook"></i>Facebook</a>
-                            <a href="" class="twitter-bg"><i class="fa fa-twitter"></i>Twitter</a>
-                            <a href="" class="linkedin-bg"><i class="fa fa-linkedin"></i>Linkedin</a>
-                        </div>
-                        <div class="acc-form">
-                            <form action="#">
-                                <input type="email" placeholder="Email" required>
-                                <input type="password" placeholder="Password" required>
-                                <button type="submit" class="bttn-mid btn-fill">Login</button>
-                            </form>
-                        </div>
-                    </div>
-                    <div class="tab-pane fade" id="pills-signup" role="tabpanel" aria-labelledby="pills-signup-tab">
-                        <div class="acc-form">
-                            <form action="#">
-                                <input type="text" placeholder="First Name" required>
-                                <input type="text" placeholder="Last Name" required>
-                                <input type="email" placeholder="Email" required>
-                                <input type="text" placeholder="Phone" required>
-                                <input type="password" placeholder="Password" required>
-                                <button type="submit" class="bttn-mid btn-fill">Create Account</button>
-                            </form>
-                        </div>
-                    </div>
-                </div>
-            </div>
-          </div>
-        </div>
-    </div>
-
-  
-    <!--Header Area-->
-    <header class="header-area gradient-bg-1">
-        <nav class="navbar navbar-expand-lg main-menu">
-            <div class="container">
-
-                <a class="navbar-brand" href="index.html"><img src="assets/images/logo-2.png" class="d-inline-block align-top" alt=""></a>
-
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                <span class="menu-toggle"></span>
-                </button>
-
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav ml-auto">
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Home</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="index.html">Home one</a></li>
-                                <li><a class="dropdown-item" href="index-2.html">Home two</a></li>
-                                
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="category-5.html">Technology</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Lifestyle</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="category.html">Sports</a></li>
-                                <li><a class="dropdown-item" href="category-2.html">Fashion</a></li>
-                                <li><a class="dropdown-item" href="category-3.html">Travel</a></li>
-                                <li><a class="dropdown-item" href="category-4.html">Food</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item"><a class="nav-link" href="category.html">Sports</a></li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Post Layout</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="post-right-sidebar.html">With Sidebar Right</a></li>
-                                <li><a class="dropdown-item" href="post-left-sidebar.html">With Sidebar left</a></li>
-                                <li><a class="dropdown-item" href="post-full.html">Full post</a></li>
-                                <li><a class="dropdown-item" href="post-full-2.html">Without sidebar</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Post Features</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="gallery-post.html">Gallery Post</a></li>
-                                <li><a class="dropdown-item" href="video-post.html">Video Post</a></li>
-                                <li><a class="dropdown-item" href="audio-post.html">Audio Post</a></li>
-                                <li><a class="dropdown-item" href="quote-post.html">Quote Post</a></li>
-                            </ul>
-                        </li>
-                        <li class="nav-item dropdown">
-                            <a class="nav-link dropdown-toggle" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">Features</a>
-                            <ul class="dropdown-menu">
-                                <li><a class="dropdown-item" href="about.html">About us</a></li>
-                                <li><a class="dropdown-item" href="contact.html">Contact</a></li>
-                                <li><a class="dropdown-item" href="error.html">404 error</a></li>
-                                <li><a class="dropdown-item" href="privacy.html">Privacy</a></li>
-                            </ul>
-                        </li>
-                    </ul>
-                    <div class="header-btn justify-content-end">
-                        <button><i class="fa fa-random"></i></button>
-                    </div>
-                    <div class="header-btn justify-content-end">
-                        <button type="button" class="search-btn"><i class="fa fa-search"></i></button>
-                    </div>
-                </div>
-            </div>
-        </nav>
-    </header><!--/Header Area-->
-
-    <!--Full Search-->
-    <div class="search-full">
-        <button type="submit" class="search-close"><i class="fa fa-close"></i></button>
-        <div class="search-full--inner">
-            <div class="conatiner">
-                <div class="row justify-content-center">
-                    <div class="col-xl-6 col-lg-6 col-md-10 col-sm-10">
-                        <form class="main-search-form">
-                            <input type="search" name="main_search" id="main_search" placeholder="Search here...">
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div><!--/Full Search-->
 
     <!--Breadcrumb-->
-    <section class="custom-banner section-padding dark-overlay-2" style="background: url('assets/images/category/fashion/custom-banner.jpg') no-repeat center / cover;">
+    <section class="custom-banner section-padding dark-overlay-2"
+             style="background: url('/static/assets/images/category/fashion/custom-banner.jpg') no-repeat center / cover;">
         <div class="container">
             <div class="row">
                 <div class="col">
                     <div class="row justify-content-center">
                         <div class="col-xl-8 centered">
                             <div class="category-tag">
-                                <a href="" class="primary-bg">Fashion</a>
+                                <a href="" class="primary-bg"><span th:text="${news.categoryName}"></span></a>
                             </div>
                             <div class="banner-title">
-                                <h2>how people changed their fashion day by day and having smart and polite</h2>
+                                <h2 th:text="${news.title}"></h2>
                             </div>
                             <div class="meta">
-                                <a href=""><img src="assets/images/author.png" alt="">Ridoy rajoan</a>
-                                <a href=""><i class="fa fa-eye"></i>4658</a>
-                                <a href=""><i class="fa fa-share-alt"></i>325</a>
+                                <a href=""><img :src="author.userIcon" alt="" style="width: 30px;height: 30px"><span th:text="${news.authorName}"></span></a>
+                                <a href=""><i class="el-icon-chat-dot-round"></i><span th:text="${news.commentCount}"></span></a>
+                                <a href=""><i class="el-icon-star-off"></i><span th:text="${news.likeCount}"></span></a>
                             </div>
                         </div>
                     </div>
@@ -251,232 +66,75 @@
             </div>
         </div>
     </section><!--/Breadcrumb-->
-    
+
     <!--Content Section-->
     <section class="section-padding-2">
         <div class="container">
             <div class="row justify-content-center">
                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
                     <div class="post-details">
-                        <p>Fashion is the key success of a model!</p>
-                        <p>There are many variations of passages of Lorem Ipsum available, but the majority have suffered alteration in some form, by injected humour, or randomised words which predefined chunks as necessary, making this the first true generator on the Internet. It uses a dictionary of over 200 Latin words, combined with a handful</p>
-                        <p>Eveniet eius incidunt, molestiae vero quisquam reiciendis cumque placeat corporis asperiores suscipit quam ut rerum similique</p>
-                        <div class="post-img">
-                            <img src="assets/images/category/fashion/5.jpg" alt="">
-                            <p>This is final match of Rex cup 2019</p>
-                        </div>
-                        <p>Sections 1.10.32 and 1.10.33 from "de Finibus Bonorum et Malorum" by Cicero are also reproduced in their exact original form, accompanied by English Latin literature from 45 BC, making it over 2000 years old. Richard McClintock, a Latin professor at Hampden-Sydney College in Virginia, looked up one of the more obscure Latin words, consectetur, from</p>
-                        <p>Eveniet eius incidunt, molestiae vero quisquam reiciendis cumque placeat corporis asperiores suscipit quam ut rerum similique</p>
-                        <div class="ads">
-                            <a href=""><img src="assets/images/ads728.jpg" alt=""></a>
-                        </div>
                         <blockquote>
-                            <p>Nam facilisis finibus nibh nec bibendum. Morbi eu neque rhoncus, placerat purus eget, aliquet ex. Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit</p>
+                        <p th:text="${news.content}"></p>
                         </blockquote>
-                        <p>Eveniet eius incidunt, molestiae vero quisquam reiciendis cumque placeat corporis asperiores suscipit quam ut rerum similique</p>
-                        <p>In sagittis turpis non eros convallis, a rutrum lorem facilisis. Nullam interdum mi eu sem convallis tincidunt. Pellentesque pellentesque mi vel felis eleifend ornare. Etiam tincidunt id quam at rutrum. Maecenas blandit tincidunt congue. In finibus, sapien ut pharetra pulvinar, libero quam hendrerit mauris, vel dictum ipsum ex ut mi</p>
-                        <h4>Here is the best place to start</h4>
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                <div class="post-img">
-                                    <a href=""><img src="assets/images/category/fashion/4.jpg" alt=""></a>
-                                    <p>This is final match of Rex cup 2019</p>
-                                </div>
-                            </div>
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                <div class="post-img">
-                                    <a href=""><img src="assets/images/category/fashion/1.jpg" alt=""></a>
-                                    <p>This is final match of Rex cup 2019</p>
-                                </div>
-                            </div>
-                        </div>
-                        <p>Nulla vel nibh aliquet, maximus erat at, porttitor ex. Nam facilisis finibus nibh nec bibendum. Morbi eu neque rhoncus, placerat purus eget, aliquet ex. Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit. Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut rhoncus arcu lobortis vel.</p>
-                        <p>Aenean imperdiet euismod sem eget tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut porta sed nulla eget ultrices</p>
-                        <p>Duis sit amet felis nec neque convallis tristique vel tempor nibh. Duis urna nibh, aliquam sed mauris id, porta mollis ex. Maecenas sed nulla nec lorem aliquet consequat sit amet in tortor. Vestibulum at arcu viverra, efficitur velit at, vestibulum quam</p>
-                        <h4>How we started the project in a short time</h4>
-                        <p>Nulla vel nibh aliquet, maximus erat at, porttitor ex. Nam facilisis finibus nibh nec bibendum. Morbi eu neque rhoncus, placerat purus eget, aliquet ex. Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit. Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut rhoncus arcu lobortis vel.</p>
-                        <p>Aenean imperdiet euismod sem eget tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut porta sed nulla eget ultrices</p>
-                        <p>Duis sit amet felis nec neque convallis tristique vel tempor nibh. Duis urna nibh, aliquam sed mauris id, porta mollis ex. Maecenas sed nulla nec lorem aliquet consequat sit amet in tortor. Vestibulum at arcu viverra, efficitur velit at, vestibulum quam</p>
-                        <iframe height="400" src="https://www.youtube.com/embed/t7KFEOiBO6k" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
-                        <p>Aenean imperdiet euismod sem eget tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut porta sed nulla eget ultrices</p>
-                        <p>Duis sit amet felis nec neque convallis tristique vel tempor nibh. Duis urna nibh, aliquam sed mauris id, porta mollis ex. Maecenas sed nulla nec lorem aliquet consequat sit amet in tortor. Vestibulum at arcu viverra, efficitur velit at, vestibulum quam</p>
-                        <p>Nulla vel nibh aliquet, maximus erat at, porttitor ex. Nam facilisis finibus nibh nec bibendum. Morbi eu neque rhoncus, placerat purus eget, aliquet ex. Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit. Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut rhoncus arcu lobortis vel.</p>
-                        <div class="row">
-                            <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                <div class="post-img">
-                                    <a href=""><img src="assets/images/category/fashion/6.jpg" alt=""></a>
-                                    <p>This is final match of Rex cup 2019</p>
-                                </div>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                <a href=""><img src="assets/images/category/fashion/2.jpg" alt=""></a>
-                                <a href=""><img src="assets/images/category/fashion/1.jpg" alt=""></a>
-                            </div>
-                            <div class="col-xl-3 col-lg-3 col-md-3 col-sm-12">
-                                <a href=""><img src="assets/images/category/fashion/7.jpg" alt=""></a>
-                                <a href=""><img src="assets/images/category/fashion/5.jpg" alt=""></a>
-                            </div>
-                        </div>
-                        <p>Nulla vel nibh aliquet, maximus erat at, porttitor ex. Nam facilisis finibus nibh nec bibendum. Morbi eu neque rhoncus, placerat purus eget, aliquet ex. Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit. Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut rhoncus arcu lobortis vel. dictum et consequat non, molestie et nisi. Cras eu sapien velit. Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut rhoncus arcu lobortis vel.</p>
-                        <p>Aenean imperdiet euismod sem eget tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut porta sed nulla eget ultrices</p>
-                        <blockquote>
-                            <p>Nam facilisis finibus nibh nec bibendum. Morbi eu neque rhoncus, placerat purus eget, aliquet ex. Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit</p>
-                        </blockquote>
-                        <div style="padding:56.25% 0 0 0;position:relative; margin-bottom: 30px;"><iframe src="https://player.vimeo.com/video/120757161?color=ffffff&title=0&byline=0&portrait=0" style="position:absolute;top:0;left:0;width:100%;height:100%;" allow="autoplay; fullscreen" allowfullscreen></iframe></div><script src="https://player.vimeo.com/api/player.js"></script>
-                        <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Maiores quia ea est rerum repellat laboriosam sit obcaecati fuga dolores perspiciatis, incidunt amet veritatis sint error tenetur aliquam pariatur. Exercitationem, neque. Lorem, ipsum dolor sit amet consectetur adipisicing elit. Officia nemo, praesentium ullam illo impedit perferendis consequatur quibusdam provident. Tenetur sit adipisci excepturi expedita nam repudiandae ullam atque unde esse dolorum?</p>
-                        <p>Aenean imperdiet euismod sem eget tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut porta sed nulla eget ultrices</p>
-                        <h4>Check out the list of our contents</h4>
-                        <ul>
-                            <li>Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut porta sed nulla eget ultrices</li>
-                            <li>Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit. Morbi urna sapien, cursus eget maximus at, fringilla vitae justo</li>
-                            <li>Duis sit amet felis nec neque convallis tristique vel tempor nibh. Duis urna nibh, aliquam sed mauris id, porta mollis ex. Maecenas sed nulla nec</li>
-                            <li>Duis urna nibh, aliquam sed mauris id, porta mollis ex. Maecenas sed nulla nec lorem aliquet consequat sit amet</li>
-                            <li>Nulla vel nibh aliquet, maximus erat at, porttitor ex. Nam facilisis finibus nibh nec bibendum</li>
-                            <li>Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut</li>
-                            <li>Maecenas sed nulla nec lorem aliquet consequat sit amet in tortor. Vestibulum at arcu viverra</li>
-                        </ul>
-                        <iframe height="166" allow="autoplay" src="https://w.soundcloud.com/player/?url=https%3A//api.soundcloud.com/tracks/679809245&color=%23ff5500&auto_play=false&hide_related=false&show_comments=true&show_user=true&show_reposts=false&show_teaser=true"></iframe>                        
-                        <p>Nulla vel nibh aliquet, maximus erat at, porttitor ex. Nam facilisis finibus nibh nec bibendum. Morbi eu neque rhoncus, placerat purus eget, aliquet ex. Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit. Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut rhoncus arcu lobortis vel.</p>
-                        <p>Aenean imperdiet euismod sem eget tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut porta sed nulla eget ultrices</p>
-                        <p>Duis sit amet felis nec neque convallis tristique vel tempor nibh. Duis urna nibh, aliquam sed mauris id, porta mollis ex. Maecenas sed nulla nec lorem aliquet consequat sit amet in tortor. Vestibulum at arcu viverra, efficitur velit at, vestibulum quam</p>
-                        <h4>Why you will take a moment for start?</h4>
-                        <p>Nulla vel nibh aliquet, maximus erat at, porttitor ex. Nam facilisis finibus nibh nec bibendum. Morbi eu neque rhoncus, placerat purus eget, aliquet ex. Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit. Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut rhoncus arcu lobortis vel.</p>
-                        <p>Aenean imperdiet euismod sem eget tincidunt. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut porta sed nulla eget ultrices</p>
-                        <h4>Things you will do most</h4>
-                        <p>Sem eget tincidunt Aenean imperdiet euismod. Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut porta sed nulla eget ultrices</p>
-                        <p>Porttitor ex. Nam facilisis Nulla vel nibh aliquet, maximus erat at,  finibus nibh nec bibendum. Morbi eu neque rhoncus, placerat purus eget, aliquet ex. Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit. Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut rhoncus arcu lobortis vel.</p>
-                        <ul>
-                            <li>Interdum et malesuada fames ac ante ipsum primis in faucibus. Ut porta sed nulla eget ultrices</li>
-                            <li>Mauris ligula ipsum, dictum et consequat non, molestie et nisi. Cras eu sapien velit. Morbi urna sapien, cursus eget maximus at, fringilla vitae justo</li>
-                            <li>Duis sit amet felis nec neque convallis tristique vel tempor nibh. Duis urna nibh, aliquam sed mauris id, porta mollis ex. Maecenas sed nulla nec</li>
-                            <li>Duis urna nibh, aliquam sed mauris id, porta mollis ex. Maecenas sed nulla nec lorem aliquet consequat sit amet</li>
-                            <li>Nulla vel nibh aliquet, maximus erat at, porttitor ex. Nam facilisis finibus nibh nec bibendum</li>
-                            <li>Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut</li>
-                            <li>Maecenas sed nulla nec lorem aliquet consequat sit amet in tortor. Vestibulum at arcu viverra</li>
-                        </ul>
-                        <div class="share">
-                            <span>Share:</span>
-                            <a href="" class="facebook-bg"><i class="fa fa-facebook"></i>1.3K+</a>
-                            <a href="" class="twitter-bg"><i class="fa fa-twitter"></i>2.5K+</a>
-                            <a href="" class="linkedin-bg"><i class="fa fa-linkedin"></i>1.1K+</a>
-                            <a href="" class="instagram-bg"><i class="fa fa-instagram"></i>3.3K+</a>
-                        </div>
+                        <p th:utext="${news.contentHtml}"></p>
                         <div class="author">
                             <div class="row">
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
                                     <a href="">
-                                        <img src="assets/images/author.png" alt="">
+                                        <img :src="author.userIcon" alt="" style="width: 120px;height: 120px">
                                     </a>
                                 </div>
                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-                                    <h3><a href="">Ridoy Rajoan</a></h3>
-                                    <p>Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut</p>
+                                    <h3><a>作者:{{author.name}}</a></h3>
+                                    <p>{{author.talk}}</p>
                                     <div class="social">
-                                        <a href="" class="facebook-bg"><i class="fa fa-facebook"></i></a>
-                                        <a href="" class="twitter-bg"><i class="fa fa-twitter"></i></a>
-                                        <a href="" class="instagram-bg"><i class="fa fa-instagram"></i></a>
-                                        <a href="" class="pinterest-bg"><i class="fa fa-pinterest-p"></i></a>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="related-post mb-50">
-                            <h4>Related Post</h4>
-                            <div class="row">
-                                <div class="col-xl-5">
-                                    <div class="single-post">
-                                        <a href=""><img src="assets/images/post/5.jpg" alt=""></a>
-                                        <div class="post-inside-content">
-                                            <div class="category-tag"><a href="" class="mint-bg">News</a></div>
-                                            <h2><a href="">Impressive business got raised</a></h2>
-                                            <div class="post-meta">
-                                                <a href="" class="date">September 4, 2019</a>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-xl-5 offset-xl-2">
-                                    <div class="single-post">
-                                        <a href=""><img src="assets/images/post/7.jpg" alt=""></a>
-                                        <div class="post-inside-content">
-                                            <div class="category-tag"><a href="" class="yellow-bg">Sports</a></div>
-                                            <h2><a href="">Impressive business got raised</a></h2>
-                                            <div class="post-meta">
-                                                <a href="" class="date">September 4, 2019</a>
-                                            </div>
-                                        </div>
+                                        <a class="facebook-bg"><i class="fa fa-facebook"></i></a>
+                                        <a class="twitter-bg"><i class="fa fa-twitter"></i></a>
+                                        <a class="instagram-bg"><i class="fa fa-instagram"></i></a>
+                                        <a class="pinterest-bg"><i class="fa fa-pinterest-p"></i></a>
                                     </div>
                                 </div>
                             </div>
                         </div>
                         <div class="posted-comments">
-                            <h4>All Comments</h4>
-                            <div class="comment-block">
-                                <div class="single-comment">
-                                    <div class="row">
+                            <h4>所有评论</h4>
+                            <div class="comment-block" v-for="(item, index) in commentsList" v-if="index < loadMore">
+                                <div class="single-comment" >
+                                    <div class="row" >
                                         <div class="col-xl-2 col-lg-2 col-md-3 col-sm-3">
                                             <a href="">
-                                                <img src="assets/images/commenter1.png" alt="">
+                                                <img :src="item.icon" alt="" style="width: 70px;height: 70px">
                                             </a>
                                         </div>
                                         <div class="col-xl-10 col-lg-10 col-md-9 col-sm-9">
-                                            <h3><a href="">Mark Don</a></h3>
-                                            <p>Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut</p>
-                                            <div class="reply"><a href="">Reply</a></div>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="single-comment">
-                                    <div class="row">
-                                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-3">
-                                            <a href="">
-                                                <img src="assets/images/commenter2.png" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="col-xl-10 col-lg-10 col-md-9 col-sm-9">
-                                            <h3><a href="">Thomas pall</a></h3>
-                                            <p>Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut</p>
-                                            <div class="reply"><a href="">Reply</a></div>
+                                            <h3><i class="el-icon-user">{{item.username}}</i></h3>
+                                            <p>{{item.details}}</p>
+                                            <div ><i class="el-icon-date"></i><span>&nbsp;&nbsp;{{item.commentDate}}</span></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="comment-block">
-                                <div class="single-comment">
-                                    <div class="row">
-                                        <div class="col-xl-2 col-lg-2 col-md-3 col-sm-3">
-                                            <a href="">
-                                                <img src="assets/images/commenter3.png" alt="">
-                                            </a>
-                                        </div>
-                                        <div class="col-xl-10 col-lg-10 col-md-9 col-sm-9">
-                                            <h3><a href="">Alen rob</a></h3>
-                                            <p>Morbi urna sapien, cursus eget maximus at, fringilla vitae justo. Aliquam tincidunt finibus tempus. Fusce commodo sapien orci, ut</p>
-                                            <div class="reply"><a href="">Reply</a></div>
-                                        </div>
-                                    </div>
+                            <div class="row single-post-2">
+                                <div class="col-xl-12" v-if="loadMore <= commentsList.length">
+                                    <a @click="loadMore = loadMore + 6" class="bttn-mid btn-fill w-100 centered">加载更多</a>
+                                </div>
+                                <div class="col-xl-12" v-if="commentsList.length > 6 && loadMore > commentsList.length">
+                                    <a @click="loadMore = 6" class="bttn-mid btn-fill w-100 centered">没有更多啦!是否收起?</a>
                                 </div>
                             </div>
                         </div>
-                        <div class="comment-form">
-                            <h4>Leave your comment</h4>
-                            <form action="#" class="row">
-                                <div class="col-xl-4">
-                                    <input type="text" placeholder="Name*" required>
-                                </div>
-                                <div class="col-xl-4">
-                                    <input type="email" placeholder="Email*" required>
-                                </div>
-                                <div class="col-xl-4">
-                                    <input type="url" placeholder="Website">
-                                </div>
-                                <div class="col-xl-12">
-                                    <textarea name="meg"  rows="5" placeholder="Your comment"></textarea>
-                                </div>
-                                <div class="col-xl-4">
-                                    <button type="submit" class="bttn-mid btn-fill">Post Comment</button>
-                                </div>
-                            </form>
+                        <input type="hidden" th:value="${news.id}" id="newsId"/>
+                        <input type="hidden" th:value="${news.userId}" id="userId"/>
+                        <div class="comment-form" v-if="isLogin()">
+                            <h4>留下你的评论</h4>
+                            <el-form :model="comment" :rules="rules"  label-width="100%" ref="commentForm">
+                                <el-form-item prop="userDetails" label-width="auto">
+                                    <el-input  type="textarea" :autosize="{ minRows: 2, maxRows: 4}" v-model="comment.userDetails" placeholder="请文明留言!"></el-input>
+                                </el-form-item>
+                                <el-form-item label-width="auto">
+                                    <button type="button" class="bttn-mid btn-fill" @click="sendComment('commentForm')">发送评论</button>
+                                </el-form-item>
+                            </el-form>
                         </div>
                     </div>
                 </div>
@@ -484,138 +142,108 @@
         </div>
     </section><!--/Content Section-->
 
-    <!--Footer Area-->
-    <footer class="footer-area section-padding-2 dark-overlay" style="background: url('assets/images/footer.jpg') no-repeat center / cover;">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer-widget">
-                        <a href="" class="footer-logo"><img src="assets/images/logo-2.png" alt=""></a>
-                        <p>Surrounded to me occasional pianoforte alteration unaffected impossible ye. For saw half than cold. Pretty merits waited six talked  alteration unaffected impossible ye. For saw half than cold. Pretty merits waited</p>
-                        <div class="social">
-                            <a href="" class="cl-facebook"><i class="fa fa-facebook"></i></a>
-                            <a href="" class="cl-twitter"><i class="fa fa-twitter"></i></a>
-                            <a href="" class="cl-youtube"><i class="fa fa-youtube-play"></i></a>
-                            <a href="" class="cl-pinterest"><i class="fa fa-pinterest-p"></i></a>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer-widget">
-                        <h3>Lastest News</h3>
-                        <div class="single-list-post">
-                            <div class="list-post-img">
-                                <a href=""><img src="assets/images/post/5.jpg" alt=""></a>
-                            </div>
-                            <div class="list-post-content">
-                                <a href="" class="cl-mint">Business</a>
-                                <h4><a href="">See the live on the field the live on the</a></h4>
-                                <div class="post-date">September 4, 2019</div>
-                            </div>
-                        </div>
-                        <div class="single-list-post">
-                            <div class="list-post-img">
-                                <a href=""><img src="assets/images/post/4.jpg" alt=""></a>
-                            </div>
-                            <div class="list-post-content">
-                                <a href="" class="cl-primary">Politics</a>
-                                <h4><a href="">See the live on the field the live on the</a></h4>
-                                <div class="post-date">September 4, 2019</div>
-                            </div>
-                        </div>
-                        <div class="single-list-post">
-                            <div class="list-post-img">
-                                <a href=""><img src="assets/images/post/3.jpg" alt=""></a>
-                            </div>
-                            <div class="list-post-content">
-                                <a href="" class="cl-yellow">Nature</a>
-                                <h4><a href="">See the live on the field the live on the</a></h4>
-                                <div class="post-date">September 4, 2019</div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer-widget">
-                        <h3>quick link</h3>
-                        <div class="single-quick-link">
-                            <div class="category-tag">
-                                <a href="" class="cl-yellow">Sports</a>
-                            </div>
-                            <h4><a href="">Let's start playing football togather in that field It is a long established fact</a></h4>
-                        </div>
-                        <div class="single-quick-link">
-                            <div class="category-tag">
-                                <a href="" class="cl-primary">Fashion</a>
-                            </div>
-                            <h4><a href="">Let's start playing football togather in that field It is a long established fact</a></h4>
-                        </div>
-                        <div class="single-quick-link">
-                            <div class="category-tag">
-                                <a href="" class="cl-mint">Spa</a>
-                            </div>
-                            <h4><a href="">Let's start playing football togather in that field It is a long established fact</a></h4>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-6 col-sm-6">
-                    <div class="footer-widget">
-                        <h3>Categories</h3>
-                        <div class="site-category">
-                            <ul>
-                                <li><a href="">World Politics</a> <span>52</span></li>
-                                <li><a href="">Sports</a> <span>15</span></li>
-                                <li><a href="">Technology</a> <span>48</span></li>
-                                <li><a href="">Science</a> <span>36</span></li>
-                                <li><a href="">History</a> <span>54</span></li>
-                                <li><a href="">Globalization</a> <span>32</span></li>
-                            </ul>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </footer><!--/Footer Area-->
-
-    <!--Copyright-->
-    <div class="copyright">
-        <div class="container">
-            <div class="row">
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                    <p>&copy;Copyright 2019 <a href="http://www.bootstrapmb.com/">Meverex</a>.</p>
-                </div>
-                <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                    <ul>
-                        <li><a href="">Disclaimer</a></li>
-                        <li><a href="">Privacy</a></li>
-                        <li><a href="">Advertisement</a></li>
-                        <li><a href="">Contact us</a></li>
-                    </ul>
-                </div>
-            </div>
-        </div>
-    </div><!--Copyright-->
+    <div th:replace="foot.html"></div>
+</div>
 
 
-
-    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-    <script src="assets/js/jquery-3.2.1.min.js"></script>
-    <script src="assets/js/jquery-migrate.js"></script>
-
-    <script src="assets/js/popper.js"></script>
-    <script src="http://cdn.bootstrapmb.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
-    <script src="assets/js/owl.carousel.min.js"></script>
-
-    <script src="assets/js/magnific-popup.min.js"></script>
-    <script src="assets/js/imagesloaded.pkgd.min.js"></script>
-    <script src="assets/js/isotope.pkgd.min.js"></script>
-    
-    <script src="assets/js/waypoints.min.js"></script>
-    <script src="assets/js/jquery.counterup.min.js"></script>
-    <script src="assets/js/wow.min.js"></script>
-    <script src="assets/js/scrollUp.min.js"></script>
-
-    <script src="assets/js/plugin.js"></script>
-    <script src="assets/js/script.js"></script>
+<div th:replace="js.html"></div>
 </body>
+<script>
+    new Vue({
+        el: '#app',
+        data() {
+            return {
+                newsId: '',
+                userId: '',
+                commentsList: [],//当前新闻下的所有评论
+                author: {},
+                title: '',
+                name: '',
+                loading: false,
+                loadMore: 6,
+                comment: {
+                    name: '',//用户名
+                    userDetails: '',//评论内容
+                    newsId: ''
+                },
+                rules: {
+                    userDetails: [
+                        {required: true, message: '请输入评论!', trigger: 'blur'},
+                        {min: 5, max: 255, message: '长度在1-255之间', trigger: 'blur'}
+                    ]
+                }
+            }
+        },
+        created() {
+            this.newsId = document.getElementById("newsId").value;
+            this.userId = document.getElementById("userId").value;
+            this.fetchData(this.newsId, this.userId);
+        },
+        methods: {
+            fetchData(newsId, userId) {
+                this.fetchComment(newsId);
+                axios.get('/news/author/'+userId).then(response => {
+                    this.author = response.data.data;
+                });
+                if (this.isLogin()) {
+                    this.name = localStorage.getItem("name");
+                }
+            },
+            fetchComment(newsId) {
+                axios.get('/news/comments/'+newsId).then(response => {
+                    this.commentsList = response.data.data;
+                });
+            },
+            search() {
+                window.location.href = '/news/search/front/' + this.title;
+            },
+            isLogin() {
+                return localStorage.getItem('token') !== null;
+            },
+            logout() {
+                axios.post('/front/logout', {access_token: localStorage.getItem('token')},{
+                    headers: {
+                        "Authorization": 'Bearer ' + localStorage.getItem("token")
+                    }
+                });
+                localStorage.removeItem("token");
+                window.location.reload();
+            },
+            sendComment(commentForm) {
+                this.$refs[commentForm].validate((valid) => {
+                    if (valid) {
+                        this.comment.name = localStorage.getItem("name");
+                        this.comment.newsId = this.newsId;
+                        axios.post('/post/createComment', this.comment,
+                            {
+                                headers: {
+                                    "Authorization": 'Bearer ' + localStorage.getItem("token")
+                                }
+                            }
+                        ).then(response => {
+                            if (response.data.code === 20000) {
+                                this.fetchComment(this.newsId);
+                                this.$notify({
+                                    title: '成功',
+                                    message: '评论成功',
+                                    type: 'success',
+                                    duration: 5*1000
+                                });
+                            } else {
+                                this.$notify({
+                                    title: '失败',
+                                    message: '评论失败',
+                                    type: 'error',
+                                    duration: 5*1000
+                                });
+                            }
+                        })
+                    } else {
+                        return false;
+                    }
+                });
+            }
+        }
+    })
+</script>
 </html>

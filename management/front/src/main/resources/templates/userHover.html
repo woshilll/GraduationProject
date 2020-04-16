@@ -1,0 +1,34 @@
+
+<el-popover
+        placement="top-start"
+        width="298"
+        trigger="hover"
+        :open-delay="1000">
+    <el-row :gutter="2">
+        <el-col :span="6">
+            <div align="center">
+                <el-avatar :size="56"
+                           :src="item.userIcon">
+                </el-avatar>
+            </div>
+        </el-col>
+        <el-col :span="16">
+            <div style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;margin-top: 5px;color: #303133">
+                昵称:{{item.nickName}}
+            </div>
+            <div style="overflow: hidden;white-space: nowrap;text-overflow: ellipsis;margin-top: 10px;color: #303133" :show-overflow-tooltip="true">
+                个性签名:{{item.talk}}
+            </div>
+
+        </el-col>
+    </el-row>
+    <el-divider></el-divider>
+    <el-row :gutter="2">
+        <el-col :span="16">
+        </el-col>
+        <el-col :span="6">
+            <el-link :underline="false" type="primary" href="#" v-if="item.authorStatus !== 2">访问主页</el-link>
+        </el-col>
+    </el-row>
+    <a class="author" slot="reference">{{item.authorName}}</a>
+</el-popover>

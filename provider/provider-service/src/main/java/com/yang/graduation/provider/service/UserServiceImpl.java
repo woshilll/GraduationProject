@@ -2,6 +2,9 @@ package com.yang.graduation.provider.service;
 
 import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.commons.domain.User;
+import com.yang.graduation.commons.domain.dto.UserHoverDto;
+import com.yang.graduation.commons.mapper.NewsCommentMapper;
+import com.yang.graduation.commons.mapper.NewsLikeMapper;
 import com.yang.graduation.commons.mapper.UserMapper;
 import com.yang.graduation.provider.api.UserService;
 import com.yang.graduation.provider.util.IdWorker;
@@ -29,6 +32,10 @@ public class UserServiceImpl implements UserService {
 
     @Resource
     private IdWorker idWorker;
+    @Resource
+    private NewsLikeMapper newsLikeMapper;
+    @Resource
+    private NewsCommentMapper newsCommentMapper;
 
     /**
      * 注册用户
@@ -143,11 +150,30 @@ public class UserServiceImpl implements UserService {
         userMapper.updateByPrimaryKeySelective(user);
     }
 
+    @Override
+    public User getById(String id) {
+        return userMapper.selectByPrimaryKey(id);
+    }
+
+    @Override
+    public UserHoverDto getUserHoverDto(String name) {
+        User user = getUser(name);
+        UserHoverDto userHoverDto = new UserHoverDto();
+        userHoverDto.setId(user.getId());
+        userHoverDto.setNickName(user.getNickName());
+        userHoverDto.setIcon(user.getUserIcon());
+        userHoverDto.setStatus(user.getBanned());
+        userHoverDto.setGetCommentCount(newsCommentMapper.getCommentCountByNewsAuthorId(user.getId()));
+        userHoverDto.setGetLikeCount(newsLikeMapper.getLikeCountByNewsAuthorId(user.getId()));
+        return userHoverDto;
+    }
+
     private void initUser(User user) {
         //设置雪花分布式id
         user.setId(idWorker.nextId() + "");
         user.setRegistTime(new Date());
         user.setLastLoginTime(new Date());
+        user.setNickName(user.getName());
         user.setBanned(0);
         user.setPassword(passwordEncoder.encode(user.getPassword()));
     }

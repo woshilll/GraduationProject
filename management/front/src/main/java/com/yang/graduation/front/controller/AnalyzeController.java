@@ -27,7 +27,7 @@ public class AnalyzeController {
      */
     @GetMapping("/categoryNewsCount")
     public ResponseResult<List<CategoryNewsCountParam>> analyzeCategoryNewsCount() {
-        List<CategoryNewsCountParam> categoryNewsCountParamList = analyzeService.analyzeCategoryNewsCountParam();
+        List<CategoryNewsCountParam> categoryNewsCountParamList = analyzeService.analyzeCategoryNewsCountParam2();
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "查询成功!", categoryNewsCountParamList);
     }
 }

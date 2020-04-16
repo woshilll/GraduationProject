@@ -26,6 +26,12 @@ public interface AnalyzeService {
     List<CategoryNewsCountParam> analyzeCategoryNewsCountParam();
 
     /**
+     * 分析每个分类下新闻的数量 未删除和状态为1
+     * @return {@link List<CategoryNewsCountParam>}
+     */
+    List<CategoryNewsCountParam> analyzeCategoryNewsCountParam2();
+
+    /**
      * 分析每个分类下点赞和评论数
      * @return {@link List<CommentAndLikeParam>}
      */

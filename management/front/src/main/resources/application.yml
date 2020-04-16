@@ -27,16 +27,6 @@ dubbo:
     serialization: kryo
   registry:
     address: nacos://10.211.55.34:8848
-
-#security:
-#  oauth2:
-#    client:
-#      client-id: client
-#      client-secret: secret
-#      access-token-uri: http://localhost:9200/oauth/token
-#      user-authorization-uri: http://localhost:9200/oauth/authorize
-#    resource:
-#      token-info-uri: http://localhost:9200/oauth/check_token
 server:
   # ${random.int[9000,9999]} 随机端口
   port: 9300

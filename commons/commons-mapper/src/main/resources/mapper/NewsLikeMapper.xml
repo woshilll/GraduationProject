@@ -7,5 +7,15 @@
     <result column="user_id" jdbcType="VARCHAR" property="userId" />
     <result column="like_time" jdbcType="TIMESTAMP" property="likeTime" />
   </resultMap>
+  <select id="getLikeCountByNewsAuthorId" resultType="java.lang.Integer">
+select count(*)
+from news_like
+where news_id in
+      (select news.id as newsId
+       from news
+       where user_id = #{id}
+         and is_delete = 0
+         and status = 1)
+  </select>
 
 </mapper>

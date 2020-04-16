@@ -4,6 +4,7 @@ package com.yang.graduation.commons.mapper;
 import com.yang.graduation.commons.domain.News;
 import com.yang.graduation.commons.domain.NewsParam;
 import com.yang.graduation.commons.tk.mybatis.MyMapper;
+import org.apache.ibatis.annotations.Param;
 
 import java.util.List;
 import java.util.Map;
@@ -59,4 +60,17 @@ public interface NewsMapper extends MyMapper<News> {
      * @return
      */
     List<NewsParam> adminPost4();
+    /**
+     * 通过分类查找到分类下所有新闻
+     * @param categoryId
+     * @return
+     */
+    List<NewsParam> getNewsByCategory(@Param("categoryId") Integer categoryId);
+
+    /**
+     * 通过标题查找新闻
+     * @param title
+     * @return
+     */
+    List<NewsParam> search(@Param("title") String title);
 }

@@ -3,6 +3,7 @@ package com.yang.graduation.provider.api;
 import com.yang.graduation.commons.domain.News;
 import com.yang.graduation.commons.domain.NewsParam;
 import com.yang.graduation.commons.domain.PageInfo;
+import com.yang.graduation.commons.domain.dto.UserHoverDto;
 
 import java.util.List;
 import java.util.Map;
@@ -77,4 +78,18 @@ public interface NewsService {
      * @return
      */
     List<NewsParam> adminPost4();
+
+    /**
+     * 通过分类查找到分类下所有新闻
+     * @param categoryId
+     * @return
+     */
+    List<NewsParam> getNewsByCategory(Integer categoryId);
+
+    /**
+     * 通过标题查找新闻
+     * @param title
+     * @return
+     */
+    List<NewsParam> search(String title);
 }

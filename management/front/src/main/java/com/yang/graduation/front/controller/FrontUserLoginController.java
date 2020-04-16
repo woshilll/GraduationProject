@@ -82,6 +82,7 @@ public class FrontUserLoginController {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        result.put("name", userDetails.getUsername());
         //设置登录时间
         userService.updateLoginTime(userDetails.getUsername());
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "登录成功!", result);
@@ -90,15 +91,12 @@ public class FrontUserLoginController {
     /**
      * 用户注销
      *
-     * @param request {@link HttpServletRequest}
      * @return {@link ResponseResult}
      */
     @PostMapping("/front/logout")
-    public ResponseResult<Void> logout(HttpServletRequest request) {
-        //获取token
-        String accessToken = request.getParameter("access_token");
+    public ResponseResult<Void> logout(@RequestBody String  access_token) {
         //删除token 注销
-        OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(accessToken);
+        OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(access_token);
         tokenStore.removeAccessToken(oAuth2AccessToken);
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "用户已注销");
     }

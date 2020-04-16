@@ -11,6 +11,7 @@ import java.io.Serializable;
  */
 @Data
 public class CategoryNewsCountParam implements Serializable {
+    private String categoryId;
     /**
      * 分类名
      */

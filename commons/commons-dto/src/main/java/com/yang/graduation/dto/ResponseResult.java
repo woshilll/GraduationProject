@@ -168,5 +168,9 @@ public class ResponseResult<T> implements Serializable {
          * 新增失败
          */
         public static final Integer INSERT_FAIL = 50006;
+        /**
+         * 失败
+         */
+        public static final Integer FAIL = 50007;
     }
 }

@@ -65,6 +65,15 @@ public class AnalyzeServiceImpl implements AnalyzeService {
     }
 
     /**
+     * 分析每个分类下新闻的数量 未删除和状态为1
+     * @return {@link List<CategoryNewsCountParam>}
+     */
+    @Override
+    public List<CategoryNewsCountParam> analyzeCategoryNewsCountParam2() {
+        return newsCategoryMapper.categoryNewsCount2();
+    }
+
+    /**
      * 分析每个分类下评论数和点赞数
      * @return {@link List<CommentAndLikeParam>}
      */

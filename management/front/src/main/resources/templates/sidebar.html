@@ -1,0 +1,60 @@
+<div class="single-sidebar">
+    <div class="section-title">
+        <h3><a>新闻分类</a></h3>
+    </div>
+    <div class="site-category">
+        <ul>
+            <li v-for="item in categoryNewsCountParam"><a
+                    :href="'/category/' + item.categoryId">{{item.categoryName}}</a> <span>{{item.newsCount}}</span>
+            </li>
+        </ul>
+    </div>
+</div>
+<div class="single-sidebar">
+    <div class="section-title">
+        <h3><a>最新新闻</a></h3>
+    </div>
+    <div class="sidebar-content">
+        <div class="tab-content" id="pills-tabContent3">
+            <div class="tab-pane fade show active" id="pills-home" role="tabpanel"
+                 aria-labelledby="pills-home-tab">
+                <div class="single-list-post" v-for="item in least4">
+                    <div class="list-post-img">
+                        <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""></a>
+                    </div>
+                    <div class="list-post-content">
+                        <a :href="'/news/post/' + item.id" class="cl-mint">{{item.title}}</a>
+                        <h4><a>{{item.content}}</a></h4>
+                        <h4><a :href="'/news/post/' + item.id">
+                            {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
+                        </a></h4>
+                        <div class="post-date">{{item.postTime}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="single-sidebar">
+    <div class="section-title">
+        <h3><a href="">快速链接</a></h3>
+    </div>
+    <div class="single-quick-link">
+        <div class="category-tag">
+            <a href="/category/1" class="cl-green">推荐</a>
+        </div>
+        <h4><a href="/category/1">推送每日热点新闻</a></h4>
+    </div>
+    <div class="single-quick-link">
+        <div class="category-tag">
+            <a href="/category/2" class="cl-mint">要闻</a>
+        </div>
+        <h4><a href="/category/2">你想到的要闻就在这里</a></h4>
+    </div>
+    <div class="single-quick-link">
+        <div class="category-tag">
+            <a href="/category/3" class="cl-blue">综合</a>
+        </div>
+        <h4><a href="/category/3">就是一盘大杂烩</a></h4>
+    </div>
+</div>
