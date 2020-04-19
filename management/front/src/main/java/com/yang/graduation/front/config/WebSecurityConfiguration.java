@@ -62,6 +62,6 @@ public class WebSecurityConfiguration extends WebSecurityConfigurerAdapter {
                 .and()
                 .authorizeRequests()
                 //增加授权访问配置
-                .antMatchers("/front/logout", "/post/**", "/profile/**").hasAuthority("USER");
+                .antMatchers("/front/logout", "/post/**", "/profile/**", "/upload/**").hasAuthority("USER");
     }
 }

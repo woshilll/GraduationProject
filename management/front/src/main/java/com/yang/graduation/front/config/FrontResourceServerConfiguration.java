@@ -19,12 +19,13 @@ import org.springframework.security.oauth2.config.annotation.web.configurers.Res
 public class FrontResourceServerConfiguration extends ResourceServerConfigurerAdapter {
     @Override
     public void configure(HttpSecurity http) throws Exception {
+        http.authorizeRequests().and().headers().frameOptions().disable();
         http.exceptionHandling()
                 .and()
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/front/logout", "/post/**", "/profile/**").hasAuthority("USER");
+                .antMatchers("/front/logout", "/post/**", "/profile/**", "/upload/**").hasAuthority("USER");
     }
 
     @Override

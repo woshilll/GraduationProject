@@ -41,6 +41,13 @@ spring:
             - Path=/api/upload/**
           filters:
             - StripPrefix=1
+        # OSS上传
+        - id: ALIYUN-OSS-FRONT
+          uri: lb://aliyun-oss-front
+          predicates:
+            - Path=/api/front/upload/**
+          filters:
+            - StripPrefix=2
 
 
 

@@ -22,6 +22,7 @@
         <module>management</module>
         <module>gateway</module>
         <module>aliyun-oss</module>
+        <module>aliyun-oss-front</module>
     </modules>
 
     <properties>

@@ -119,4 +119,18 @@ public interface NewsService {
      * @return
      */
     List<News> selectAllByUserId(String id);
+
+    /**
+     * 用户id下所有未审核
+     * @param id
+     * @return
+     */
+    List<News> unReviewed(String id);
+    /**
+     * 用户id下所有审核不通过
+     * @param id
+     * @return
+     */
+    List<News> reviewedFail(String id);
+
 }

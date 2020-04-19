@@ -1,0 +1,762 @@
+<!DOCTYPE html>
+
+<html class="no-js" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+
+
+    <link rel="shortcut icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
+
+    <title>个人中心</title>
+    <link href="/static/assets/css/jquery-ui.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://unpkg.com/element-ui/lib/theme-chalk/index.css">
+
+    <link rel="stylesheet" href="/static/assets/profile/output.css">
+    <style>
+        [v-cloak] {
+            display: none;
+        }
+
+        /*.my-bg-color >>> .el-collapse-item .el-collapse-item__header {*/
+        /*    background-color: #eaf1f7 !important;*/
+        /*    border-bottom: none !important;*/
+        /*}*/
+        .el-collapse-item__header {
+            display: -webkit-box;
+            display: -ms-flexbox;
+            display: flex;
+            -webkit-box-align: center;
+            -ms-flex-align: center;
+            align-items: center;
+            height: 48px;
+            line-height: 48px;
+            background-color: #eaf1f7;
+            color: #303133;
+            cursor: pointer;
+            border-bottom: 1px solid #eaf1f7;
+            font-size: 13px;
+            font-weight: 500;
+            -webkit-transition: border-bottom-color .3s;
+            transition: border-bottom-color .3s;
+            outline: 0;
+        }
+        .is-active {
+            border-bottom-color: transparent;
+        }
+        .el-collapse-item__content {
+            padding-bottom: 25px;
+            background-color: #eaf1f7;
+            font-size: 13px;
+            color: #303133;
+            line-height: 1.769230769230769;
+        }
+    </style>
+</head>
+<body class="bg-grey-lighter font-sans antialiased">
+<!--header-->
+<!-- Main -->
+<div class="flex" id="app" v-cloak
+     v-loading="loading"
+     :element-loading-text="loadingText"
+     element-loading-spinner="el-icon-loading">
+    <!-- Content -->
+    <div class="flex flex-1 flex-col md:px-6 pt-10" id="content">
+        <!-- Title -->
+        <div class="px-6 md:px-0 flex justify-between items-center -order-1">
+            <div>
+                <h2 class="font-normal">个人中心</h2>
+                <p class="text-grey-dark mt-2">最近发表</p>
+            </div>
+            <button @click="showNews"
+                    class="bg-indigo-dark hover:bg-indigo-darker text-white text-sm py-2 px-4 rounded-full transition-normal hover:shadow hover:translate-y-1 active:translate-y-1 focus:outline-none">
+                发布文章
+            </button>
+        </div>
+        <!-- Desktop Stats -->
+        <div class="hidden px-6 md:px-0 mt-4 md:flex flex-wrap order-1 md:-order-1 md:shadow-md js-tab-pane"
+             id="section-stats">
+            <div class="p-4 px-6 w-full md:w-1/2 rounded md:rounded-r-none bg-white shadow-md md:shadow-none">
+                <h4>你最近发表的三篇文章</h4>
+                <table class="mt-4 w-full">
+                    <thead class="p-2 text-sm leading-loose border-b text-indigo">
+                    <tr>
+                        <td>文章名</td>
+                        <td class="text-center">评论数</td>
+                        <td class="text-right">点赞数</td>
+                    </tr>
+                    </thead>
+                    <tbody class="p-2 leading-loose text-sm">
+                    <tr class="border-b" v-if="likeMost3.length === 0">
+                        <td class="py-2" colspan="3">还没有发表文章呢,快去发表吧</td>
+                    </tr>
+                    <tr class="border-b" v-for="item in likeMost3">
+                        <td class="py-2">
+                            <el-link :underline="false" :href="'/news/post/' + item.id">{{item.title}}</el-link>
+                        </td>
+                        <td class="py-2 text-center">{{item.commentCount}}</td>
+                        <td class="py-2 text-right">{{item.likeCount}}</td>
+                    </tr>
+                    </tbody>
+                </table>
+            </div>
+            <div class="w-full md:w-1/2 p-4 md:pt-12 md:pl-1 mt-4 md:mt-0 lg:pt-12 lg:pl-8 rounded md:rounded-r-none bg-white shadow-md md:shadow-none">
+                <div class="flex">
+                    <div class="w-1/2">
+                        <p class="text-indigo text-sm p-2">评论最多的文章</p>
+                        <p class="font-medium text-sm pl-2">
+                            <el-link :underline="false"
+                                     :href="commentMost !== null ? '/news/post/' + commentMost.id : '#'">
+                                {{commentMost !== null ? commentMost.title : '暂无文章诶'}}
+                            </el-link>
+                        </p>
+                    </div>
+                    <div class="w-1/2">
+                        <p class="text-indigo text-sm p-2">一共发表的文章</p>
+                        <p class="font-medium text-sm pl-2">{{allNews.length}}</p>
+                    </div>
+                </div>
+                <div class="pt-6">
+                    <p class="text-indigo text-sm p-2">点赞最多的文章</p>
+                    <p class="font-medium text-sm pl-2 leading-normal">
+                        <el-link :underline="false" :href="likeMost !== null ? '/news/post/' + likeMost.id : '#'">
+                            {{likeMost !== null ? likeMost.title : '暂无文章诶'}}
+                        </el-link>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!-- Filter -->
+        <div class="px-6 md:px-0 flex items-baseline justify-between border-b-2 border-grey-light mt-6 order-0 lg:order-1">
+            <h4 class="hidden md:inline-block text-grey-dark font-normal">文章</h4>
+            <div>
+                <div class="inline-block md:hidden no-underline border-indigo pb-2 px-2 text-sm mr-2 text-indigo-darkest hover:cursor-pointer js-tab relative"
+                     data-tab="section-stats">Stats
+                </div>
+                <div class="no-underline inline-block border-indigo pb-2 px-2 text-sm mr-2 text-indigo-darkest hover:cursor-pointer js-tab active relative"
+                     data-tab="already-published">已发表 <span class="text-indigo text-xs">({{allNews.length}})</span>
+                </div>
+                <div class="no-underline inline-block border-indigo pb-2 px-2 text-sm mr-2 text-indigo-darkest hover:cursor-pointer js-tab relative"
+                     data-tab="un-reviewed">未审核 <span class="text-indigo text-xs">({{unReviewed.length}})</span></div>
+                <div class="no-underline inline-block border-indigo pb-2 px-2 text-sm mr-2 text-indigo-darkest hover:cursor-pointer js-tab relative"
+                     data-tab="reviewed-fail">审核失败 <span class="text-indigo text-xs">({{reviewedFail.length}})</span>
+                </div>
+            </div>
+        </div>
+        <!-- already-published -->
+        <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane active" id="already-published">
+            <div class="flex flex-row sm:flex-col items-center sm:items-start w-full xs:w-1/2 sm:w-1/3 md:w-1/5 p-4 js-book"
+                 v-for="item in allNews">
+                <el-link :underline="false" :href="'/news/post/' + item.id">
+                    <img :src="item.image" alt="点击转到新闻页"
+                         class="w-1/3 sm:w-full shadow-md transition-normal hover:brighter hover:translate-y-1 hover:shadow-lg hover:border-indigo">
+                </el-link>
+                <div class="ml-3 sm:ml-0 w-2/3 sm:w-full">
+                    <p class="text-sm my-2 font-medium sm:font-normal">
+                        <el-link :underline="false" :href="'/news/post/' + item.id">{{item.title}}</el-link>
+                    </p>
+                    <p class="block sm:hidden mt-2 mb-3 text-sm leading-medium">{{item.content}}</p>
+                </div>
+            </div>
+        </div>
+        <!--un-reviewed-->
+        <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane" id="un-reviewed">
+            <div class="flex flex-row sm:flex-col items-center sm:items-start w-full xs:w-1/2 sm:w-1/3 md:w-1/5 p-4 js-book"
+                 v-for="item in unReviewed">
+                <el-link :underline="false" @click="updateNewsDialog(item)">
+                    <img :src="item.image" alt=""
+                         class="w-1/3 sm:w-full shadow-md transition-normal hover:brighter hover:translate-y-1 hover:shadow-lg hover:border-indigo">
+                </el-link>
+                <div class="ml-3 sm:ml-0 w-2/3 sm:w-full">
+                    <p class="text-sm my-2 font-medium sm:font-normal">
+                        <el-link :underline="false" @click="updateNewsDialog(item)">{{item.title}}</el-link>
+                    </p>
+                </div>
+            </div>
+        </div>
+        <!--reviewed-fail-->
+        <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane" id="reviewed-fail">
+            <div class="flex flex-row sm:flex-col items-center sm:items-start w-full xs:w-1/2 sm:w-1/3 md:w-1/5 p-4 js-book"
+                 v-for="item in reviewedFail">
+                <el-link :underline="false" @click="updateNewsDialog(item)">
+                    <img :src="item.image" alt=""
+                         class="w-1/3 sm:w-full shadow-md transition-normal hover:brighter hover:translate-y-1 hover:shadow-lg hover:border-indigo">
+                </el-link>
+                <div class="ml-3 sm:ml-0 w-2/3 sm:w-full">
+                    <p class="text-sm my-2 font-medium sm:font-normal">
+                        <el-link :underline="false" @click="updateNewsDialog(item)">{{item.title}}</el-link>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- Profile -->
+    <div class="hidden absolute pin-b z-10 lg:relative lg:block w-full lg:w-1/5 bg-grey-lighter-2 px-6 pt-10"
+         id="profile">
+        <div class="flex items-center mb-6" @click="dialogFormVisible = true">
+            <img :src="user.userIcon" width="60px" height="60px">
+            <div class="ml-3">
+                <p>{{user.name}}</p>
+                <p class="text-grey-dark mt-1 text-sm">加入时间:{{new Date(user.registTime).toLocaleDateString()}}</p>
+                <input type="hidden" th:value="${name}" id="name"/>
+            </div>
+        </div>
+        <div class="my-4 border-t pt-4">
+            <h3 class="text-indigo-dark font-normal mb-6">你已经发表了 <strong>{{allNews.length}} 篇文章</strong> 至{{new
+                Date().toLocaleDateString()}}</h3>
+            <h3 class="text-indigo-dark font-normal mb-6">
+                <el-link :underline="false" href="/index"><strong>返回首页</strong></el-link>
+            </h3>
+            <h3 class="text-indigo-dark font-normal mb-6" v-if="user.phone === null">
+                <el-link :underline="false"><strong>绑定手机号?</strong></el-link>
+            </h3>
+            <h3 class="text-indigo-dark font-normal mb-6" v-if="user.email === null">
+                <el-link :underline="false"><strong>绑定邮箱?</strong></el-link>
+            </h3>
+        </div>
+        <div class="mt-6">
+            <el-collapse accordion>
+                <el-collapse-item >
+                    <template slot="title">
+                        修改密码<i class="header-icon el-icon-info"></i>
+                    </template>
+                    <div>
+                        <el-form :model="passwordForm"  ref="passwordForm" label-width="80px" class="demo-ruleForm">
+                            <el-form-item label="旧密码" >
+                                <el-input v-model="passwordForm.oldPwd" type="password" placeholder="请输入旧密码" :show-password="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="新密码" >
+                                <el-input v-model="passwordForm.newPwd" type="password" placeholder="请输入新密码" :show-password="true"></el-input>
+                            </el-form-item>
+                            <el-form-item label="确认密码" >
+                                <el-input v-model="passwordForm.rePwd" type="password" placeholder="请确认密码" :show-password="true"></el-input>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </el-collapse-item>
+            </el-collapse>
+        </div>
+        <div class="mt-6">
+            <p class="text-grey-dark mt-1 text-sm">审核未通过</p>
+            <div class="flex items-start mt-2">
+                <img src="/static/assets/profile/images/read-04.jpg" alt="read"
+                     class="w-1/6 lg:w-1/5 max-w-tiny shadow-md block transition-normal hover:brighter">
+                <div class="ml-3">
+                    <p class="mt-1 leading-normal">Popular Lies* About Graphic Design</p>
+                    <p class="text-indigo text-sm mt-1">15/250 pages</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!--个人信息弹出框开始---------------------------------------------------- -->
+    <el-dialog title="个人信息" :visible.sync="dialogFormVisible">
+        <el-form :model="user">
+            <el-form-item label="用户名" :label-width="formLabelWidth">
+                <el-input v-model="user.name" autocomplete="off" :disabled="true"/>
+            </el-form-item>
+            <el-form-item label="手机号" :label-width="formLabelWidth">
+                <el-input v-model="user.phone" autocomplete="off" :disabled="true"/>
+            </el-form-item>
+            <el-form-item label="邮箱" :label-width="formLabelWidth">
+                <el-input v-model="user.email" autocomplete="off" :disabled="true"/>
+            </el-form-item>
+            <el-form-item label="昵称" :label-width="formLabelWidth">
+                <el-input v-model="user.nickName" autocomplete="off"/>
+            </el-form-item>
+            <el-form-item label="个人介绍" :label-width="formLabelWidth">
+                <el-input type="textarea" :rows="2" v-model="user.talk" autocomplete="off"/>
+            </el-form-item>
+            <el-form-item label="头像" :label-width="formLabelWidth">
+                <el-col :span="3">
+                    <el-avatar :src="user.userIcon" :size="40"/>
+                </el-col>
+                <el-col :span="4">
+                    <el-upload
+                            name="multipartFile"
+                            :multiple="false"
+                            :show-file-list="false"
+                            :on-success="handleImageSuccess"
+                            :on-error="handleImageFail"
+                            :before-upload="beforeUploadHandle"
+                            :headers="headers"
+                            accept="image/*"
+                            action="http://127.0.0.1:8888/api/front/upload"
+                    >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                    </el-upload>
+                </el-col>
+                <el-col :span="15">
+                    只能上传jpg/png文件，且不超过500kb
+                </el-col>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogFormVisible = false">取 消</el-button>
+            <el-button type="primary" @click="update">提 交</el-button>
+        </div>
+    </el-dialog>
+    <!--个人信息弹出框结束---------------------------------------------------- -->
+
+
+    <!--新闻弹出框开始---------------------------------------------------- -->
+    <el-dialog title="新闻管理" :visible.sync="dialogNewsVisible" @close="newsDialogClosed" :fullscreen="true"
+               :append-to-body="true"
+               v-loading="newsLoading"
+               element-loading-text="拼命加载中"
+               element-loading-spinner="el-icon-loading">
+
+        <el-form :model="news" :rules="newsRules" ref="newsForm">
+            <el-form-item label="标题" :label-width="formLabelWidth" prop="title">
+                <el-input v-model="news.title" autocomplete="off"/>
+            </el-form-item>
+            <el-form-item label="分类" :label-width="formLabelWidth" prop="categoryId">
+                <el-select v-model="news.categoryId" :clearable="true" placeholder="请选择">
+                    <el-option
+                            v-for="item in categoryList"
+                            :key="item.id"
+                            :label="item.name"
+                            :value="item.id">
+                    </el-option>
+                </el-select>
+            </el-form-item>
+            <el-form-item label="摘要" :label-width="formLabelWidth" prop="content">
+                <el-input type="textarea" :rows="2" v-model="news.content" autocomplete="off"/>
+            </el-form-item>
+            <el-form-item label="内容" :label-width="formLabelWidth" prop="contentHtml">
+                <div style="width: auto;height: auto" id="contentHtml"></div>
+            </el-form-item>
+
+            <el-form-item label="新闻封面" :label-width="formLabelWidth" prop="image">
+                <el-col :span="7" style="height: 200px">
+                    <div class="demo-image__error">
+                        <el-image :src="news.image">
+                            <div slot="error" class="image-slot">
+                                <i class="el-icon-picture-outline"></i>
+                            </div>
+                        </el-image>
+                    </div>
+                </el-col>
+                <el-col :span="4">
+                    <el-upload
+                            name="multipartFile"
+                            :multiple="false"
+                            :show-file-list="false"
+                            :on-success="handleNewsImageSuccess"
+                            :on-error="handleImageFail"
+                            :before-upload="beforeNewsUploadHandle"
+                            :headers="headers"
+                            accept="image/*"
+                            action="http://127.0.0.1:8888/api/front/upload"
+                    >
+                        <el-button size="small" type="primary">点击上传</el-button>
+                    </el-upload>
+                </el-col>
+                <el-col :span="11">
+                    只能上传jpg/png文件，且不超过1MB
+                </el-col>
+            </el-form-item>
+        </el-form>
+        <div slot="footer" class="dialog-footer">
+            <el-button @click="dialogNewsVisible = false">取 消</el-button>
+            <el-button type="primary" @click="createNews('newsForm')">提 交</el-button>
+        </div>
+    </el-dialog>
+    <!--新闻弹出框结束---------------------------------------------------- -->
+
+</div>
+<script src="/static/assets/profile/bundle.js" async defer></script>
+<script src="/static/assets/js/axios.js"></script>
+<script src="/static/assets/js/vue.js"></script>
+<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+
+</body>
+<script src="/static/assets/plugins/tinymce/js/tinymce/tinymce.min.js"></script>
+<script>
+
+</script>
+<script>
+    const service = axios.create();
+    service.interceptors.request.use(config => {
+        config.headers['authorization'] = 'Bearer ' + localStorage.getItem('token');
+        return config;
+    });
+    service.interceptors.response.use(response => {
+        const res = response.data;
+        if (response.code === 401) {
+            //认证过期,从新登录
+            localStorage.removeItem("token");
+            localStorage.removeItem("name");
+            window.location.href = '/login'
+        } else {
+            return res;
+        }
+    });
+    new Vue({
+        el: '#app',
+        data() {
+            const validateCategory = (rule, value, callback) => {
+                if (Number(value) < 0 || Number(value) > 10) {
+                    return new callback(new Error('非法分类!'))
+                }
+                return new callback();
+            };
+            return {
+                name: '',//后台传到页面的用户名
+                user: {},//用户信息
+                likeMost3: [],//表展示内容
+                commentMost: {},//评论最多新闻
+                likeMost: {},//最受欢迎新闻
+                allNews: [],//当前用户所有新闻
+                dialogFormVisible: false,//个人信息dialog
+                formLabelWidth: '120px',//dialog宽度
+                loading: false,//加载中
+                loadingText: '拼命加载中...',
+                unReviewed: [],//未审核
+                reviewedFail: [],//审核失败
+                //头像上传
+                headers: {
+                    smail: '*_~',
+                    'authorization': 'Bearer ' + localStorage.getItem('token')
+                },
+                //头像参数
+                params: {
+                    access_token: localStorage.getItem('token')
+                },
+                //新闻管理
+                dialogNewsVisible: false,
+                news: {
+                    title: '',
+                    categoryId: -1,
+                    content: '',
+                    contentHtml: '',
+                    image: '',
+                    userId: ''
+                },
+                newsLoading: false,
+                categoryList: [],
+                newsRules: {
+                    title: [
+                        {required: true, message: '文章标题为必填项', trigger: 'blur'},
+                        {min: 1, max: 50, message: '文章标题最长不超过50', trigger: 'blur'},
+                    ],
+                    content: [
+                        {required: true, message: '文章摘要为必填项', trigger: 'blur'},
+                        {min: 1, max: 500, message: '文章摘要最长不超过500', trigger: 'blur'},
+                    ],
+                    categoryId: [
+                        {required: true, message: '文章分类为必填项', trigger: 'blur'},
+                        {validator: validateCategory, trigger: 'blur'},
+                    ],
+                    image: [
+                        {required: true, message: '文章图片必须上传!', trigger: 'blur'}
+                    ],
+                    contentHtml: [
+                        {required: true, message: '文章内容必填项'}
+                    ]
+                },
+                passwordForm: {
+                    oldPwd: '',
+                    newPwd: '',
+                    rePwd: ''
+                }
+            };
+
+        },
+        beforeCreate() {
+
+        },
+        created() {
+            this.name = document.getElementById("name").value;
+            service.get('/profile/user/info/' + this.name).then(response => {
+                this.user = response.data;
+                this.fetchData(this.user.id);
+            });
+        },
+        methods: {
+            /**
+             * 初始化操作
+             * @param userId
+             */
+            fetchData(userId) {
+                /**
+                 * 最近三条文章
+                 */
+                service.get('/profile/user/getLikeMost3/' + userId).then(response => {
+                    this.likeMost3 = response.data;
+                });
+                /**
+                 * 评论最多
+                 */
+                service.get('/profile/user/getCommentMost/' + userId).then(response => {
+                    this.commentMost = response.data;
+                });
+                /**
+                 * 点赞最多
+                 */
+                service.get('/profile/user/getLikeMost/' + userId).then(response => {
+                    this.likeMost = response.data;
+                });
+                /**
+                 * 所有已发布
+                 */
+                service.get('/profile/user/getAll/' + userId).then(response => {
+                    this.allNews = response.data;
+                });
+                /**
+                 * 新闻分类
+                 */
+                service.get('/profile/categoryList').then(response => {
+                    this.categoryList = response.data;
+                });
+                /**
+                 * 所有待审核
+                 */
+                service.get('/profile/unReviewed/' + userId).then(response => {
+                    this.unReviewed = response.data;
+                });
+                /**
+                 * 所有审核失败
+                 */
+                service.get('/profile/reviewedFail/' + userId).then(response => {
+                    this.reviewedFail = response.data;
+                })
+            },
+            //头像上传-------------------
+            /**
+             * 头像上传成功回调
+             */
+            handleImageSuccess(response, file) {
+                this.user.userIcon = response.data.path;
+                this.$message({
+                    message: '上传图片成功!',
+                    type: 'success',
+                    duration: 5 * 1000
+                });
+                this.loading = false;
+                this.loadingText = '拼命加载中...';
+            },
+            /**
+             * 头像上传失败
+             */
+            handleImageFail() {
+                this.$message({
+                    message: '上传图片失败!',
+                    type: 'error',
+                    duration: 5 * 1000
+                });
+                this.loading = false;
+                this.loadingText = '拼命加载中...';
+            },
+            /**
+             * 在头像上传前检查
+             * @param file
+             * @returns {boolean}
+             */
+            beforeUploadHandle(file) {
+                if ((file.size / 1024) > 500) {
+                    this.$message({
+                        message: '文件大小不能超过500kb',
+                        type: 'error',
+                        duration: 5 * 1000
+                    });
+                    return false;
+                }
+                this.loadingText = '头像上传中,请稍后...';
+                this.loading = true;
+            },
+            /**
+             * 更新个人信息
+             */
+            update() {
+                service.post('/profile/update', this.user).then(response => {
+                    if (response.code === 20000) {
+                        this.$notify({
+                            title: '成功',
+                            message: '更新成功',
+                            type: 'success',
+                            duration: 5 * 1000
+                        });
+                        setTimeout(function () {
+                            window.location.reload();
+                        }, 2000)
+                    } else {
+                        this.$notify({
+                            title: '失败',
+                            message: '网络错误,请稍后再试',
+                            type: 'error',
+                            duration: 5 * 1000
+                        });
+                    }
+                })
+            },
+            /**
+             * 新闻的dialog
+             */
+            showNews() {
+                this.dialogNewsVisible = true;
+                let news = this.news;
+                setTimeout(function () {
+                    window.tinymce.init({
+                        selector: '#contentHtml',
+                        language: 'zh_CN',
+                        plugins: 'print preview preview searchreplace autolink directionality visualchars fullscreen image link media template code table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount imagetools textpattern paste emoticons bdmap indent2em lineheight autoresize',
+                        toolbar: 'code preview forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright indent2em lineheight | \
+                    bullist numlist | blockquote subscript superscript removeformat | \
+                    table image media bdmap emoticons charmap hr pagebreak insertdatetime | fullscreen ',
+                        menubar: false,
+                        fontsize_formats: '12px 14px 16px 18px 24px 36px 48px 56px 72px',
+                        autosave_ask_before_unload: false,
+                        toolbar_drawer: false,
+                        icons: 'ax-color',
+                        min_height: 400,
+                        max_height: 500,
+                    }).then(resolve => {
+                        window.tinyMCE.activeEditor.setContent(news.contentHtml);
+                    });
+
+                }, 1000)
+            },
+            /**
+             * 新闻图片上传成功回调
+             * @param response
+             * @param file
+             */
+            handleNewsImageSuccess(response, file) {
+                this.news.image = response.data.path;
+                this.$message({
+                    message: '上传图片成功!',
+                    type: 'success',
+                    duration: 5 * 1000
+                });
+                this.newsLoading = false;
+            },
+            /**
+             * 图片大小检查
+             * @param file
+             * @returns {boolean}
+             */
+            beforeNewsUploadHandle(file) {
+                if ((file.size / 1024) > 1024) {
+                    this.$message({
+                        message: '文件大小不能超过1MB',
+                        type: 'error',
+                        duration: 5 * 1000
+                    });
+                    return false;
+                }
+                this.newsLoading = true;
+            },
+            /**
+             * 创建或更新文章操作
+             * @param newsForm
+             */
+            createNews(newsForm) {
+                this.newsLoading = true;
+                this.news.contentHtml = tinyMCE.activeEditor.getContent();
+                if (this.news.id !== null) {
+                    //更新新闻
+                    service.post('/profile/updateNews', this.news).then(response => {
+                        if (response.code === 20000) {
+                            //success
+                            this.$notify({
+                                title: '成功',
+                                message: '更新文章成功!',
+                                type: 'success',
+                                duration: 5 * 1000
+                            });
+                        } else {
+                            this.$notify({
+                                title: '失败',
+                                message: '更新文章失败!',
+                                type: 'error',
+                                duration: 5 * 1000
+                            });
+                        }
+                    })
+                } else {
+                    //新建新闻
+                    this.news.userId = this.user.id;
+                    this.$refs[newsForm].validate((valid) => {
+                        if (valid) {
+                            service.post('/profile/createNews', this.news).then(response => {
+                                if (response.code === 20000) {
+                                    //success
+                                    this.$notify({
+                                        title: '成功',
+                                        message: '创建文章成功!',
+                                        type: 'success',
+                                        duration: 5 * 1000
+                                    });
+                                    this.news = {};
+                                    tinyMCE.activeEditor.setContent("");
+                                } else {
+                                    this.$notify({
+                                        title: '失败',
+                                        message: '创建文章失败!',
+                                        type: 'error',
+                                        duration: 5 * 1000
+                                    });
+                                }
+                            });
+                        } else {
+                            this.newsLoading = false;
+                            return false;
+                        }
+                    });
+                }
+
+                this.newsLoading = false;
+            },
+            /**
+             * 用于更新新闻打开dialog
+             * @param item
+             */
+            updateNewsDialog(item) {
+                this.news = item;
+                this.dialogNewsVisible = true;
+                while (tinymce.editors.length > 0) {
+                    tinymce.remove(tinymce.editors[0]);
+                }
+                setTimeout(function () {
+                    window.tinymce.init({
+                        selector: '#contentHtml',
+                        language: 'zh_CN',
+                        plugins: 'print preview preview searchreplace autolink directionality visualchars fullscreen image link media template code table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount imagetools textpattern paste emoticons bdmap indent2em lineheight autoresize',
+                        toolbar: 'code preview forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright indent2em lineheight | \
+                    bullist numlist | blockquote subscript superscript removeformat | \
+                    table image media bdmap emoticons charmap hr pagebreak insertdatetime | fullscreen ',
+                        menubar: false,
+                        fontsize_formats: '12px 14px 16px 18px 24px 36px 48px 56px 72px',
+                        autosave_ask_before_unload: false,
+                        toolbar_drawer: false,
+                        icons: 'ax-color',
+                        min_height: 400,
+                        max_height: 500,
+                    }).then(resolve => {
+                        window.tinyMCE.activeEditor.setContent(item.contentHtml);
+                    });
+                }, 1000);
+
+            },
+            newsDialogClosed() {
+                while (tinymce.editors.length > 0) {
+                    tinymce.remove(tinymce.editors[0]);
+                }
+                if (this.news.id !== null) {
+                    this.news = {
+                        title: '',
+                        categoryId: -1,
+                        content: '',
+                        contentHtml: '',
+                        image: '',
+                        userId: ''
+                    };
+                }
+            }
+        }
+    })
+</script>
+
+</html>

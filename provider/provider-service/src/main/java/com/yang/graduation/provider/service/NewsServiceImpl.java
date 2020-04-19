@@ -61,6 +61,8 @@ public class NewsServiceImpl implements NewsService {
         if (newsParam.getUserId() == null || newsParam.getUserId().equals("")) {
             newsParam.setUserId("88888888");
             newsParam.setStatus(1);
+        } else {
+            newsParam.setStatus(0);
         }
         News news = new News();
         BeanUtils.copyProperties(newsParam, news);
@@ -241,6 +243,34 @@ public class NewsServiceImpl implements NewsService {
         Example example = new Example(News.class);
         example.createCriteria().andEqualTo("userId", id)
                 .andEqualTo("status", 1)
+                .andEqualTo("isDelete", 0);
+        return newsMapper.selectByExample(example);
+    }
+
+    /**
+     * 用户id下所有未审核
+     * @param id
+     * @return
+     */
+    @Override
+    public List<News> unReviewed(String id) {
+        Example example = new Example(News.class);
+        example.createCriteria().andEqualTo("userId", id)
+                .andEqualTo("status", 0)
+                .andEqualTo("isDelete", 0);
+        return newsMapper.selectByExample(example);
+    }
+
+    /**
+     * 用户id下所有审核不通过
+     * @param id
+     * @return
+     */
+    @Override
+    public List<News> reviewedFail(String id) {
+        Example example = new Example(News.class);
+        example.createCriteria().andEqualTo("userId", id)
+                .andEqualTo("status", 2)
                 .andEqualTo("isDelete", 0);
         return newsMapper.selectByExample(example);
     }

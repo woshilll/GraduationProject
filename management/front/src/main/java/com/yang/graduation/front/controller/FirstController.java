@@ -32,8 +32,8 @@ public class FirstController {
         OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(token);
         if (oAuth2Authentication != null && oAuth2Authentication.getName().equals(name)) {
             model.addAttribute("name", name);
-            return "profile/profile";
+            return "profile";
         }
-        return "redirect:/login";
+        return "login/toLogin";
     }
 }

@@ -726,10 +726,10 @@ table {
   transform: translateY(1px);
 }
 
-.tippy-tooltip {
-  padding: 1rem;
-  text-align: left;
-}
+/*.tippy-tooltip {*/
+/*  padding: 1rem;*/
+/*  text-align: left;*/
+/*}*/
 
 .-order-1 {
   order: -1;
