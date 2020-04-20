@@ -223,15 +223,18 @@
                         修改密码<i class="header-icon el-icon-info"></i>
                     </template>
                     <div>
-                        <el-form :model="passwordForm"  ref="passwordForm" label-width="80px" class="demo-ruleForm">
-                            <el-form-item label="旧密码" >
+                        <el-form :model="passwordForm" :rules="passwordRules"  ref="passwordForm" label-width="80px" class="demo-ruleForm">
+                            <el-form-item label="旧密码" prop="oldPwd">
                                 <el-input v-model="passwordForm.oldPwd" type="password" placeholder="请输入旧密码" :show-password="true"></el-input>
                             </el-form-item>
-                            <el-form-item label="新密码" >
+                            <el-form-item label="新密码" prop="newPwd">
                                 <el-input v-model="passwordForm.newPwd" type="password" placeholder="请输入新密码" :show-password="true"></el-input>
                             </el-form-item>
-                            <el-form-item label="确认密码" >
+                            <el-form-item label="确认密码" prop="rePwd">
                                 <el-input v-model="passwordForm.rePwd" type="password" placeholder="请确认密码" :show-password="true"></el-input>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="changePwd('passwordForm')">修改密码</el-button>
                             </el-form-item>
                         </el-form>
                     </div>
@@ -402,6 +405,27 @@
                 }
                 return new callback();
             };
+            const validateRePwd = (rule, value, callback) => {
+              if (value !== this.passwordForm.newPwd) {
+                  return new callback(new Error('两次密码不一致!'));
+              }
+              return new callback();
+            };
+            const validateNewPwd = (rule, value, callback) => {
+                if (value === this.passwordForm.oldPwd) {
+                    return new callback(new Error('新密码不能和旧密码一样'));
+                }
+                return new callback();
+            };
+            const validateOldPwd = (rule, value, callback) => {
+                service.post(`/profile/validatePwd/${this.user.id}/${value}`).then(response => {
+                    if (response.code === 20000) {
+                        return new callback();
+                    } else {
+                        return new callback(new Error('旧密码不正确'));
+                    }
+                });
+            };
             return {
                 name: '',//后台传到页面的用户名
                 user: {},//用户信息
@@ -460,6 +484,23 @@
                     oldPwd: '',
                     newPwd: '',
                     rePwd: ''
+                },
+                passwordRules: {
+                    oldPwd: [
+                        {required: true, message: '请输入旧密码', trigger: 'blur'},
+                        {min: 6, max: 16, message: '密码长度在6-16之间', trigger: 'blur'},
+                        {validator: validateOldPwd, trigger: 'blur'},
+                    ],
+                    newPwd: [
+                        {required: true, message: '请输入新密码', trigger: 'blur'},
+                        {min: 6, max: 16, message: '密码长度在6-16之间', trigger: 'blur'},
+                        {validator: validateNewPwd, trigger: 'blur'},
+                    ],
+                    rePwd: [
+                        {required: true, message: '请输入确认密码', trigger: 'blur'},
+                        {min: 6, max: 16, message: '密码长度在6-16之间', trigger: 'blur'},
+                        {validator: validateRePwd, trigger: 'blur'},
+                    ],
                 }
             };
 
@@ -754,6 +795,40 @@
                         userId: ''
                     };
                 }
+            },
+            changePwd(passwordForm) {
+                this.$refs[passwordForm].validate((valid) => {
+                    if (valid) {
+                        this.loadingText = '修改密码中,请稍后';
+                        this.loading = true;
+                        service.post(`/profile/changePwd/${this.user.id}/${this.passwordForm.newPwd}`).then(response => {
+                            if (response.code === 20000) {
+                                this.$notify({
+                                    title: '成功',
+                                    message: '密码修改成功!',
+                                    type: 'success',
+                                    duration: 3 * 1000
+                                });
+                                this.loadingText = '密码修改成功,正在进行自动跳转登录';
+                                service.post('/front/logout', {access_token: localStorage.getItem('token')});
+                                localStorage.removeItem('token');
+                                localStorage.removeItem('name');
+                                window.location.href = '/login'
+                            } else {
+                                this.$notify({
+                                    title: '失败',
+                                    message: '密码修改失败!',
+                                    type: 'error',
+                                    duration: 3 * 1000
+                                });
+                                this.loading = false;
+                                this.loadingText = '加载中,请稍后';
+                            }
+                        })
+                    } else {
+                        return false;
+                    }
+                })
             }
         }
     })

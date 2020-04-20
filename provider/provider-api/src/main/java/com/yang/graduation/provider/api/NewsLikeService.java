@@ -1,5 +1,7 @@
 package com.yang.graduation.provider.api;
 
+import com.yang.graduation.commons.domain.NewsLike;
+
 /**
  * @author woshilll
  * @version v1.0.0
@@ -12,4 +14,27 @@ public interface NewsLikeService {
      * @return
      */
     int getLikeCountsByNewsId(String newsId);
+
+    /**
+     * 当前用户当前新闻是否点赞
+     * @param id
+     * @param newsId
+     * @return
+     */
+    NewsLike isLike(String id, String newsId);
+
+    /**
+     * 点赞
+     * @param id
+     * @param newsId
+     * @return
+     */
+    int remove(String id, String newsId);
+
+    /**
+     * 取消赞
+     * @param id
+     * @param newsId
+     */
+    int create(String id, String newsId);
 }

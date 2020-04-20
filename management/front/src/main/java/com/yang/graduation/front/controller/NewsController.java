@@ -90,4 +90,8 @@ public class NewsController {
     public ResponseResult<List<NewsParam>> search(@PathVariable String title) {
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success", newsService.search(title));
     }
+    @GetMapping("/getNewsById/{id}")
+    public ResponseResult<NewsParam> getNewsById(@PathVariable String id) {
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success", newsService.getNewsById(id));
+    }
 }

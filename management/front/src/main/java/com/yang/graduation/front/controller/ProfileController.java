@@ -10,6 +10,7 @@ import com.yang.graduation.provider.api.NewsService;
 import com.yang.graduation.provider.api.UserService;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -17,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import javax.annotation.Resource;
 import java.util.List;
 
 /**
@@ -34,6 +36,8 @@ public class ProfileController {
     private NewsService newsService;
     @Reference(version = "1.0.0")
     private NewsCategoryService newsCategoryService;
+    @Resource
+    private BCryptPasswordEncoder passwordEncoder;
 
     /**
      * 用户信息
@@ -154,6 +158,24 @@ public class ProfileController {
         NewsParam newsParam = new NewsParam();
         BeanUtils.copyProperties(news, newsParam);
         int res = newsService.updateNews(newsParam);
+        if (res > 0) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "success");
+    }
+    @PostMapping("/validatePwd/{id}/{oldPwd}")
+    public ResponseResult<Void> validatePwd(@PathVariable String id, @PathVariable String oldPwd) {
+        User user = userService.getById(id);
+        if (passwordEncoder.matches(oldPwd, user.getPassword())) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.VALIDATE_PWD, "fail");
+    }
+    @PostMapping("/changePwd/{id}/{password}")
+    public ResponseResult<Void> changePwd(@PathVariable String id, @PathVariable String password) {
+        User user = userService.getById(id);
+        user.setPassword(passwordEncoder.encode(password));
+        int res = userService.updateById(user);
         if (res > 0) {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success");
         }

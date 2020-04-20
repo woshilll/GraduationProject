@@ -50,15 +50,16 @@
                     <div class="row justify-content-center">
                         <div class="col-xl-8 centered">
                             <div class="category-tag">
-                                <a href="" class="primary-bg"><span th:text="${news.categoryName}"></span></a>
+                                <a href="" class="primary-bg"><span >{{news.categoryName}}</span></a>
                             </div>
                             <div class="banner-title">
-                                <h2 th:text="${news.title}"></h2>
+                                <h2 >{{news.title}}</h2>
                             </div>
                             <div class="meta">
-                                <a href=""><img :src="author.userIcon" alt="" style="width: 30px;height: 30px"><span th:text="${news.authorName}"></span></a>
-                                <a href=""><i class="el-icon-chat-dot-round"></i><span th:text="${news.commentCount}"></span></a>
-                                <a href=""><i class="el-icon-star-off"></i><span th:text="${news.likeCount}"></span></a>
+                                <a href=""><img :src="author.userIcon" alt="" style="width: 30px;height: 30px"><span >{{news.authorName}}</span></a>
+                                <a><i class="el-icon-chat-dot-round"></i><span >{{news.commentCount}}</span></a>
+                                <a @click="like" v-if="!likeStar"><i class="el-icon-star-off"></i><span >{{news.likeCount}}</span></a>
+                                <a @click="like" v-if="likeStar"><i class="el-icon-star-on"></i><span >{{news.likeCount}}</span></a>
                             </div>
                         </div>
                     </div>
@@ -171,7 +172,9 @@
                         {required: true, message: '请输入评论!', trigger: 'blur'},
                         {min: 5, max: 255, message: '长度在1-255之间', trigger: 'blur'}
                     ]
-                }
+                },
+                likeStar: false,
+                news: {}
             }
         },
         created() {
@@ -187,7 +190,16 @@
                 });
                 if (this.isLogin()) {
                     this.name = localStorage.getItem("name");
+                    axios.get(`/like/isLike/${localStorage.getItem('name')}/${newsId}`).then(response => {
+                        if(response.data.code === 20000) {
+                            //说明用户已点赞
+                            this.likeStar = true;
+                        }
+                    })
                 }
+                axios.get(`/news/getNewsById/${newsId}`).then(response => {
+                    this.news = response.data.data;
+                })
             },
             fetchComment(newsId) {
                 axios.get('/news/comments/'+newsId).then(response => {
@@ -230,6 +242,7 @@
                                     type: 'success',
                                     duration: 5*1000
                                 });
+                                this.news.commentCount = this.news.commentCount + 1;
                             } else {
                                 this.$notify({
                                     title: '失败',
@@ -246,6 +259,25 @@
             },
             toProfile() {
                 window.location.href = '/user/' + localStorage.getItem("name") + '/' + localStorage.getItem("token");
+            },
+            like() {
+                if (this.isLogin()) {
+                    //登录状态
+                    if (this.likeStar) {
+                        //说明已点赞,再点就取消
+                        axios.post(`/like/remove/${localStorage.getItem('name')}/${this.news.id}`);
+                        this.news.likeCount = this.news.likeCount - 1;
+                        this.likeStar = !this.likeStar;
+                    } else {
+                        //说明为点赞,再点就是赞
+                        axios.post(`/like/create/${localStorage.getItem('name')}/${this.news.id}`);
+                        this.news.likeCount = this.news.likeCount + 1;
+                        this.likeStar = !this.likeStar;
+                    }
+                } else {
+                    //跳转登录
+                    window.location.href = '/login';
+                }
             }
         }
     })

@@ -8,6 +8,7 @@ import org.apache.dubbo.config.annotation.Service;
 import tk.mybatis.mapper.entity.Example;
 
 import javax.annotation.Resource;
+import java.util.Date;
 
 /**
  * @author woshilll
@@ -23,5 +24,30 @@ public class NewsLikeServiceImpl implements NewsLikeService {
         Example example = new Example(NewsLike.class);
         example.createCriteria().andEqualTo("newsId", newsId);
         return newsLikeMapper.selectCountByExample(example);
+    }
+
+    @Override
+    public NewsLike isLike(String id, String newsId) {
+        Example example = new Example(NewsLike.class);
+        example.createCriteria().andEqualTo("userId", id)
+                .andEqualTo("newsId", newsId);
+        return newsLikeMapper.selectOneByExample(example);
+    }
+
+    @Override
+    public int remove(String id, String newsId) {
+        Example example = new Example(NewsLike.class);
+        example.createCriteria().andEqualTo("userId", id)
+                .andEqualTo("newsId", newsId);
+        return newsLikeMapper.deleteByExample(example);
+    }
+
+    @Override
+    public int create(String id, String newsId) {
+        NewsLike newsLike = new NewsLike();
+        newsLike.setUserId(id);
+        newsLike.setNewsId(newsId);
+        newsLike.setLikeTime(new Date());
+        return newsLikeMapper.insert(newsLike);
     }
 }
