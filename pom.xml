@@ -23,6 +23,7 @@
         <module>gateway</module>
         <module>aliyun-oss</module>
         <module>aliyun-oss-front</module>
+        <module>message</module>
     </modules>
 
     <properties>

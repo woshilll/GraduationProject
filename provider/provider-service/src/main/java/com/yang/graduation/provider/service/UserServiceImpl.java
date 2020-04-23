@@ -168,6 +168,30 @@ public class UserServiceImpl implements UserService {
         return userHoverDto;
     }
 
+    /**
+     * 验证手机号是否存在
+     * @param phone
+     * @return
+     */
+    @Override
+    public boolean validatePhone(String phone) {
+        Example example = new Example(User.class);
+        example.createCriteria().andEqualTo("phone", phone);
+        return userMapper.selectByExample(example).size() > 0;
+    }
+
+    /**
+     * 验证邮箱是否存在
+     * @param email
+     * @return
+     */
+    @Override
+    public boolean validateEmail(String email) {
+        Example example = new Example(User.class);
+        example.createCriteria().andEqualTo("email", email);
+        return userMapper.selectByExample(example).size() > 0;
+    }
+
     private void initUser(User user) {
         //设置雪花分布式id
         user.setId(idWorker.nextId() + "");

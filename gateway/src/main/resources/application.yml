@@ -48,6 +48,12 @@ spring:
             - Path=/api/front/upload/**
           filters:
             - StripPrefix=2
+        - id: MESSAGE
+          uri: lb://producer
+          predicates:
+            - Path=/api/message/**
+          filters:
+            - StripPrefix=1
 
 
 

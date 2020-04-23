@@ -43,9 +43,11 @@
             transition: border-bottom-color .3s;
             outline: 0;
         }
+
         .is-active {
             border-bottom-color: transparent;
         }
+
         .el-collapse-item__content {
             padding-bottom: 25px;
             background-color: #eaf1f7;
@@ -209,29 +211,85 @@
             <h3 class="text-indigo-dark font-normal mb-6">
                 <el-link :underline="false" href="/index"><strong>返回首页</strong></el-link>
             </h3>
-            <h3 class="text-indigo-dark font-normal mb-6" v-if="user.phone === null">
-                <el-link :underline="false"><strong>绑定手机号?</strong></el-link>
-            </h3>
-            <h3 class="text-indigo-dark font-normal mb-6" v-if="user.email === null">
-                <el-link :underline="false"><strong>绑定邮箱?</strong></el-link>
-            </h3>
+            <el-collapse accordion>
+                <el-collapse-item v-if="user.phone === null || user.phone === ''">
+                    <template slot="title">
+                        绑定手机号📱<i class="header-icon el-icon-info"></i>
+                    </template>
+                    <div>
+                        <el-form :model="bindPhone" :rules="bindPhoneRules" ref="bindPhoneForm" label-width="80px"
+                                 class="demo-ruleForm">
+                            <el-form-item label-width="auto"  prop="phone">
+                                <el-input v-model="bindPhone.phone" placeholder="请输入手机号"></el-input>
+                            </el-form-item>
+                            <el-form-item prop="code" label-width="auto">
+                                <el-col :span="11">
+                                    <el-input v-model="bindPhone.code" placeholder="验证码"></el-input>
+                                </el-col>
+                                <el-col :span="2">&nbsp;</el-col>
+                                <el-col :span="11">
+                                    <el-button type="primary" id="codePhoneBtn" :disabled="phoneCodeDisabled"
+                                               @click="getPhoneCode('bindPhoneForm')">{{phoneCodeBtnText}}
+                                    </el-button>
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="confirmBindPhone('bindPhoneForm')">确认绑定</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </el-collapse-item>
+            </el-collapse>
+            <el-collapse accordion>
+                <el-collapse-item v-if="user.email === null || user.email === ''">
+                    <template slot="title">
+                        绑定邮箱📮<i class="header-icon el-icon-info"></i>
+                    </template>
+                    <div>
+                        <el-form :model="bindEmail" :rules="bindEmailRules" ref="bindEmailForm" label-width="80px"
+                                 class="demo-ruleForm">
+                            <el-form-item label-width="auto"  prop="email">
+                                <el-input v-model="bindEmail.email" placeholder="请输入邮箱"></el-input>
+                            </el-form-item>
+                            <el-form-item  label-width="auto" prop="code">
+                                <el-col :span="11">
+                                    <el-input v-model="bindEmail.code" placeholder="验证码"></el-input>
+                                </el-col>
+                                <el-col :span="2">&nbsp;</el-col>
+                                <el-col :span="11">
+                                    <el-button type="primary" :disabled="emailCodeDisabled" @click="bindEmailCode('bindEmailForm')"
+                                               >{{emailCodeBtnText}}
+                                    </el-button>
+                                </el-col>
+                            </el-form-item>
+                            <el-form-item>
+                                <el-button type="primary" @click="confirmBindEmail('bindEmailForm')">确认绑定</el-button>
+                            </el-form-item>
+                        </el-form>
+                    </div>
+                </el-collapse-item>
+            </el-collapse>
         </div>
         <div class="mt-6">
             <el-collapse accordion>
-                <el-collapse-item >
+                <el-collapse-item>
                     <template slot="title">
                         修改密码<i class="header-icon el-icon-info"></i>
                     </template>
                     <div>
-                        <el-form :model="passwordForm" :rules="passwordRules"  ref="passwordForm" label-width="80px" class="demo-ruleForm">
+                        <el-form :model="passwordForm" :rules="passwordRules" ref="passwordForm" label-width="80px"
+                                 class="demo-ruleForm">
                             <el-form-item label="旧密码" prop="oldPwd">
-                                <el-input v-model="passwordForm.oldPwd" type="password" placeholder="请输入旧密码" :show-password="true"></el-input>
+                                <el-input v-model="passwordForm.oldPwd" type="password" placeholder="请输入旧密码"
+                                          :show-password="true"></el-input>
                             </el-form-item>
                             <el-form-item label="新密码" prop="newPwd">
-                                <el-input v-model="passwordForm.newPwd" type="password" placeholder="请输入新密码" :show-password="true"></el-input>
+                                <el-input v-model="passwordForm.newPwd" type="password" placeholder="请输入新密码"
+                                          :show-password="true"></el-input>
                             </el-form-item>
                             <el-form-item label="确认密码" prop="rePwd">
-                                <el-input v-model="passwordForm.rePwd" type="password" placeholder="请确认密码" :show-password="true"></el-input>
+                                <el-input v-model="passwordForm.rePwd" type="password" placeholder="请确认密码"
+                                          :show-password="true"></el-input>
                             </el-form-item>
                             <el-form-item>
                                 <el-button type="primary" @click="changePwd('passwordForm')">修改密码</el-button>
@@ -240,17 +298,6 @@
                     </div>
                 </el-collapse-item>
             </el-collapse>
-        </div>
-        <div class="mt-6">
-            <p class="text-grey-dark mt-1 text-sm">审核未通过</p>
-            <div class="flex items-start mt-2">
-                <img src="/static/assets/profile/images/read-04.jpg" alt="read"
-                     class="w-1/6 lg:w-1/5 max-w-tiny shadow-md block transition-normal hover:brighter">
-                <div class="ml-3">
-                    <p class="mt-1 leading-normal">Popular Lies* About Graphic Design</p>
-                    <p class="text-indigo text-sm mt-1">15/250 pages</p>
-                </div>
-            </div>
         </div>
     </div>
     <!--个人信息弹出框开始---------------------------------------------------- -->
@@ -406,10 +453,10 @@
                 return new callback();
             };
             const validateRePwd = (rule, value, callback) => {
-              if (value !== this.passwordForm.newPwd) {
-                  return new callback(new Error('两次密码不一致!'));
-              }
-              return new callback();
+                if (value !== this.passwordForm.newPwd) {
+                    return new callback(new Error('两次密码不一致!'));
+                }
+                return new callback();
             };
             const validateNewPwd = (rule, value, callback) => {
                 if (value === this.passwordForm.oldPwd) {
@@ -426,6 +473,34 @@
                     }
                 });
             };
+            const validatePhone = (rule, value, callback) => {
+                let phonePattern = /0?(13|14|15|18|17)[0-9]{9}/;
+                if (phonePattern.test(value)) {
+                    service.post(`/profile/validatePhone/${this.bindPhone.phone}`).then(response => {
+                        if (response.code === 20000) {
+                            return new callback();
+                        } else {
+                            return new callback(new Error('手机号已使用!'))
+                        }
+                    })
+                } else {
+                    return new callback(new Error('手机号不正确!'))
+                }
+            };
+            const validateEmail = (rule, value, callback) => {
+                let emailPattern = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
+                if (emailPattern.test(value)) {
+                    service.post(`/profile/validateEmail/${this.bindEmail.email}`).then(response => {
+                        if (response.code === 20000) {
+                            return new callback();
+                        } else {
+                            return new callback(new Error('邮箱已被使用!'))
+                        }
+                    })
+                } else {
+                    return new callback(new Error('邮箱不正确!'))
+                }
+            }
             return {
                 name: '',//后台传到页面的用户名
                 user: {},//用户信息
@@ -501,7 +576,42 @@
                         {min: 6, max: 16, message: '密码长度在6-16之间', trigger: 'blur'},
                         {validator: validateRePwd, trigger: 'blur'},
                     ],
-                }
+                },
+                //绑定手机号
+                bindPhone: {
+                    phone: '',
+                    code: ''
+                },
+                bindPhoneRules: {
+                    phone: [
+                        {required: true, message: '请输入手机号', trigger: 'blur'},
+                        {validator: validatePhone, trigger: 'blur'}
+                    ],
+                    code: [
+                        {required: true, message: '请输入验证码', trigger: 'blur'},
+                        {min: 6, max: 6, message: '验证码长度不正确', trigger: 'blur'}
+                    ]
+                },
+                phoneCodeDisabled: false,
+                phoneCodeBtnText: '验证码',
+                //绑定邮箱
+                bindEmail: {
+                    email: '',
+                    code: ''
+                },
+                bindEmailRules: {
+                    email: [
+                        {required: true, message: '请输入邮箱', trigger: 'blur'},
+                        {type: 'email', message: '请输入正确的邮箱', trigger: 'blur'},
+                        {validator: validateEmail, trigger: 'blur'}
+                    ],
+                    code: [
+                        {required: true, message: '请输入验证码', trigger: 'blur'},
+                        {min: 6, max: 6, message: '验证码长度不正确', trigger: 'blur'}
+                    ]
+                },
+                emailCodeDisabled: false,
+                emailCodeBtnText: '验证码'
             };
 
         },
@@ -643,7 +753,7 @@
                         selector: '#contentHtml',
                         language: 'zh_CN',
                         plugins: 'print preview preview searchreplace autolink directionality visualchars fullscreen image link media template code table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount imagetools textpattern paste emoticons bdmap indent2em lineheight autoresize',
-                        toolbar: 'code preview forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright indent2em lineheight | \
+                        toolbar: 'code preview fontsizeselect forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright indent2em lineheight | \
                     bullist numlist | blockquote subscript superscript removeformat | \
                     table image media bdmap emoticons charmap hr pagebreak insertdatetime | fullscreen ',
                         menubar: false,
@@ -765,7 +875,7 @@
                         selector: '#contentHtml',
                         language: 'zh_CN',
                         plugins: 'print preview preview searchreplace autolink directionality visualchars fullscreen image link media template code table charmap hr pagebreak nonbreaking anchor insertdatetime advlist lists wordcount imagetools textpattern paste emoticons bdmap indent2em lineheight autoresize',
-                        toolbar: 'code preview forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright indent2em lineheight | \
+                        toolbar: 'code preview fontsizeselect forecolor backcolor bold italic underline strikethrough link anchor | alignleft aligncenter alignright indent2em lineheight | \
                     bullist numlist | blockquote subscript superscript removeformat | \
                     table image media bdmap emoticons charmap hr pagebreak insertdatetime | fullscreen ',
                         menubar: false,
@@ -829,9 +939,148 @@
                         return false;
                     }
                 })
-            }
+            },
+            //获取手机验证码
+            getPhoneCode(bindPhoneForm) {
+                this.$refs[bindPhoneForm].validateField('phone', (valid) => {
+                    if (!valid) {
+                        //发送验证码
+                        service.post(`http://127.0.0.1:8888/api/message/send/phone/code/${this.bindPhone.phone}`).then(response => {
+                            if (response) {
+                                this.$message({
+                                    message: '验证码发送成功!',
+                                    type: 'success',
+                                    duration: 5 * 1000
+                                });
+                                this.phoneCodeDisabled = true;
+                                let wait = 60;
+                                this.phoneCodeBtnText = wait;
+                                let codeThis = this;
+                                this.time(codeThis, wait);
+                            } else {
+                                this.$message({
+                                    message: '验证码发送失败,请稍后再试!',
+                                    type: 'error',
+                                    duration: 5 * 1000
+                                });
+                            }
+                        })
+                    }
+                })
+            },
+            time(codeThis, wait) {
+                if (wait !== 0) {
+                    setTimeout(function () {
+                        wait--;
+                        codeThis.phoneCodeBtnText = wait;
+                        codeThis.time(codeThis, wait);
+                    }, 1000)
+                } else {
+                    codeThis.phoneCodeDisabled = false;
+                    codeThis.phoneCodeBtnText = '验证码';
+                }
+            },
+            /**
+             * 绑定手机号
+             * @param bindPhoneForm
+             */
+            confirmBindPhone (bindPhoneForm) {
+                this.$refs[bindPhoneForm].validate((valid) => {
+                    if (valid) {
+                        service.post(`/profile/update/phone/${this.user.id}/${this.bindPhone.phone}/${this.bindPhone.code}`).then(response => {
+                            if (response.code === 20000) {
+                                //绑定成功
+                                this.$message({
+                                    message: '绑定手机成功!',
+                                    type: 'success',
+                                    duration: 5*1000
+                                });
+                                this.user.phone = this.bindPhone.phone;
+                            } else {
+                                //绑定失败
+                                this.$message({
+                                    message: response.message,
+                                    type: 'error',
+                                    duration: 5*1000
+                                });
+                            }
+                        })
+                    }
+                })
+            },
+            /**
+             * 发送邮箱验证码
+             */
+            bindEmailCode(bindEmailForm) {
+                this.$refs[bindEmailForm].validateField("email", (valid) => {
+                    if (!valid) {
+                        //发送验证码
+                        service.post(`http://127.0.0.1:8888/api/message/send/mail/code/${this.bindEmail.email}/${this.user.name}`)
+                        .then(response => {
+                            if (response) {
+                                this.$message({
+                                    message: '验证码发送成功!',
+                                    type: 'success',
+                                    duration: 5 * 1000
+                                });
+                                this.emailCodeDisabled = true;
+                                let wait = 60;
+                                this.emailCodeBtnText = wait;
+                                let codeThis = this;
+                                this.emailTime(codeThis, wait);
+                            } else {
+                                this.$message({
+                                    message: '验证码发送失败,请稍后再试!',
+                                    type: 'error',
+                                    duration: 5 * 1000
+                                });
+                            }
+                        })
+                    }
+                })
+            },
+            emailTime(codeThis, wait) {
+                if (wait !== 0) {
+                    setTimeout(function () {
+                        wait--;
+                        codeThis.emailCodeBtnText = wait;
+                        codeThis.emailTime(codeThis, wait);
+                    }, 1000)
+                } else {
+                    codeThis.emailCodeDisabled = false;
+                    codeThis.emailCodeBtnText = '验证码';
+                }
+            },
+            /**
+             * 绑定邮箱
+             * @param bindEmailForm
+             */
+            confirmBindEmail (bindEmailForm) {
+                this.$refs[bindEmailForm].validate((valid) => {
+                    if (valid) {
+                        service.post(`/profile/update/email/${this.user.id}/${this.bindEmail.email}/${this.bindEmail.code}`).then(response => {
+                            if (response.code === 20000) {
+                                //绑定成功
+                                this.$message({
+                                    message: '绑定邮箱成功!',
+                                    type: 'success',
+                                    duration: 5*1000
+                                });
+                                this.user.email = this.bindEmail.email;
+                            } else {
+                                //绑定失败
+                                this.$message({
+                                    message: response.message,
+                                    type: 'error',
+                                    duration: 5*1000
+                                });
+                            }
+                        })
+                    }
+                })
+            },
         }
-    })
+    });
 </script>
 
 </html>

@@ -8,8 +8,10 @@ import com.yang.graduation.dto.ResponseResult;
 import com.yang.graduation.provider.api.NewsCategoryService;
 import com.yang.graduation.provider.api.NewsService;
 import com.yang.graduation.provider.api.UserService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.BeanUtils;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -163,6 +165,13 @@ public class ProfileController {
         }
         return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "success");
     }
+
+    /**
+     * 验证密码
+     * @param id
+     * @param oldPwd
+     * @return
+     */
     @PostMapping("/validatePwd/{id}/{oldPwd}")
     public ResponseResult<Void> validatePwd(@PathVariable String id, @PathVariable String oldPwd) {
         User user = userService.getById(id);
@@ -171,6 +180,13 @@ public class ProfileController {
         }
         return new ResponseResult<>(ResponseResult.CodeStatus.VALIDATE_PWD, "fail");
     }
+
+    /**
+     * 更新密码
+     * @param id
+     * @param password
+     * @return
+     */
     @PostMapping("/changePwd/{id}/{password}")
     public ResponseResult<Void> changePwd(@PathVariable String id, @PathVariable String password) {
         User user = userService.getById(id);
@@ -179,6 +195,92 @@ public class ProfileController {
         if (res > 0) {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success");
         }
-        return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "success");
+        return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "fail");
+    }
+
+    /**
+     * 验证手机号
+     * @param phone
+     * @return
+     */
+    @PostMapping("/validatePhone/{phone}")
+    public ResponseResult<Void> validatePhone(@PathVariable String phone) {
+        if (phone.matches("0?(13|14|15|18|17)[0-9]{9}")) {
+            if (!userService.validatePhone(phone)) {
+                //手机号不存在
+                return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success");
+            }
+        }
+        //手机号已存在
+        return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "fail");
+    }
+    @Resource
+    private RedisTemplate<String, String> redisTemplate;
+
+    /**
+     * 更新手机号
+     * @param id
+     * @param phone
+     * @param code
+     * @return
+     */
+    @PostMapping("/update/phone/{id}/{phone}/{code}")
+    public ResponseResult<Void> updatePhone(@PathVariable String id, @PathVariable String phone, @PathVariable String code) {
+        String phoneCode = redisTemplate.boundValueOps(phone).get();
+        if (StringUtils.isNotBlank(code) && code.equals(phoneCode)) {
+            User user = userService.getById(id);
+            if (user.getPhone() != null && user.getPhone().matches("0?(13|14|15|18|17)[0-9]{9}")) {
+                return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "用户手机号已存在!请更改手机号");
+            }
+            user.setPhone(phone);
+            int res = userService.updateById(user);
+            if (res > 0) {
+                redisTemplate.delete(phone);
+                return new ResponseResult<>(ResponseResult.CodeStatus.OK, "update success");
+            }
+            return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "update fail");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "验证码有误!");
+    }
+    /**
+     * 验证邮箱
+     * @param email
+     * @return
+     */
+    @PostMapping("/validateEmail/{email}")
+    public ResponseResult<Void> validateEmail(@PathVariable String email) {
+        if (email.matches("\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}")) {
+            if (!userService.validateEmail(email)) {
+                //邮箱不存在
+                return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success");
+            }
+        }
+        //邮箱已存在
+        return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "fail");
+    }
+    /**
+     * 更新邮箱
+     * @param id
+     * @param email
+     * @param code
+     * @return
+     */
+    @PostMapping("/update/email/{id}/{email}/{code}")
+    public ResponseResult<Void> updateEmail(@PathVariable String id, @PathVariable String email, @PathVariable String code) {
+        String emailCode = redisTemplate.boundValueOps(email).get();
+        if (StringUtils.isNotBlank(code) && code.equals(emailCode)) {
+            User user = userService.getById(id);
+            if (user.getEmail() != null && user.getEmail().matches("\\w[-\\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\\.)+[A-Za-z]{2,14}")) {
+                return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "用户邮箱已存在");
+            }
+            user.setEmail(email);
+            int res = userService.updateById(user);
+            if (res > 0) {
+                redisTemplate.delete(email);
+                return new ResponseResult<>(ResponseResult.CodeStatus.OK, "update success");
+            }
+            return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "update fail");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "验证码有误!");
     }
 }

@@ -16,6 +16,15 @@ spring:
     encoding: UTF-8
     servlet:
       content-type: text/html
+  redis:
+    host: 10.211.55.34
+    port: 6379
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-wait: -1ms
+        max-active: 8
   mvc:
     static-path-pattern: /static/**
 dubbo:

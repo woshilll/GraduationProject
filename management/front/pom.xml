@@ -98,6 +98,16 @@
             </exclusions>
         </dependency>
         <!-- Apache Dubbo End -->
+        <!--        redis start-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-pool2</artifactId>
+        </dependency>
+        <!--        redis end-->
         <!-- Projects Begin -->
         <dependency>
             <groupId>com.yang.graduation</groupId>

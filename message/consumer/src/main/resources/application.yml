@@ -1,0 +1,20 @@
+
+spring:
+  application:
+    name: consumer
+  redis:
+    host: 10.211.55.34
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://10.211.55.34:8848
+    # RocketMQ 相关配置
+    stream:
+      rocketmq:
+        binder:
+          name-server: 10.211.55.34:9876
+      bindings:
+        phone-message: {destination: phone-message, content-type: text/plain, group: phone-group, consumer.maxAttempts: 1}
+        mail-message: {destination: mail-message, content-type: text/plain, group: mail-group, consumer.maxAttempts: 1}
+server:
+  port: 8400

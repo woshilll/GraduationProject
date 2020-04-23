@@ -1,0 +1,36 @@
+
+spring:
+  application:
+    name: producer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: http://10.211.55.34:8848
+    # RocketMQ 相关配置
+    stream:
+      rocketmq:
+        binder:
+          name-server: 10.211.55.34:9876
+      bindings:
+        phone-message: {destination: phone-message, content-type: application/json}
+        mail-message: {destination: mail-message, content-type: application/json}
+  redis:
+    host: 10.211.55.34
+    port: 6379
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-wait: -1ms
+        max-active: 8
+security:
+  oauth2:
+    client:
+      client-id: client
+      client-secret: secret
+      access-token-uri: http://localhost:9300/oauth/token
+      user-authorization-uri: http://localhost:9300/oauth/authorize
+    resource:
+      token-info-uri: http://localhost:9300/oauth/check_token
+server:
+  port: 8300
