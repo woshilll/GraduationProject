@@ -101,4 +101,17 @@ public interface UserService {
      * @return
      */
     boolean validateEmail(String email);
+
+    /**
+     * 通过手机得到用户
+     * @param phone
+     * @return
+     */
+    User getUserByPhone(String phone);
+    /**
+     * 通过邮箱得到用户
+     * @param email
+     * @return
+     */
+    User getUserByEmail(String email);
 }

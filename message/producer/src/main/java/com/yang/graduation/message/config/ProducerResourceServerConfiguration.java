@@ -26,7 +26,7 @@ public class ProducerResourceServerConfiguration extends ResourceServerConfigure
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasAuthority("USER");
+                .antMatchers("/message/send/**").hasAuthority("USER");
     }
     @Override
     public void configure(ResourceServerSecurityConfigurer resources) throws Exception {

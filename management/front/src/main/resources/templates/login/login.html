@@ -38,6 +38,21 @@
             margin-bottom: 20px;
         }
 
+        .form input span {
+
+        }
+
+        .input {
+            width: 200px;
+            height: 30px;
+            font-size: 18px;
+            background: none;
+            border: none;
+            border-bottom: 1px solid #fff;
+            color: #fff;
+            margin-bottom: 20px;
+        }
+
         .form input::placeholder {
             color: rgba(255, 255, 255, 0.8);
             font-size: 18px;
@@ -63,7 +78,24 @@
             transition: .25s;
         }
 
+        .forgetBtn {
+            width: 140px;
+            height: 40px;
+            border: 1px solid #fff;
+            background: none;
+            font-size: 20px;
+            color: #fff;
+            cursor: pointer;
+            margin-top: auto;
+            font-family: "neo";
+            transition: .25s;
+        }
+
         .btn:hover {
+            background: rgba(255, 255, 255, .25);
+        }
+
+        .forgetBtn:hover {
             background: rgba(255, 255, 255, .25);
         }
 
@@ -90,8 +122,28 @@
             float: right;
         }
 
+        #forget {
+            width: 50%;
+            height: 100%;
+            min-height: 500px;
+            background: linear-gradient(45deg, #9a444e, #e06267);
+            position: relative;
+            float: right;
+        }
+
         #login #status {
             width: 90px;
+            height: 40px;
+            margin: 40px auto;
+            color: #fff;
+            font-size: 30px;
+            font-weight: 600;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #forget #forget_status {
+            width: 140px;
             height: 40px;
             margin: 40px auto;
             color: #fff;
@@ -107,6 +159,12 @@
             transition: .5s
         }
 
+        #forget #forget_status i {
+            font-style: normal;
+            position: absolute;
+            transition: .5s
+        }
+
         #login span {
             text-align: center;
             position: absolute;
@@ -116,7 +174,24 @@
             margin-top: -140px;
         }
 
+        #forget span {
+            text-align: center;
+            position: absolute;
+            left: 50%;
+            margin-left: -150px;
+            top: 52%;
+            margin-top: -140px;
+        }
+
         #login span a {
+            text-decoration: none;
+            color: #fff;
+            display: block;
+            margin-top: 80px;
+            font-size: 18px;
+        }
+
+        #forget span a {
             text-decoration: none;
             color: #fff;
             display: block;
@@ -280,6 +355,11 @@
                 width: 100%;
 
             }
+
+            #forget {
+                width: 100%;
+
+            }
         }
 
         @media screen and (max-width: 560px ) {
@@ -297,6 +377,10 @@
             }
 
             .btn {
+                width: 113px;
+            }
+
+            .forgetBtn {
                 width: 113px;
             }
         }
@@ -320,7 +404,7 @@
 <body>
 <div id="app" class="bg" v-loading="loading">
     <div id="login_wrap">
-        <div id="login"><!-- 登录注册切换动画 -->
+        <div id="login" v-if="!forgetPwd"><!-- 登录注册切换动画 -->
             <div id="status">
                 <i style="top: 0">登录</i>
                 <i style="top: 40px">注册</i>
@@ -328,7 +412,7 @@
             <span>
                     <el-form :rules="rules" :model="account" ref="loginForm">
                         <el-form-item label-width="auto" class="form" prop="username">
-                        <el-input type="text" v-model="account.username" placeholder="请输入用户名"/>
+                        <el-input type="text" v-model="account.username" placeholder="请输入用户名/手机号/邮箱"/>
                         </el-form-item>
                         <el-form-item label-width="auto" class="form" prop="password">
                         <el-input type="password" v-model="account.password" placeholder="请输入密码"/>
@@ -340,7 +424,32 @@
                                style="margin-right: 20px;">
                         <input type="button" value="注册" class="btn" @click="signIn('loginForm')" id="btn">
                     </el-form>
-                    <a href="#" style="margin-top: 30px">忘记密码?</a>
+                    <a @click="forget('loginForm')" v-if="onOff" style="margin-top: 30px">忘记密码?</a>
+                </span>
+        </div>
+        <div id="forget" v-if="forgetPwd">
+            <div id="forget_status">
+                <i style="top: 40px">忘记密码</i>
+            </div>
+            <span>
+                    <el-form :model="forgetObj" ref="forget" :rules="forgetRules">
+                        <el-form-item label-width="auto" class="form" prop="phoneOrEmail">
+                        <el-input v-model="forgetObj.phoneOrEmail" type="text" placeholder="手机或邮箱找回"/>
+                        </el-form-item>
+                        <el-form-item label-width="auto" class="form" prop="code">
+                            <el-input v-model="forgetObj.code" type="text" placeholder="验证码"/>
+                        </el-form-item>
+                        <el-form-item label-width="auto" class="form" prop="forgetPassword">
+                        <el-input type="password" v-model="forgetObj.forgetPassword" placeholder="输入新密码"/>
+                        </el-form-item>
+                        <el-form-item label-width="auto" style="margin-top: 50px">
+                        <input type="button" :value="codeText" :disabled="codeDisabled" class="forgetBtn"
+                               @click="getCode('forget')"
+                               style="margin-right: 20px;">
+                        <input type="button" value="找回密码" class="forgetBtn" @click="findPassword('forget')">
+                            </el-form-item>
+                    </el-form>
+                    <a @click="forget('forget')" style="margin-top: 30px;">返回登录</a>
                 </span>
         </div>
 
@@ -363,7 +472,7 @@
                     <span></span>
                     <span></span>
                 </span>
-            <p id="title">CLOUD</p>
+            <p id="title">登录注册页</p>
         </div>
     </div>
 </div>
@@ -381,6 +490,36 @@
                 }
                 return new callback();
             };
+            const validatePhoneOrEmail = (rule, value, callback) => {
+                let phonePattern = /^1[3456789]\d{9}$/;
+                let emailPattern = /\w[-\w.+]*@([A-Za-z0-9][-A-Za-z0-9]+\.)+[A-Za-z]{2,14}/;
+                if (phonePattern.test(value)) {
+                    //说明是手机号
+                    this.isPhone = true;
+                    axios.get(`/forget/validate/phone/${this.forgetObj.phoneOrEmail}`).then(response => {
+                        if (response.data.code === 20000) {
+                            //验证成功
+                            return new callback();
+                        } else {
+                            return new callback(new Error(response.data.message))
+                        }
+                    })
+                } else if (emailPattern.test(value)) {
+                    //说明是邮箱
+                    this.isPhone = false;
+                    axios.get(`/forget/validate/email/${this.forgetObj.phoneOrEmail}`).then(response => {
+                        if (response.data.code === 20000) {
+                            //验证成功
+                            return new callback();
+                        } else {
+                            return new callback(new Error(response.data.message))
+                        }
+                    })
+                } else {
+                    //都不是
+                    return new callback(new Error('请输入正确的手机或邮箱'));
+                }
+            }
             return {
                 onOff: true,
                 account: {
@@ -405,6 +544,29 @@
                         {validator: validateRePwd, trigger: 'blur'}
                     ]
                 },
+                forgetPwd: false,
+                forgetObj: {
+                    phoneOrEmail: '',
+                    code: '',
+                    forgetPassword: ''
+                },
+                codeDisabled: false,
+                codeText: '验证码',
+                forgetRules: {
+                    phoneOrEmail: [
+                        {required: true, message: '请输入手机或邮箱', trigger: 'blur'},
+                        {validator: validatePhoneOrEmail, trigger: 'blur'}
+                    ],
+                    code: [
+                        {required: true, message: '请输入验证码', trigger: 'blur'},
+                        {min: 6, max: 6, message: '验证码长度不正确', trigger: 'blur'},
+                    ],
+                    forgetPassword: [
+                        {required: true, message: '请输入密码', trigger: 'blur'},
+                        {min: 6, max: 16, message: '密码在6-16之间', trigger: 'blur'},
+                    ]
+                },
+                isPhone: false
 
             };
         },
@@ -527,6 +689,138 @@
                     status[1].style.top = 40 + "px";
                     this.onOff = !this.onOff
                 }
+            },
+            forget(form) {
+                this.$refs[form].clearValidate();
+                this.forgetPwd = !this.forgetPwd;
+                let curThis = this;
+                if (form === 'forget') {
+                    setTimeout(function () {
+
+                        let status = document.getElementById("status").getElementsByTagName("i");
+                        let confirm = document.getElementsByClassName("confirm")[0];
+                        if (!curThis.onOff) {
+                            confirm.style.height = 0;
+                            status[0].style.top = 0;
+                            status[1].style.top = 40 + "px";
+                            curThis.onOff = true;
+                        }
+
+                    }, 100)
+                }
+                if (form === 'loginForm') {
+                    if (this.onOff) {
+                        let confirm = document.getElementsByClassName("confirm")[0];
+                        confirm.style.height = 50 + "px";
+                        this.onOff = !this.onOff;
+                    }
+                    setTimeout(function () {
+                        let status = document.getElementById("forget_status").getElementsByTagName("i");
+                        status[0].style.top = 0;
+                    }, 100)
+                }
+
+            },
+            getCode(form) {
+                this.$refs[form].validateField('phoneOrEmail', (valid) => {
+                    if (!valid) {
+                        if (this.isPhone) {
+                            //手机验证
+                            axios.post(`http://localhost:8888/api/message/forget/send/phone/code/${this.forgetObj.phoneOrEmail}`).then(response => {
+                                if (response.data) {
+                                    this.$message({
+                                        message: '验证码发送成功!',
+                                        type: 'success',
+                                        duration: 5 * 1000
+                                    });
+                                    this.codeDisabled = true;
+                                    let wait = 60;
+                                    this.codeText = '已发送';
+                                    let codeThis = this;
+                                    this.time(codeThis, wait);
+                                }
+                            })
+                        } else {
+                            //邮箱验证
+                            axios.post(`http://localhost:8888/api/message/forget/send/mail/code/${this.forgetObj.phoneOrEmail}`).then(response => {
+                                if (response.data) {
+                                    this.$message({
+                                        message: '验证码发送成功!',
+                                        type: 'success',
+                                        duration: 5 * 1000
+                                    });
+                                    this.codeDisabled = true;
+                                    let wait = 60;
+                                    this.codeText = '已发送';
+                                    let codeThis = this;
+                                    this.time(codeThis, wait);
+                                }
+                            })
+                        }
+
+                    }
+                })
+            },
+            time(codeThis, wait) {
+                if (wait !== 0) {
+                    setTimeout(function () {
+                        wait--;
+                        // codeThis.codeText = String(wait);
+                        codeThis.time(codeThis, wait);
+                    }, 1000)
+                } else {
+                    codeThis.codeDisabled = false;
+                    codeThis.codeText = '验证码';
+                }
+            },
+            findPassword(form) {
+                this.$refs[form].validate((valid) => {
+                    if (valid) {
+                        if (this.isPhone) {
+                            //手机验证
+                            axios.post(`/forget/update/phone/${this.forgetObj.phoneOrEmail}/${this.forgetObj.forgetPassword}/${this.forgetObj.code}`)
+                                .then(response => {
+                                    if (response.data.code === 20000) {
+                                        //成功
+                                        this.$message({
+                                            message: '找回密码成功!',
+                                            type: 'success',
+                                            duration: 5 * 1000
+                                        });
+                                        this.forget(form);
+                                    } else {
+                                        //失败
+                                        this.$message({
+                                            message: response.data.message,
+                                            type: 'success',
+                                            duration: 5 * 1000
+                                        });
+                                    }
+                                })
+                        } else {
+                            //邮箱验证
+                            axios.post(`/forget/update/email/${this.forgetObj.phoneOrEmail}/${this.forgetObj.forgetPassword}/${this.forgetObj.code}`)
+                                .then(response => {
+                                    if (response.data.code === 20000) {
+                                        //成功
+                                        this.$message({
+                                            message: '找回密码成功!',
+                                            type: 'success',
+                                            duration: 5 * 1000
+                                        });
+                                        this.forget(form);
+                                    } else {
+                                        //失败
+                                        this.$message({
+                                            message: response.data.message,
+                                            type: 'success',
+                                            duration: 5 * 1000
+                                        });
+                                    }
+                                })
+                        }
+                    }
+                })
             }
         }
     });

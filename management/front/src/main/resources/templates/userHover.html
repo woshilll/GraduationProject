@@ -23,12 +23,12 @@
         </el-col>
     </el-row>
     <el-divider></el-divider>
-    <el-row :gutter="2">
-        <el-col :span="16">
-        </el-col>
-        <el-col :span="6">
-            <el-link :underline="false" type="primary" href="#" v-if="item.authorStatus !== 2">访问主页</el-link>
-        </el-col>
-    </el-row>
+<!--    <el-row :gutter="2">-->
+<!--        <el-col :span="16">-->
+<!--        </el-col>-->
+<!--        <el-col :span="6">-->
+<!--            <el-link :underline="false" type="primary" href="#" v-if="item.authorStatus !== 2">访问主页</el-link>-->
+<!--        </el-col>-->
+<!--    </el-row>-->
     <a class="author" slot="reference">{{item.authorName}}</a>
 </el-popover>

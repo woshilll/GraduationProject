@@ -46,6 +46,11 @@
             <artifactId>commons-pool2</artifactId>
         </dependency>
         <!--        redis end-->
+        <dependency>
+            <groupId>com.yang.graduation</groupId>
+            <artifactId>commons-utils</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
 
         <!-- 主要增加了 RocketMQ 依赖 -->
         <dependency>

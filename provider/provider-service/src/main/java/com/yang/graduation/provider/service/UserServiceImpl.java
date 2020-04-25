@@ -192,6 +192,30 @@ public class UserServiceImpl implements UserService {
         return userMapper.selectByExample(example).size() > 0;
     }
 
+    /**
+     * 通过手机得到用户
+     * @param phone
+     * @return
+     */
+    @Override
+    public User getUserByPhone(String phone) {
+        Example example = new Example(User.class);
+        example.createCriteria().andEqualTo("phone", phone);
+        return userMapper.selectOneByExample(example);
+    }
+
+    /**
+     * 通过邮箱得到用户
+     * @param email
+     * @return
+     */
+    @Override
+    public User getUserByEmail(String email) {
+        Example example = new Example(User.class);
+        example.createCriteria().andEqualTo("email", email);
+        return userMapper.selectOneByExample(example);
+    }
+
     private void initUser(User user) {
         //设置雪花分布式id
         user.setId(idWorker.nextId() + "");

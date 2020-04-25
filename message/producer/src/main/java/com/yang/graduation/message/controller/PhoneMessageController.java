@@ -1,7 +1,9 @@
-package com.yang.graduation.message;
+package com.yang.graduation.message.controller;
 
 import com.google.common.collect.Maps;
+import com.yang.graduation.commons.utils.MyPattern;
 import com.yang.graduation.message.producer.api.PhoneMessageProducerService;
+import org.apache.commons.lang3.StringUtils;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -29,19 +31,22 @@ public class PhoneMessageController {
     private RedisTemplate<String, String> redisTemplate;
     @PostMapping("/send/phone/code/{phone}")
     public Boolean sendPhoneCode(@PathVariable String phone) {
-        String codeStr = redisTemplate.boundValueOps(phone).get();
-        if (codeStr != null) {
-            return false;
+        if (StringUtils.isNotBlank(phone) && phone.matches(MyPattern.PHONE)) {
+            String codeStr = redisTemplate.boundValueOps(phone).get();
+            if (codeStr != null) {
+                return false;
+            }
+            HashMap<String, String> map = Maps.newHashMap();
+            map.put("phone", phone);
+            Random random = new Random();
+            int code = random.nextInt(1000000);
+            if (code < 100000) {
+                code += 100000;
+            }
+            map.put("code", code + "");
+            redisTemplate.boundValueOps(phone).set(code + "", 5, TimeUnit.MINUTES);
+            return phoneMessageProducerService.sendPhoneMessage(map);
         }
-        HashMap<String, String> map = Maps.newHashMap();
-        map.put("phone", phone);
-        Random random = new Random();
-        int code = random.nextInt(1000000);
-        if (code < 100000) {
-            code += 100000;
-        }
-        map.put("code", code + "");
-        redisTemplate.boundValueOps(phone).set(code + "", 5, TimeUnit.MINUTES);
-        return phoneMessageProducerService.sendPhoneMessage(map);
+        return false;
     }
 }
