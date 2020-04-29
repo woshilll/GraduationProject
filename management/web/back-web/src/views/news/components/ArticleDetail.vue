@@ -26,6 +26,9 @@
         <el-button v-loading="loading" type="warning" @click="draftForm">
           保存
         </el-button>
+        <el-button v-loading="loading" type="danger" @click="noPass">
+          不通过
+        </el-button>
       </sticky>
 
       <div class="createPost-main-container">
@@ -116,7 +119,7 @@
   import Upload from '@/components/Upload/UploadImage'
   import MDinput from '@/components/MDinput'
   import Sticky from '@/components/Sticky' // 粘性header组件
-  import {getNewsById, updateNews} from '@/api/news'
+  import {getNewsById, updateNews, noPass} from '@/api/news'
   import {getAll} from "../../../api/newsCategory";
   import IsDelete from "./Dropdown/IsDelete";
   import {getCommentsByNewsId, updateComment} from "../../../api/newsComment";
@@ -208,7 +211,6 @@
         document.title = `${title} - ${this.postForm.id}`
       },
       submitForm() {
-        console.log(this.postForm);
         this.$refs.postForm.validate(valid => {
           if (valid) {
             this.loading = true;
@@ -238,24 +240,40 @@
         })
       },
       draftForm() {
-        if (this.postForm.content.length === 0 || this.postForm.title.length === 0) {
-          this.$message({
-            message: '请填写必要的标题和内容',
-            type: 'warning'
-          })
-          return
-        }
-        //设置更新的管理员名
-        this.postForm.audit = this.$store.getters.name;
-        updateNews(this.postForm).then(response => {
-          this.$notify({
-            title: '成功',
-            message: '你更新了一个文章!',
-            type: 'warning',
-            duration: 0
-          });
+        this.$refs.postForm.validate(valid => {
+          if (valid) {
+            //设置更新的管理员名
+            this.postForm.audit = this.$store.getters.name;
+            updateNews(this.postForm).then(response => {
+              this.$notify({
+                title: '成功',
+                message: '你更新了一个文章!',
+                type: 'warning',
+                duration: 0
+              });
+            })
+          } else {
+            return false;
+          }
         })
-
+      },
+      noPass() {
+        this.$refs.postForm.validate(valid => {
+          if (valid) {
+            //设置更新的管理员名
+            this.postForm.audit = this.$store.getters.name;
+            noPass(this.postForm).then(response => {
+              this.$notify({
+                title: '成功',
+                message: '该文章未通过审核!',
+                type: 'warning',
+                duration: 0
+              });
+            })
+          } else {
+            return false;
+          }
+        })
       },
       openDialog(newsId) {
         getCommentsByNewsId(newsId).then(response => {

@@ -17,11 +17,10 @@
     </select>
     <select id="categoryCommentAndLikeCount"
             resultType="com.yang.graduation.commons.domain.analyze.CommentAndLikeParam">
-        select news_category.name as categoryName,
-        sum(comment_count) as commentCount, sum(like_count) as likeCount
-        from news_category, news
-        where news.category_id = news_category.id
-        group by news.category_id
+        select news_category.id as categoryId,
+       news_category.name as categoryName
+        from news_category left join news on news.category_id = news_category.id
+        group by news_category.id
     </select>
     <select id="categoryNewsCount2"
             resultType="com.yang.graduation.commons.domain.analyze.CategoryNewsCountParam">

@@ -664,7 +664,8 @@
                                         if (response.data.code === 20000) {
                                             localStorage.setItem("token", response.data.data.token);
                                             localStorage.setItem("name", response.data.data.name);
-                                            window.location.href = '/index';
+                                            localStorage.setItem("status", response.data.data.status);
+                                            window.history.go(-1);
                                         } else {
                                             this.$message({
                                                 message: response.data.message,

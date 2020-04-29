@@ -283,4 +283,18 @@ public class ProfileController {
         }
         return new ResponseResult<>(ResponseResult.CodeStatus.FAIL, "验证码有误!");
     }
+
+    /**
+     * 假删除,将isDelete字段置为1
+     * @param id
+     * @return
+     */
+    @PostMapping("/delete/news/{id}")
+    public ResponseResult<Void> deleteNewsById(@PathVariable String id) {
+        int res = newsService.deleteById(id);
+        if (res > 0) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "delete success");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.DELETE_FAIL, "delete fail");
+    }
 }

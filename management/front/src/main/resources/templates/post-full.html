@@ -127,6 +127,10 @@
                         <input type="hidden" th:value="${news.id}" id="newsId"/>
                         <input type="hidden" th:value="${news.userId}" id="userId"/>
                         <div class="comment-form" v-if="isLogin()">
+                            <div v-if="!status()">
+                                <h4>您已被禁言</h4>
+                            </div>
+                            <div v-if="status()">
                             <h4>留下你的评论</h4>
                             <el-form :model="comment" :rules="rules"  label-width="100%" ref="commentForm">
                                 <el-form-item prop="userDetails" label-width="auto">
@@ -136,6 +140,7 @@
                                     <button type="button" class="bttn-mid btn-fill" @click="sendComment('commentForm')">发送评论</button>
                                 </el-form-item>
                             </el-form>
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -213,7 +218,7 @@
                 return localStorage.getItem('token') !== null;
             },
             logout() {
-                axios.post('/front/logout', {access_token: localStorage.getItem('token')},{
+                axios.post(`/front/logout/${localStorage.getItem('token')}`, {
                     headers: {
                         "Authorization": 'Bearer ' + localStorage.getItem("token")
                     }
@@ -246,7 +251,7 @@
                             } else {
                                 this.$notify({
                                     title: '失败',
-                                    message: '评论失败',
+                                    message: response.data.message,
                                     type: 'error',
                                     duration: 5*1000
                                 });
@@ -278,6 +283,15 @@
                     //跳转登录
                     window.location.href = '/login';
                 }
+            },
+            status() {
+                if (this.isLogin()) {
+                    let status = localStorage.getItem('status');
+                    if (Number(status) === 0) {
+                        return true;
+                    }
+                }
+                return false;
             }
         }
     })

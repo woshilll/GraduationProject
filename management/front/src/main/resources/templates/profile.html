@@ -2,6 +2,19 @@
 
 <html class="no-js" xmlns:th="http://www.thymeleaf.org">
 <head>
+    <style>
+        .tippy-active {
+
+        }
+
+        .tippy-arrow {
+
+        }
+
+        .tippy-content {
+
+        }
+    </style>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
@@ -18,6 +31,20 @@
     <style>
         [v-cloak] {
             display: none;
+        }
+        .tippy-* {
+
+        }
+        .tippy-active {
+
+        }
+
+        .tippy-arrow {
+
+        }
+
+        .tippy-content {
+
         }
 
         /*.my-bg-color >>> .el-collapse-item .el-collapse-item__header {*/
@@ -151,13 +178,29 @@
         <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane active" id="already-published">
             <div class="flex flex-row sm:flex-col items-center sm:items-start w-full xs:w-1/2 sm:w-1/3 md:w-1/5 p-4 js-book"
                  v-for="item in allNews">
-                <el-link :underline="false" :href="'/news/post/' + item.id">
-                    <img :src="item.image" alt="点击转到新闻页"
-                         class="w-1/3 sm:w-full shadow-md transition-normal hover:brighter hover:translate-y-1 hover:shadow-lg hover:border-indigo">
-                </el-link>
+                <div style="position:relative;">
+                    <el-link :underline="false" :href="'/news/post/' + item.id">
+                        <img :src="item.image" alt="点击转到新闻页"
+                             class="w-1/3 sm:w-full shadow-md transition-normal hover:brighter hover:translate-y-1 hover:shadow-lg hover:border-indigo">
+                    </el-link>
+                    <el-popconfirm
+                            @onConfirm="deleteNewsById(item.id)"
+                            confirm-Button-Text='好的'
+                            cancel-Button-Text='不用了'
+                            icon="el-icon-info"
+                            icon-Color="red"
+                            title="你确定要删除你的文章吗？"
+                    >
+                        <el-button type="danger" icon="el-icon-delete" circle slot="reference" size="mini"
+                                   style="position:absolute; right:10px; bottom:10px;"></el-button>
+                    </el-popconfirm>
+                </div>
                 <div class="ml-3 sm:ml-0 w-2/3 sm:w-full">
                     <p class="text-sm my-2 font-medium sm:font-normal">
-                        <el-link :underline="false" :href="'/news/post/' + item.id">{{item.title}}</el-link>
+                        <el-link :underline="false" :href="'/news/post/' + item.id"
+                                 style="display: block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; width: 150px;">
+                            {{item.title}}
+                        </el-link>
                     </p>
                     <p class="block sm:hidden mt-2 mb-3 text-sm leading-medium">{{item.content}}</p>
                 </div>
@@ -167,10 +210,23 @@
         <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane" id="un-reviewed">
             <div class="flex flex-row sm:flex-col items-center sm:items-start w-full xs:w-1/2 sm:w-1/3 md:w-1/5 p-4 js-book"
                  v-for="item in unReviewed">
+                <div style="position:relative;">
                 <el-link :underline="false" @click="updateNewsDialog(item)">
                     <img :src="item.image" alt=""
                          class="w-1/3 sm:w-full shadow-md transition-normal hover:brighter hover:translate-y-1 hover:shadow-lg hover:border-indigo">
                 </el-link>
+                <el-popconfirm
+                        @onConfirm="deleteNewsById(item.id)"
+                        confirm-Button-Text='好的'
+                        cancel-Button-Text='不用了'
+                        icon="el-icon-info"
+                        icon-Color="red"
+                        title="你确定要删除你的文章吗？"
+                >
+                    <el-button type="danger" icon="el-icon-delete" circle slot="reference" size="mini"
+                               style="position:absolute; right:10px; bottom:10px;"></el-button>
+                </el-popconfirm>
+                </div>
                 <div class="ml-3 sm:ml-0 w-2/3 sm:w-full">
                     <p class="text-sm my-2 font-medium sm:font-normal">
                         <el-link :underline="false" @click="updateNewsDialog(item)">{{item.title}}</el-link>
@@ -182,10 +238,23 @@
         <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane" id="reviewed-fail">
             <div class="flex flex-row sm:flex-col items-center sm:items-start w-full xs:w-1/2 sm:w-1/3 md:w-1/5 p-4 js-book"
                  v-for="item in reviewedFail">
+                <div style="position:relative;">
                 <el-link :underline="false" @click="updateNewsDialog(item)">
                     <img :src="item.image" alt=""
                          class="w-1/3 sm:w-full shadow-md transition-normal hover:brighter hover:translate-y-1 hover:shadow-lg hover:border-indigo">
                 </el-link>
+                <el-popconfirm
+                        @onConfirm="deleteNewsById(item.id)"
+                        confirm-Button-Text='好的'
+                        cancel-Button-Text='不用了'
+                        icon="el-icon-info"
+                        icon-Color="red"
+                        title="你确定要删除你的文章吗？"
+                >
+                    <el-button type="danger" icon="el-icon-delete" circle slot="reference" size="mini"
+                               style="position:absolute; right:10px; bottom:10px;"></el-button>
+                </el-popconfirm>
+                </div>
                 <div class="ml-3 sm:ml-0 w-2/3 sm:w-full">
                     <p class="text-sm my-2 font-medium sm:font-normal">
                         <el-link :underline="false" @click="updateNewsDialog(item)">{{item.title}}</el-link>
@@ -200,7 +269,12 @@
         <div class="flex items-center mb-6" @click="dialogFormVisible = true">
             <img :src="user.userIcon" width="60px" height="60px">
             <div class="ml-3">
-                <p>{{user.name}}</p>
+                <p>
+                    {{user.name}}
+                    <el-tag :type="user.banned | statusFilter">
+                        {{ user.banned === 0 ? '正常' : user.banned === 1 ? '禁言' : '封禁'}}
+                    </el-tag>
+                </p>
                 <p class="text-grey-dark mt-1 text-sm">加入时间:{{new Date(user.registTime).toLocaleDateString()}}</p>
                 <input type="hidden" th:value="${name}" id="name"/>
             </div>
@@ -210,6 +284,7 @@
                 Date().toLocaleDateString()}}</h3>
             <h3 class="text-indigo-dark font-normal mb-6">
                 <el-link :underline="false" href="/index"><strong>返回首页</strong></el-link>
+                <el-link :underline="false" @click="logout"><strong>注销登录</strong></el-link>
             </h3>
             <el-collapse accordion>
                 <el-collapse-item v-if="user.phone === null || user.phone === ''">
@@ -219,7 +294,7 @@
                     <div>
                         <el-form :model="bindPhone" :rules="bindPhoneRules" ref="bindPhoneForm" label-width="80px"
                                  class="demo-ruleForm">
-                            <el-form-item label-width="auto"  prop="phone">
+                            <el-form-item label-width="auto" prop="phone">
                                 <el-input v-model="bindPhone.phone" placeholder="请输入手机号"></el-input>
                             </el-form-item>
                             <el-form-item prop="code" label-width="auto">
@@ -248,17 +323,18 @@
                     <div>
                         <el-form :model="bindEmail" :rules="bindEmailRules" ref="bindEmailForm" label-width="80px"
                                  class="demo-ruleForm">
-                            <el-form-item label-width="auto"  prop="email">
+                            <el-form-item label-width="auto" prop="email">
                                 <el-input v-model="bindEmail.email" placeholder="请输入邮箱"></el-input>
                             </el-form-item>
-                            <el-form-item  label-width="auto" prop="code">
+                            <el-form-item label-width="auto" prop="code">
                                 <el-col :span="11">
                                     <el-input v-model="bindEmail.code" placeholder="验证码"></el-input>
                                 </el-col>
                                 <el-col :span="2">&nbsp;</el-col>
                                 <el-col :span="11">
-                                    <el-button type="primary" :disabled="emailCodeDisabled" @click="bindEmailCode('bindEmailForm')"
-                                               >{{emailCodeBtnText}}
+                                    <el-button type="primary" :disabled="emailCodeDisabled"
+                                               @click="bindEmailCode('bindEmailForm')"
+                                    >{{emailCodeBtnText}}
                                     </el-button>
                                 </el-col>
                             </el-form-item>
@@ -418,8 +494,10 @@
 </div>
 <script src="/static/assets/profile/bundle.js" async defer></script>
 <script src="/static/assets/js/axios.js"></script>
-<script src="/static/assets/js/vue.js"></script>
-<script src="https://unpkg.com/element-ui/lib/index.js"></script>
+<!--<script src="/static/assets/js/vue.js"></script>-->
+<script src="https://cdn.jsdelivr.net/npm/vue@2.6.10"></script>
+<!--<script src="https://unpkg.com/element-ui@2.13.0/lib/index.js"></script>-->
+<script src="/static/assets/js/elementui-2.6.10.js"></script>
 
 </body>
 <script src="/static/assets/plugins/tinymce/js/tinymce/tinymce.min.js"></script>
@@ -445,6 +523,16 @@
     });
     new Vue({
         el: '#app',
+        filters: {
+            statusFilter(status) {
+                const statusMap = {
+                    0: 'success',
+                    1: 'info',
+                    2: 'danger'
+                };
+                return statusMap[status]
+            },
+        },
         data() {
             const validateCategory = (rule, value, callback) => {
                 if (Number(value) < 0 || Number(value) > 10) {
@@ -611,7 +699,7 @@
                     ]
                 },
                 emailCodeDisabled: false,
-                emailCodeBtnText: '验证码'
+                emailCodeBtnText: '验证码',
             };
 
         },
@@ -741,6 +829,17 @@
                         });
                     }
                 })
+            },
+            logout() {
+                axios.post(`/front/logout/${localStorage.getItem('token')}`, {
+                        headers: {
+                            "Authorization": 'Bearer ' + localStorage.getItem("token")
+                        }
+                    }
+                );
+                localStorage.removeItem("token");
+                localStorage.removeItem("name");
+                window.location.href = '/index';
             },
             /**
              * 新闻的dialog
@@ -984,7 +1083,7 @@
              * 绑定手机号
              * @param bindPhoneForm
              */
-            confirmBindPhone (bindPhoneForm) {
+            confirmBindPhone(bindPhoneForm) {
                 this.$refs[bindPhoneForm].validate((valid) => {
                     if (valid) {
                         service.post(`/profile/update/phone/${this.user.id}/${this.bindPhone.phone}/${this.bindPhone.code}`).then(response => {
@@ -993,7 +1092,7 @@
                                 this.$message({
                                     message: '绑定手机成功!',
                                     type: 'success',
-                                    duration: 5*1000
+                                    duration: 5 * 1000
                                 });
                                 this.user.phone = this.bindPhone.phone;
                             } else {
@@ -1001,7 +1100,7 @@
                                 this.$message({
                                     message: response.message,
                                     type: 'error',
-                                    duration: 5*1000
+                                    duration: 5 * 1000
                                 });
                             }
                         })
@@ -1016,26 +1115,26 @@
                     if (!valid) {
                         //发送验证码
                         service.post(`http://127.0.0.1:8888/api/message/send/mail/code/${this.bindEmail.email}/${this.user.name}`)
-                        .then(response => {
-                            if (response) {
-                                this.$message({
-                                    message: '验证码发送成功!',
-                                    type: 'success',
-                                    duration: 5 * 1000
-                                });
-                                this.emailCodeDisabled = true;
-                                let wait = 60;
-                                this.emailCodeBtnText = wait;
-                                let codeThis = this;
-                                this.emailTime(codeThis, wait);
-                            } else {
-                                this.$message({
-                                    message: '验证码发送失败,请稍后再试!',
-                                    type: 'error',
-                                    duration: 5 * 1000
-                                });
-                            }
-                        })
+                            .then(response => {
+                                if (response) {
+                                    this.$message({
+                                        message: '验证码发送成功!',
+                                        type: 'success',
+                                        duration: 5 * 1000
+                                    });
+                                    this.emailCodeDisabled = true;
+                                    let wait = 60;
+                                    this.emailCodeBtnText = wait;
+                                    let codeThis = this;
+                                    this.emailTime(codeThis, wait);
+                                } else {
+                                    this.$message({
+                                        message: '验证码发送失败,请稍后再试!',
+                                        type: 'error',
+                                        duration: 5 * 1000
+                                    });
+                                }
+                            })
                     }
                 })
             },
@@ -1055,7 +1154,7 @@
              * 绑定邮箱
              * @param bindEmailForm
              */
-            confirmBindEmail (bindEmailForm) {
+            confirmBindEmail(bindEmailForm) {
                 this.$refs[bindEmailForm].validate((valid) => {
                     if (valid) {
                         service.post(`/profile/update/email/${this.user.id}/${this.bindEmail.email}/${this.bindEmail.code}`).then(response => {
@@ -1064,7 +1163,7 @@
                                 this.$message({
                                     message: '绑定邮箱成功!',
                                     type: 'success',
-                                    duration: 5*1000
+                                    duration: 5 * 1000
                                 });
                                 this.user.email = this.bindEmail.email;
                             } else {
@@ -1072,13 +1171,27 @@
                                 this.$message({
                                     message: response.message,
                                     type: 'error',
-                                    duration: 5*1000
+                                    duration: 5 * 1000
                                 });
                             }
                         })
                     }
                 })
             },
+            deleteNewsById(id) {
+                service.post(`/profile/delete/news/${id}`).then(response => {
+                    if (response.code === 20000) {
+                        //success
+                        window.location.reload();
+                    } else {
+                        this.$message({
+                            type: 'error',
+                            message: '删除失败,请稍后再试',
+                            duration: 5 * 1000
+                        })
+                    }
+                })
+            }
         }
     });
 </script>

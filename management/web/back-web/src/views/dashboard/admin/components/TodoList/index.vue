@@ -2,7 +2,7 @@
   <section class="todoapp">
     <!-- header -->
     <header class="header">
-      <input class="new-todo" autocomplete="off" placeholder="Todo List" @keyup.enter="addTodo">
+      <input class="new-todo" autocomplete="off" placeholder="便签" @keyup.enter="addTodo">
     </header>
     <!-- main section -->
     <section v-show="todos.length" class="main">
@@ -23,7 +23,7 @@
     <footer v-show="todos.length" class="footer">
       <span class="todo-count">
         <strong>{{ remaining }}</strong>
-        {{ remaining | pluralize('item') }} left
+        {{ remaining | pluralize('item') }} 剩余
       </span>
       <ul class="filters">
         <li v-for="(val, key) in filters" :key="key">
@@ -47,14 +47,14 @@ const filters = {
   completed: todos => todos.filter(todo => todo.done)
 }
 const defalutList = [
-  { text: 'star this repository', done: false },
-  { text: 'fork this repository', done: false },
-  { text: 'follow author', done: false },
-  { text: 'vue-element-admin', done: true },
-  { text: 'vue', done: true },
-  { text: 'element-ui', done: true },
-  { text: 'axios', done: true },
-  { text: 'webpack', done: true }
+  { text: '完成毕业答辩', done: false },
+  { text: '修改毕业论文', done: false },
+  { text: '准备毕业论文', done: false },
+  { text: '完成系统设计', done: true },
+  { text: '完成前台设计', done: true },
+  { text: '完成后台设计', done: true },
+  { text: '搭建系统架构', done: true },
+  { text: '准备毕业设计', done: true }
 ]
 export default {
   components: { Todo },

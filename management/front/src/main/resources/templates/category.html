@@ -165,7 +165,7 @@
                 return localStorage.getItem('token') !== null;
             },
             logout() {
-                axios.post('/front/logout', {access_token: localStorage.getItem('token')},{
+                axios.post(`/front/logout/${localStorage.getItem('token')}`, {
                     headers: {
                         "Authorization": 'Bearer ' + localStorage.getItem("token")
                     }

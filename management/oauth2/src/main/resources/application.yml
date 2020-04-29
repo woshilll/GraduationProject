@@ -10,6 +10,15 @@ spring:
     nacos:
       discovery:
         server-addr: http://10.211.55.34:8848
+  redis:
+    host: 10.211.55.34
+    port: 6379
+    lettuce:
+      pool:
+        min-idle: 0
+        max-idle: 8
+        max-wait: -1ms
+        max-active: 8
 dubbo:
   scan:
     base-packages: com.yang.graduation.oauth2.controller

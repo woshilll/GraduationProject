@@ -88,6 +88,7 @@ public class NewsServiceImpl implements NewsService {
         paramPageInfo.setStart((Integer) map.get("page"));
         paramPageInfo.setLength((Integer) map.get("limit"));
         List<NewsParam> newsParams = newsMapper.page(map);
+        initCount(newsParams);
         paramPageInfo.setData(newsParams);
         int count = count(map);
         paramPageInfo.setRecordsTotal(count);
@@ -273,6 +274,28 @@ public class NewsServiceImpl implements NewsService {
                 .andEqualTo("status", 2)
                 .andEqualTo("isDelete", 0);
         return newsMapper.selectByExample(example);
+    }
+    /**
+     * 假删除 将isDelete字段置为1
+     * @param id
+     * @return
+     */
+    @Override
+    public int deleteById(String id) {
+        News news = new News();
+        news.setId(id);
+        news.setIsDelete(1);
+        return newsMapper.updateByPrimaryKeySelective(news);
+    }
+
+    /**
+     * 删除 真删除
+     * @param id
+     * @return
+     */
+    @Override
+    public int deleteTrueById(String id) {
+        return newsMapper.deleteByPrimaryKey(id);
     }
 
     private void initNews(News news) {

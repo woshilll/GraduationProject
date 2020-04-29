@@ -133,4 +133,16 @@ public interface NewsService {
      */
     List<News> reviewedFail(String id);
 
+    /**
+     * 假删除 将isDelete字段置为1
+     * @param id
+     * @return
+     */
+    int deleteById(String id);
+    /**
+     * 删除 真删除
+     * @param id
+     * @return
+     */
+    int deleteTrueById(String id);
 }

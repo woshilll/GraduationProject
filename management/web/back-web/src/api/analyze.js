@@ -19,6 +19,15 @@ export function analyzeCategoryNewsCount() {
     method: 'get'
   })
 }
+/**
+ * 分析新闻状态数量
+ */
+export function analyzeNewsStatus() {
+  return request({
+    url: '/back/analyze/analyzeNewsStatus',
+    method: 'get'
+  })
+}
 
 /**
  * 分析每个分类下评论和点赞数

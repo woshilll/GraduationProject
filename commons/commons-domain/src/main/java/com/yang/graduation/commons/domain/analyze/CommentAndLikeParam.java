@@ -12,6 +12,7 @@ import java.io.Serializable;
  */
 @Data
 public class CommentAndLikeParam implements Serializable {
+    private Integer categoryId;
     /**
      * 分类名
      */

@@ -15,6 +15,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.oauth2.common.OAuth2AccessToken;
 import org.springframework.security.oauth2.provider.token.TokenStore;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
@@ -84,6 +85,8 @@ public class FrontUserLoginController {
             e.printStackTrace();
         }
         result.put("name", userDetails.getUsername());
+        Integer banned = userService.getUser(userDetails.getUsername()).getBanned();
+        result.put("status", banned);
         //设置登录时间
         userService.updateLoginTime(userDetails.getUsername());
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "登录成功!", result);
@@ -94,11 +97,13 @@ public class FrontUserLoginController {
      *
      * @return {@link ResponseResult}
      */
-    @PostMapping("/front/logout")
-    public ResponseResult<Void> logout(@RequestBody String  access_token) {
+    @PostMapping("/front/logout/{token}")
+    public ResponseResult<Void> logout(@PathVariable String  token) {
         //删除token 注销
-        OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(access_token);
-        tokenStore.removeAccessToken(oAuth2AccessToken);
+        OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token);
+        if (oAuth2AccessToken != null) {
+            tokenStore.removeAccessToken(oAuth2AccessToken);
+        }
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "用户已注销");
     }
 }

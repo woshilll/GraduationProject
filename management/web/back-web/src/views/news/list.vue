@@ -115,6 +115,24 @@
           {{ scope.row.audit }}
         </template>
       </el-table-column>
+      <el-table-column
+        fixed="right"
+        label="操作"
+        width="100"
+        :resizable="false">
+        <template slot-scope="scope">
+          <router-link :to="'./edit/'+scope.row.id" class="link-type">
+            <el-button type="primary" icon="el-icon-edit" circle size="small"></el-button>
+          </router-link>
+          <el-popconfirm
+            @onConfirm="deleteById(scope.row.id)"
+            title="你确定确定删除吗？后果自负!"
+            confirm-button-type="danger"
+          >
+            <el-button slot="reference" type="danger" icon="el-icon-delete" circle size="small"></el-button>
+          </el-popconfirm>
+        </template>
+      </el-table-column>
 
 
     </el-table>
@@ -131,7 +149,7 @@
 
 <script>
   import Pagination from '../../components/Pagination'
-  import {selectAll} from '../../api/news'
+  import {selectAll, deleteById} from '@/api/news'
   import PanThumb from '../../components/PanThumb'
 
   export default {
@@ -227,6 +245,9 @@
           })
         })
       },
+      /**
+       *时间选择
+       */
       timeChange(data) {
         if (data != null) {
           this.listQuery.start = data[0];
@@ -235,6 +256,21 @@
           this.listQuery.start = '';
           this.listQuery.end = ''
         }
+      },
+      /**
+       * 删除新闻
+       * @param id
+       */
+      deleteById(id) {
+        deleteById(id).then(response => {
+          this.$notify({
+            title: '成功',
+            message: '删除新闻成功!',
+            type: 'success',
+            duration: 0
+          });
+          this.fetchData();
+        })
       }
     }
   }

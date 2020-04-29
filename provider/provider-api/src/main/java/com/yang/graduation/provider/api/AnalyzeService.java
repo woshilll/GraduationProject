@@ -3,6 +3,7 @@ package com.yang.graduation.provider.api;
 import com.yang.graduation.commons.domain.CountParam;
 import com.yang.graduation.commons.domain.analyze.CategoryNewsCountParam;
 import com.yang.graduation.commons.domain.analyze.CommentAndLikeParam;
+import com.yang.graduation.commons.domain.dto.NewsStatus;
 
 import java.util.List;
 
@@ -36,4 +37,9 @@ public interface AnalyzeService {
      * @return {@link List<CommentAndLikeParam>}
      */
     List<CommentAndLikeParam> analyzeCommentCountAndLikeCountInCategory();
+    /**
+     * 分析新闻状态
+     * @return {@link List<NewsStatus>}
+     */
+    List<NewsStatus> analyzeNewsStatus();
 }

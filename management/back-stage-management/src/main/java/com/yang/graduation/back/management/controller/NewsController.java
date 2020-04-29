@@ -38,12 +38,22 @@ public class NewsController {
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "查询成功", newsParamList);
     }
 
+    /**
+     * 得到某一新闻的详细信息
+     * @param id
+     * @return
+     */
     @GetMapping("/get/{id}")
     public ResponseResult<NewsParam> getNewsById(@PathVariable String id) {
         NewsParam newsParam = newsService.getNewsById(id);
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "查询成功", newsParam);
     }
 
+    /**
+     * 更新
+     * @param newsParam
+     * @return
+     */
     @PostMapping("/update")
     public ResponseResult<Void> updateNews(@RequestBody NewsParam newsParam) {
         int res = newsService.updateNews(newsParam);
@@ -52,6 +62,12 @@ public class NewsController {
         }
         return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "更新失败");
     }
+
+    /**
+     * 新增新闻
+     * @param newsParam
+     * @return
+     */
     @PostMapping("/insert")
     public ResponseResult<Void> insert(@RequestBody NewsParam newsParam) {
         int res = newsService.insertNews(newsParam);
@@ -59,5 +75,33 @@ public class NewsController {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "新增新闻成功!");
         }
         return new ResponseResult<>(ResponseResult.CodeStatus.INSERT_FAIL, "新增新闻失败!");
+    }
+
+    /**
+     * 删除新闻 真删除
+     * @param id
+     * @return
+     */
+    @PostMapping("/delete/{id}")
+    public ResponseResult<Void> delete(@PathVariable String id) {
+        int res = newsService.deleteTrueById(id);
+        if (res > 0) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "删除新闻成功!");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.DELETE_FAIL, "删除新闻失败!");
+    }
+    /**
+     * 不通过
+     * @param newsParam
+     * @return
+     */
+    @PostMapping("/noPass")
+    public ResponseResult<Void> noPass(@RequestBody NewsParam newsParam) {
+        newsParam.setStatus(2);
+        int res = newsService.updateNews(newsParam);
+        if (res > 0) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "更新成功!");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "更新失败");
     }
 }
