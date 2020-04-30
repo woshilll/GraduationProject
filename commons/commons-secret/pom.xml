@@ -4,21 +4,20 @@
     <modelVersion>4.0.0</modelVersion>
     <parent>
         <groupId>com.yang.graduation</groupId>
-        <artifactId>GraduationProject</artifactId>
+        <artifactId>commons</artifactId>
         <version>0.0.1-SNAPSHOT</version>
     </parent>
 
 
-    <artifactId>commons</artifactId>
-    <packaging>pom</packaging>
+    <artifactId>commons-secret</artifactId>
+    <packaging>jar</packaging>
 
-<modules>
-    <module>commons-dto</module>
-    <module>commons-domain</module>
-    <module>commons-mapper</module>
-    <module>commons-utils</module>
-    <module>commons-secret</module>
-</modules>
+    <dependencies>
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+        </dependency>
+    </dependencies>
 
 
 </project>

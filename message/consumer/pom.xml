@@ -61,7 +61,11 @@
             <artifactId>commons-utils</artifactId>
             <version>${project.parent.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.yang.graduation</groupId>
+            <artifactId>commons-secret</artifactId>
+            <version>${project.parent.version}</version>
+        </dependency>
     </dependencies>
     <build>
         <plugins>

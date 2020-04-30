@@ -9,7 +9,9 @@ import com.aliyuncs.exceptions.ServerException;
 import com.aliyuncs.http.MethodType;
 import com.aliyuncs.profile.DefaultProfile;
 import com.aliyuncs.profile.IClientProfile;
+import com.yang.graduation.commons.secret.AliSecret;
 import org.springframework.stereotype.Component;
+
 
 /**
  * @author woshilll
@@ -18,12 +20,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class SendEmail {
-
-    private static final String REGION_ID = "cn-hangzhou";
-    private static final String ACCESS_KEY_ID = "LTAI4FeyQ6Bw8sng76EcxHqa";
-    private static final String SECRET = "mmWLUwiOxbMVhwynQ0f5gypkKwdQF5";
     public SingleSendMailResponse sendMail(String mail, String code, String user) {
-        IClientProfile profile = DefaultProfile.getProfile(REGION_ID, ACCESS_KEY_ID, SECRET);
+        IClientProfile profile = DefaultProfile.getProfile(AliSecret.REGION_ID.getValue(), AliSecret.ACCESS_KEY_ID.getValue(), AliSecret.ACCESS_KEY_SECRET.getValue());
         IAcsClient client = new DefaultAcsClient(profile);
         SingleSendMailRequest request = new SingleSendMailRequest();
         try {
