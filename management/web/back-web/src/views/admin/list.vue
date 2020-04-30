@@ -35,6 +35,23 @@
           <el-button type="primary" icon="el-icon-search" @click="fetchData">搜索</el-button>
         </div>
       </el-col>
+      <el-col :span="6">
+        <el-popover
+          placement="top"
+          width="200"
+          v-model="visible">
+          <el-form :model="adminReg" label-width="100px" ref="regAdminForm" :rules="adminRegRules" class="demo-ruleForm">
+            <el-form-item label-width="auto" prop="adminRegName">
+              <el-input v-model="adminReg.adminRegName" placeholder="请输入新增管理员名"></el-input>
+            </el-form-item>
+          </el-form>
+          <div style="text-align: right; margin: 0">
+            <el-button size="mini" type="text" @click="visible = false">取消</el-button>
+            <el-button type="primary" size="mini" @click="regAdmin('regAdminForm')">确定</el-button>
+          </div>
+          <el-button slot="reference">增加管理员</el-button>
+        </el-popover>
+      </el-col>
     </el-row>
     <!--查询结束---------------------------------------------------- -->
 
@@ -82,7 +99,8 @@
         </template>
       </el-table-column>
 
-      <el-table-column align="center" prop="created_at" label="上次登录时间" width="200" :resizable="false" :show-overflow-tooltip="true">
+      <el-table-column align="center" prop="created_at" label="上次登录时间" width="200" :resizable="false"
+                       :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <i class="el-icon-time"/>
           <span>{{ scope.row.lastLoginTime }}</span>
@@ -105,7 +123,7 @@
         label="操作"
         width="100"
         :resizable="false"
-        >
+      >
         <template slot-scope="scope">
           <el-button
             @click.native.prevent="showDialog(scope.row)"
@@ -199,7 +217,7 @@
   import ImageCropper from 'vue-image-crop-upload'
   import PanThumb from '@/components/PanThumb'
   import {getToken} from '@/utils/auth'
-  import {update} from "@/api/admin";
+  import {update, insert} from "@/api/admin";
 
   //-------------------------export excel
   import FilenameOption from '@/components/Excel/FilenameOption'
@@ -259,7 +277,16 @@
         downloadLoading: false,
         filename: 'excel-list',
         autoWidth: true,
-        bookType: 'xlsx'
+        bookType: 'xlsx',
+        visible: false,
+        adminRegRules: {
+          adminRegName: [
+            {required: true, message: '请输入管理员名', trigger: 'blur'}
+          ]
+        },
+        adminReg: {
+          adminRegName: ''
+        }
       }
     },
     created() {
@@ -422,6 +449,31 @@
             return v[j]
           }
         }))
+      },
+      regAdmin(regAdminForm) {
+        this.$refs[regAdminForm].validate((valid) => {
+          if (valid) {
+            this.visible = false;
+            insert(this.adminReg.adminRegName).then(response => {
+              this.$notify({
+                title: '成功',
+                message: response.message,
+                type: 'success',
+                duration: 0
+              });
+              this.fetchData();
+            }).catch(err => {
+              this.$notify({
+                title: '失败',
+                message: '请稍后再试',
+                type: 'error',
+                duration: 0
+              });
+            })
+          } else {
+            return false;
+          }
+        })
       }
     }
   }

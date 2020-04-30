@@ -6,6 +6,7 @@ import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.dto.ResponseResult;
 import com.yang.graduation.dto.param.IconParam;
 import com.yang.graduation.provider.api.AdminService;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -136,5 +137,28 @@ public class AdminController {
     @GetMapping("/getAdminLogs")
     public ResponseResult<List<AdminLogs>> getAdminLogs() {
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "成功!", adminService.getAdminLogs());
+    }
+
+    /**
+     * 新增管理员
+     * @param name
+     * @return
+     */
+    @PostMapping("/insert/{name}")
+    public ResponseResult<Void> insert(@PathVariable String name) {
+        if (StringUtils.isNotBlank(name)) {
+            Admin admin = adminService.getAdmin(name);
+            if (admin == null) {
+                admin = new Admin();
+                admin.setNickName(name);
+                admin.setName(name);
+                admin.setPassword("123456");
+                int res = adminService.regAdmin(admin);
+                if (res > 0) {
+                    return new ResponseResult<>(ResponseResult.CodeStatus.OK, "新增管理员成功,初始密码为123456!");
+                }
+            }
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.INSERT_FAIL, "新增管理员失败!");
     }
 }

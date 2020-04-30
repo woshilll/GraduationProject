@@ -195,6 +195,7 @@ public class AdminServiceImpl implements AdminService {
         admin.setRegistTime(new Date());
         //设置最后登录时间
         admin.setLastLoginTime(new Date());
+        admin.setStatus(0);
         //密码加密处理
         admin.setPassword(passwordEncoder.encode(admin.getPassword()));
     }

@@ -93,3 +93,13 @@ export function getAdminLogs() {
     method: 'get',
   })
 }
+
+/**
+ * 新增
+ */
+export function insert(data) {
+  return request({
+    url: '/back/admin/insert/' + data,
+    method: 'post',
+  })
+}
