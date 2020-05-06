@@ -75,6 +75,14 @@ public class NewsController {
     public ResponseResult<List<NewsParam>> adminPost4() {
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "成功", newsService.adminPost4());
     }
+    /**
+     * 推荐个新闻
+     * @return
+     */
+    @GetMapping("/suggest4")
+    public ResponseResult<List<NewsParam>> suggest4() {
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "成功", newsService.suggest4());
+    }
     @GetMapping("/comments/{id}")
     public ResponseResult<List<FrontCommentsDto>> comments(@PathVariable String id) {
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success", newsCommentService.frontComments(id));

@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Graduation Project - 首页</title>
+    <title>时事政治学习交流平台 - 首页</title>
     <link rel="shortcut icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
     <!-- Bootstrap -->
@@ -40,95 +40,30 @@
     <section class="hero-area gray-bg">
         <div class="container">
             <div class="row">
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
+                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6" v-for="(item, index) in adminPost4" v-if="index < 3">
                     <div class="single-post">
-                        <a href=""><img src="/static/assets/images/post/21.jpg" alt=""></a>
+                        <a @click="openNews(item.id)"><img :src="item.image" :title="item.title" style="object-fit: fill;height: 294px"/></a>
                         <div class="post-inside-content">
-                            <div class="category-tag"><a href="" class="blue-bg-2">News</a></div>
-                            <h2><a href="">Phasellus consequat rutrum</a></h2>
+                            <div class="category-tag"><a @click="openCategory(item.categoryId)" :class="colorArr[item.categoryId]">{{item.categoryName}}</a></div>
+                            <h2><a @click="openNews(item.id)" class="my-font-340" :title="item.title">{{item.title}}</a></h2>
                             <div class="post-meta">
-                                <a href="" class="author">Ridoy</a>
-                                <a href="" class="date">September 4, 2019</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                    <div class="single-post">
-                        <a href=""><img src="/static/assets/images/post/19.jpg" alt=""></a>
-                        <div class="post-inside-content">
-                            <div class="category-tag"><a href="" class="green-bg">Fashion</a></div>
-                            <h2><a href="">Morbi leo lorem, cursus quis</a></h2>
-                            <div class="post-meta">
-                                <a href="" class="author">Ridoy</a>
-                                <a href="" class="date">September 4, 2019</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-4 col-lg-4 col-md-4 col-sm-6">
-                    <div class="single-post">
-                        <a href=""><img src="/static/assets/images/post/3.jpg" alt=""></a>
-                        <div class="post-inside-content">
-                            <div class="category-tag"><a href="" class="blue-bg">Nature</a></div>
-                            <h2><a href="">Ellentesque ultricies ullamcorper magna</a></h2>
-                            <div class="post-meta">
-                                <a href="" class="author">Ridoy</a>
-                                <a href="" class="date">September 4, 2019</a>
+                                <span th:replace="userHover.html"></span>
+                                <a class="date">{{item.postTime}}</a>
                             </div>
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row">
-                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
+                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6" v-for="(item, index) in adminPost4" v-if="index > 2 && index < 7">
                     <div class="single-post">
-                        <a href=""><img src="/static/assets/images/post/17.jpg" alt=""></a>
+                        <a @click="openNews(item.id)"><img :src="item.image" :title="item.title" style="object-fit: fill;height: 293px"></a>
                         <div class="post-inside-content">
-                            <div class="category-tag"><a href="" class="primary-bg">Food</a></div>
-                            <h2><a href="">Nulla eget enim eget mauris aliquam</a></h2>
+                            <div class="category-tag"><a @click="openCategory(item.categoryId)" :class="colorArr[item.categoryId]">{{item.categoryName}}</a></div>
+                            <h2><a @click="openNews(item.id)" class="my-font-230" :title="item.title">{{item.title}}</a></h2>
                             <div class="post-meta">
-                                <a href="" class="author">Ridoy</a>
-                                <a href="" class="date">September 4, 2019</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                    <div class="single-post">
-                        <a href=""><img src="/static/assets/images/post/24.jpg" alt=""></a>
-                        <div class="post-inside-content">
-                            <div class="category-tag"><a href="" class="mint-bg">Football</a></div>
-                            <h2><a href="">Quisque sed ex egestas, dignissim</a></h2>
-                            <div class="post-meta">
-                                <a href="" class="author">Ridoy</a>
-                                <a href="" class="date">September 4, 2019</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                    <div class="single-post">
-                        <a href=""><img src="/static/assets/images/post/11.jpg" alt=""></a>
-                        <div class="post-inside-content">
-                            <div class="category-tag"><a href="" class="yellow-bg">Music</a></div>
-                            <h2><a href="">Nam suscipit luctus ante, vel iaculis</a></h2>
-                            <div class="post-meta">
-                                <a href="" class="author">Ridoy</a>
-                                <a href="" class="date">September 4, 2019</a>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                <div class="col-xl-3 col-lg-3 col-md-4 col-sm-6">
-                    <div class="single-post">
-                        <a href=""><img src="/static/assets/images/post/23.jpg" alt=""></a>
-                        <div class="post-inside-content">
-                            <div class="category-tag"><a href="" class="blue-bg-2">Politics</a></div>
-                            <h2><a href="">Proin non arcu lacus. Etiam est quam</a></h2>
-                            <div class="post-meta">
-                                <a href="" class="author">Ridoy</a>
-                                <a href="" class="date">September 4, 2019</a>
+                                <span th:replace="userHover.html"></span>
+                                <a class="date">{{item.postTime}}</a>
                             </div>
                         </div>
                     </div>
@@ -145,24 +80,24 @@
                     <div class="row">
                         <div class="col-xl-12">
                             <div class="section-title">
-                                <h2><a href="">官方发布</a></h2>
+                                <h2><a href="">推荐</a></h2>
                             </div>
                         </div>
                         <div class="col-xl-12">
-                            <div class="row single-post-2" v-for="(item, index) in adminPost4" v-if="index === 0">
+                            <div class="row single-post-2" v-for="(item, index) in suggest4" v-if="index === 0">
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                    <a @click="openNews(item.id)"><img :src="item.image" :title="item.title"
                                                                             style="height: 250px"></a>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                     <div class="post-inside-content">
-                                        <div class="category-tag"><a class="primary-bg"
-                                                                     :href="'/category/' + item.categoryId">{{item.categoryName}}</a>
+                                        <div class="category-tag"><a :class="colorArr[item.categoryId]"
+                                                                     @click="openCategory(item.categoryId)">{{item.categoryName}}</a>
                                         </div>
-                                        <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
-                                        <p>{{item.content}}</p>
+                                        <h2><a @click="openNews(item.id)" :title="item.title" class="my-font-370">{{item.title}}</a></h2>
+                                        <p :title="item.content" class="my-font-370">{{item.content}}</p>
                                         <p>
-                                            <el-link :underline="false" type="info" :href="'/news/post/' + item.id">
+                                            <el-link :underline="false" type="info" @click="openNews(item.id)">
                                                 {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
                                             </el-link>
                                         </p>
@@ -174,13 +109,13 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12" v-for="(item, index) in adminPost4"
-                             v-if="index != 0">
+                        <div class="col-xl-4 col-lg-4 col-md-6 col-sm-12" v-for="(item, index) in suggest4"
+                             v-if="index != 0 && index < 4">
                             <div class="single-post-2">
-                                <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                <a @click="openNews(item.id)"><img :src="item.image" :title="item.title"
                                                                         style="width: 237px;height: 158px"></a>
                                 <div class="post-inside-content">
-                                    <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
+                                    <h2><a @click="openNews(item.id)" class="my-font-236" :title="item.title">{{item.title}}</a></h2>
                                     <div class="post-meta">
                                         <span th:replace="userHover.html"></span>
                                         <a class="date">{{item.postTime}}</a>
@@ -203,13 +138,13 @@
                         <div class="row">
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="single-post" v-if="index === 0" v-for="(item, index) in likeMost4">
-                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                    <a @click="openNews(item.id)"><img :src="item.image" :title="item.title"
                                                                             style="width: 370px;height: 300px"></a>
                                     <div class="post-inside-content">
-                                        <div class="category-tag"><a :href="'/category/' + item.categoryId"
-                                                                     class="green-bg">{{item.categoryName}}</a>
+                                        <div class="category-tag"><a @click="openCategory(item.categoryId)"
+                                                                     :class="colorArr[item.categoryId]">{{item.categoryName}}</a>
                                         </div>
-                                        <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
+                                        <h2><a @click="openNews(item.id)" class="my-font-330" :title="item.title">{{item.title}}</a></h2>
                                         <div class="post-meta">
                                             <span th:replace="userHover.html"></span>
                                             <a class="date">{{item.postTime}}</a>
@@ -220,13 +155,13 @@
                             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                 <div class="single-list-post" v-if="index != 0" v-for="(item, index) in likeMost4">
                                     <div class="list-post-img">
-                                        <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""></a>
+                                        <a @click="openNews(item.id)"><img :src="item.image" :title="item.title"></a>
                                     </div>
                                     <div class="list-post-content">
-                                        <a :href="'/category/' + item.categoryId"
-                                           class="cl-mint">{{item.categoryName}}</a>
-                                        <h4><a :href="'/news/post/' + item.id">{{item.title}}</a></h4>
-                                        <h4><a :href="'/news/post/' + item.id">
+                                        <a @click="openCategory(item.categoryId)"
+                                           >{{item.categoryName}}</a>
+                                        <h4><a @click="openNews(item.id)" :title="item.title" class="my-font-220">{{item.title}}</a></h4>
+                                        <h4><a @click="openNews(item.id)">
                                             {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
                                         </a></h4>
                                         <div class="post-date">
@@ -251,17 +186,17 @@
                         <div class="col-xl-12">
                             <div class="row single-post-2" v-for="(item, index) in commentMost2" v-if="index === 0">
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
-                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                    <a @click="openNews(item.id)"><img :src="item.image" :title="item.title"
                                                                             style="width: 370px;height: 245px"></a>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                                     <div class="post-inside-content">
-                                        <div class="category-tag"><a :href="'/category/' + item.categoryId"
-                                                                     class="primary-bg">{{item.categoryName}}</a></div>
-                                        <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
-                                        <p>{{item.content}}</p>
+                                        <div class="category-tag"><a @click="openCategory(item.categoryId)"
+                                                                     :class="colorArr[item.categoryId]">{{item.categoryName}}</a></div>
+                                        <h2><a @click="openNews(item.id)" :title="item.title" class="my-font-370">{{item.title}}</a></h2>
+                                        <p class="my-font-370" :title="item.content">{{item.content}}</p>
                                         <p>
-                                            <el-link :underline="false" type="info" :href="'/news/post/' + item.id">
+                                            <el-link :underline="false" type="info" @click="openNews(item.id)">
                                                 {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
                                             </el-link>
                                         </p>
@@ -278,18 +213,18 @@
                         <div class="col-xl-12">
                             <div class="row single-post-2" v-for="(item, index) in commentMost2" v-if="index === 1">
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
-                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                    <a @click="openNews(item.id)"><img :src="item.image" :title="item.title"
                                                                             style="width: 370px;height: 245px"></a>
                                 </div>
                                 <div class="col-xl-6 col-lg-6 col-md-6 col-sm-6">
                                     <div class="post-inside-content">
-                                        <div class="category-tag"><a :href="'/category/' + item.categoryId"
-                                                                     class="green-bg">{{item.categoryName}}</a>
+                                        <div class="category-tag"><a @click="openCategory(item.categoryId)"
+                                                                     :class="colorArr[item.categoryId]">{{item.categoryName}}</a>
                                         </div>
-                                        <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
-                                        <p>{{item.content}}</p>
+                                        <h2><a @click="openNews(item.id)" :title="item.title" class="my-font-370">{{item.title}}</a></h2>
+                                        <p :title="item.content" class="my-font-370">{{item.content}}</p>
                                         <p>
-                                            <el-link :underline="false" type="info" :href="'/news/post/' + item.id">
+                                            <el-link :underline="false" type="info" @click="openNews(item.id)">
                                                 {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
                                             </el-link>
                                         </p>
@@ -313,15 +248,15 @@
                         <div class="col-xl-12">
                             <div class="single-post-3" v-for="(item, index) in random5">
                                 <div class="list-post-img">
-                                    <img :src="item.image" alt="" style="width: 192px; height: 128px">
-                                    <a :href="'/category/' + item.categoryId"
-                                       :class="colorArr[Math.floor((Math.random()*colorArr.length))]">{{item.categoryName}}</a>
+                                    <img :src="item.image" :title="item.title" style="width: 192px; height: 128px">
+                                    <a @click="openCategory(item.categoryId)"
+                                       :class="'tag ' + colorArr[item.categoryId]">{{item.categoryName}}</a>
                                 </div>
                                 <div class="list-post-content">
-                                    <h4><a :href="'/news/post/' + item.id">{{item.title}}</a></h4>
-                                    <p>{{item.content}}</p>
+                                    <h4><a @click="openNews(item.id)" :title="item.title" class="my-font-370">{{item.title}}</a></h4>
+                                    <p :title="item.content" class="my-font-370">{{item.content}}</p>
                                     <p>
-                                        <el-link :underline="false" type="info" :href="'/news/post/' + item.id">
+                                        <el-link :underline="false" type="info" @click="openNews(item.id)">
                                             {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
                                         </el-link>
                                     </p>
@@ -352,13 +287,14 @@
         el: '#app',
         data() {
             return {
-                colorArr: ["tag yellow-bg", "tag green-bg", "tag blue-bg", "tag primary-bg", "tag mint-bg"],
+                colorArr: ["", "primary-bg", "blue-bg-2", "green-bg", "yellow-bg", "purple-light-bg", "purple-bg", "light-blue-bg", "primary-bg-dark", "primary-light-bg", "mint-bg"],
                 categoryNewsCountParam: [],//分类下新闻数
                 least4: [],//最新4条
                 likeMost4: [], //最受欢迎4条
                 commentMost2: [], //评论最多的2条
                 random5: [], //随机5条新闻
                 adminPost4: [], //admin4条新闻
+                suggest4: [], //admin4条新闻
                 title: '',
                 name: '',
                 loading: false,
@@ -405,13 +341,23 @@
                 axios.get('/news/adminPost4').then(response => {
                     this.adminPost4 = response.data.data;
                 });
+                /**
+                 * 推荐新闻
+                 */
+                axios.get('/news/suggest4').then(response => {
+                    this.suggest4 = response.data.data;
+                });
                 if (this.isLogin()) {
                     this.name = localStorage.getItem("name");
                 }
 
             },
             search() {
-                window.location.href = '/news/search/front/' + this.title;
+                if (this.title === null || this.title === '') {
+                    window.location.href = '/index';
+                } else {
+                    window.open('/news/search/front/' + this.title);
+                }
             },
             isLogin() {
                 return localStorage.getItem('token') !== null;
@@ -428,7 +374,20 @@
                 window.location.reload();
             },
             toProfile() {
-                window.location.href = '/user/' + localStorage.getItem("name") + '/' + localStorage.getItem("token");
+                window.open('/user/' + localStorage.getItem("name") + '/' + localStorage.getItem("token"));
+            },
+            toHoverProfile(name) {
+                if (localStorage.getItem("name") === name) {
+                    this.toProfile();
+                } else {
+                    window.open('/hover/profile/' + name + '/' + localStorage.getItem("token"));
+                }
+            },
+            openNews(id) {
+                window.open('/news/post/' + id);
+            },
+            openCategory(id) {
+                window.open('/category/' + id);
             }
         }
     })

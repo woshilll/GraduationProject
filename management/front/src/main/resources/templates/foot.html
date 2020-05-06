@@ -7,10 +7,51 @@
             </div>
             <div class="col-xl-6 col-lg-6 col-md-6 col-sm-12">
                 <ul>
-                    <li><a href="">Disclaimer</a></li>
-                    <li><a href="">Privacy</a></li>
-                    <li><a href="">Advertisement</a></li>
-                    <li><a href="">Contact us</a></li>
+<!--                    <li><a>Disclaimer</a></li>-->
+<!--                    <li><a>Privacy</a></li>-->
+<!--                    <li><a>Advertisement</a></li>-->
+                    <el-popover
+                            placement="top-start"
+                            width="200"
+                            trigger="hover"
+                    >
+                        <div class="block">
+                            <el-image src="http://graduation-woshilll.oss-cn-beijing.aliyuncs.com/qq.jpg" >
+                                <div slot="error" class="image-slot">
+                                    <i class="el-icon-picture-outline"></i>
+                                </div>
+                            </el-image>
+                        </div>
+                        <a slot="reference">联系作者</a>
+                    </el-popover>
+                    <el-popover
+                            placement="top-start"
+                            width="400"
+                            trigger="hover"
+                            >
+                        <el-row>
+                            <el-col :span="12">
+                        <div class="block">
+                            <el-image src="http://graduation-woshilll.oss-cn-beijing.aliyuncs.com/weixinpay.png" >
+                                <div slot="error" class="image-slot">
+                                    <i class="el-icon-picture-outline"></i>
+                                </div>
+                            </el-image>
+                        </div>
+                            </el-col>
+                            <el-col :span="12">
+                        <div class="block">
+                            <el-image src="http://graduation-woshilll.oss-cn-beijing.aliyuncs.com/alipay.jpg" >
+                                <div slot="error" class="image-slot">
+                                    <i class="el-icon-picture-outline"></i>
+                                </div>
+                            </el-image>
+                        </div>
+                            </el-col>
+                        </el-row>
+                        <a slot="reference">赞助我们</a>
+                    </el-popover>
+
                 </ul>
             </div>
         </div>

@@ -665,7 +665,8 @@
                                             localStorage.setItem("token", response.data.data.token);
                                             localStorage.setItem("name", response.data.data.name);
                                             localStorage.setItem("status", response.data.data.status);
-                                            window.history.go(-1);
+                                            // window.location.href = '/index';
+                                            self.location = document.referrer;
                                         } else {
                                             this.$message({
                                                 message: response.data.message,

@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
 
-    <title>搜索结果</title>
+    <title>搜索结果 - [[${title}]]</title>
 
     <!-- Bootstrap -->
     <link href="http://cdn.bootstrapmb.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -65,17 +65,22 @@
                 <div class="col-xl-8 col-lg-8 col-md-6 col-sm-6">
                     <div class="row">
                         <div class="col-xl-12">
+                            <div class="row single-post-2" v-if="searchNewsList.length === 0">
+                                <div class="col-xl-12">
+                                    <a class="bttn-mid btn-fill w-100 centered">没有找到你想要的新闻诶</a>
+                                </div>
+                            </div>
                             <div class="row single-post-2" v-for="(item, index) in searchNewsList" v-if="index < 7">
                                 <div class="col-xl-6">
-                                    <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""
+                                    <a @click="openNews(item.id)"><img :src="item.image"  :title="item.title"
                                                                             style="width: 370px;height: 246px"></a>
                                 </div>
                                 <div class="col-xl-6">
                                     <div class="post-inside-content">
-                                        <div class="category-tag"><a href=""
+                                        <div class="category-tag"><a @click="openCategory(item.categoryId)"
                                                                      class="primary-bg">{{item.categoryName}}</a></div>
-                                        <h2><a :href="'/news/post/' + item.id">{{item.title}}</a></h2>
-                                        <p>{{item.content}}</p>
+                                        <h2><a @click="openNews(item.id)" class="my-font-370" :title="item.title">{{item.title}}</a></h2>
+                                        <p class="my-font-370" :title="item.content">{{item.content}}</p>
                                         <div class="post-meta">
                                             <span th:replace="userHover.html"></span>
                                             <a class="date">{{item.postTime}}</a>
@@ -83,7 +88,7 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row single-post-2">
+                            <div class="row single-post-2" v-if="searchNewsList.length !== 0">
                                 <div class="col-xl-12">
                                     <a href="" class="bttn-mid btn-fill w-100 centered">{{searchNewsList.length <= 7 ?
                                         '没有更多啦' : '加载更多'}}</a>
@@ -124,8 +129,8 @@
             }
         },
         created() {
-            this.title = document.getElementById("title").value;
-            this.fetchData(this.title);
+            this.searchTitle = document.getElementById("title").value;
+            this.fetchData(this.searchTitle);
         },
         methods: {
             fetchData(title) {
@@ -150,7 +155,11 @@
 
             },
             search() {
-                window.location.href = '/news/search/front/' + this.searchTitle;
+                if (this.title === null || this.title === '') {
+                    window.location.href = '/index';
+                } else {
+                    window.open('/news/search/front/' + this.title);
+                }
             },
             isLogin() {
                 return localStorage.getItem('token') !== null;
@@ -166,7 +175,20 @@
                 window.location.reload();
             },
             toProfile() {
-                window.location.href = '/user/' + localStorage.getItem("name") + '/' + localStorage.getItem("token");
+                window.open('/user/' + localStorage.getItem("name") + '/' + localStorage.getItem("token"));
+            },
+            toHoverProfile(name) {
+                if (localStorage.getItem("name") === name) {
+                    this.toProfile();
+                } else {
+                    window.open('/hover/profile/' + name + '/' + localStorage.getItem("token"));
+                }
+            },
+            openNews(id) {
+                window.open('/news/post/' + id);
+            },
+            openCategory(id) {
+                window.open('/category/' + id);
             }
         }
     })

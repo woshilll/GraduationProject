@@ -9,7 +9,7 @@
     <link rel="shortcut icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
     <link rel="icon" href="/static/assets/images/favicon.ico" type="image/x-icon">
 
-    <title>新闻 - Magazine HTML Template</title>
+    <title>新闻 - [[${news.title}]]</title>
 
     <!-- Bootstrap -->
     <link href="http://cdn.bootstrapmb.com/bootstrap/4.3.1/css/bootstrap.min.css" rel="stylesheet">
@@ -43,23 +43,24 @@
 
     <!--Breadcrumb-->
     <section class="custom-banner section-padding dark-overlay-2"
-             style="background: url('/static/assets/images/category/fashion/custom-banner.jpg') no-repeat center / cover;">
+             >
         <div class="container">
             <div class="row">
                 <div class="col">
                     <div class="row justify-content-center">
                         <div class="col-xl-8 centered">
                             <div class="category-tag">
-                                <a href="" class="primary-bg"><span >{{news.categoryName}}</span></a>
+                                <a :href="'/category/' + news.categoryId" class="primary-bg"><span >{{news.categoryName}}</span></a>
                             </div>
                             <div class="banner-title">
                                 <h2 >{{news.title}}</h2>
                             </div>
                             <div class="meta">
-                                <a href=""><img :src="author.userIcon" alt="" style="width: 30px;height: 30px"><span >{{news.authorName}}</span></a>
+                                <a @click="toHoverProfile(news.authorName)"><img :src="author.userIcon" alt="" style="width: 30px;height: 30px"><span >{{news.authorName}}</span></a>
                                 <a><i class="el-icon-chat-dot-round"></i><span >{{news.commentCount}}</span></a>
-                                <a @click="like" v-if="!likeStar"><i class="el-icon-star-off"></i><span >{{news.likeCount}}</span></a>
-                                <a @click="like" v-if="likeStar"><i class="el-icon-star-on"></i><span >{{news.likeCount}}</span></a>
+                                <a @click="like" v-if="!likeStar" title="未点赞"><i class="el-icon-star-off"></i><span >{{news.likeCount}}</span></a>
+                                <a @click="like" v-if="likeStar" title="已点赞"><i class="el-icon-star-on"></i><span >{{news.likeCount}}</span></a>
+                                <a><span >阅读数: [[${news.readCount}]]</span></a>
                             </div>
                         </div>
                     </div>
@@ -74,15 +75,15 @@
             <div class="row justify-content-center">
                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-12">
                     <div class="post-details">
-                        <blockquote>
-                        <p th:text="${news.content}"></p>
+                        <blockquote th:if="${news.content.length() > 0}">
+                        <p th:utext="${news.content}"></p>
                         </blockquote>
                         <p th:utext="${news.contentHtml}"></p>
                         <div class="author">
                             <div class="row">
                                 <div class="col-xl-3 col-lg-3 col-md-3 col-sm-3">
-                                    <a href="">
-                                        <img :src="author.userIcon" alt="" style="width: 120px;height: 120px">
+                                    <a >
+                                        <img :src="author.userIcon"  style="width: 120px;height: 120px">
                                     </a>
                                 </div>
                                 <div class="col-xl-9 col-lg-9 col-md-9 col-sm-9">
@@ -98,7 +99,8 @@
                             </div>
                         </div>
                         <div class="posted-comments">
-                            <h4>所有评论</h4>
+                            <h4 v-if="commentsList.length > 0">所有评论</h4>
+                            <h4 v-if="commentsList.length === 0">还没有评论!快去发表吧</h4>
                             <div class="comment-block" v-for="(item, index) in commentsList" v-if="index < loadMore">
                                 <div class="single-comment" >
                                     <div class="row" >
@@ -212,7 +214,11 @@
                 });
             },
             search() {
-                window.location.href = '/news/search/front/' + this.title;
+                if (this.title === null || this.title === '') {
+                    window.location.href = '/index';
+                } else {
+                    window.open('/news/search/front/' + this.title);
+                }
             },
             isLogin() {
                 return localStorage.getItem('token') !== null;
@@ -263,7 +269,7 @@
                 });
             },
             toProfile() {
-                window.location.href = '/user/' + localStorage.getItem("name") + '/' + localStorage.getItem("token");
+                window.open('/user/' + localStorage.getItem("name") + '/' + localStorage.getItem("token"));
             },
             like() {
                 if (this.isLogin()) {
@@ -292,8 +298,24 @@
                     }
                 }
                 return false;
+            },
+            toHoverProfile(name) {
+                if (this.news.authorStatus !== 2 && this.isLogin()) {
+                    if (localStorage.getItem("name") === name) {
+                        this.toProfile();
+                    } else {
+                        window.open('/hover/profile/' + name + '/' + localStorage.getItem("token"));
+                    }
+                }
+            },
+            openNews(id) {
+                window.open('/news/post/' + id);
+            },
+            openCategory(id) {
+                window.open('/category/' + id);
             }
-        }
+        },
+
     })
 </script>
 </html>

@@ -60,6 +60,7 @@ public class UserController {
         User user = new User();
         user.setName(loginParam.getUsername());
         user.setPassword(loginParam.getPassword());
+        user.setUserIcon("http://graduation-woshilll.oss-cn-beijing.aliyuncs.com/8f76ae0c-301b-4f95-b2bf-f87439a384b7.png");
         int res = userService.regUser(user);
         if (res > 0) {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success");

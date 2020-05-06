@@ -61,6 +61,11 @@ public interface NewsMapper extends MyMapper<News> {
      */
     List<NewsParam> adminPost4();
     /**
+     * 推荐的4条
+     * @return
+     */
+    List<NewsParam> suggest4();
+    /**
      * 通过分类查找到分类下所有新闻
      * @param categoryId
      * @return

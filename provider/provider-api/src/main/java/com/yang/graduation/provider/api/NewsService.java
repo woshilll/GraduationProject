@@ -78,6 +78,11 @@ public interface NewsService {
      * @return
      */
     List<NewsParam> adminPost4();
+    /**
+     * 推荐的新闻
+     * @return
+     */
+    List<NewsParam> suggest4();
 
     /**
      * 通过分类查找到分类下所有新闻

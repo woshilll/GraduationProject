@@ -110,6 +110,7 @@ public class NewsServiceImpl implements NewsService {
         newsParam.setCategoryName(newsCategory.getName());
         User user = userMapper.selectByPrimaryKey(newsParam.getUserId());
         newsParam.setAuthorName(user.getName());
+        newsParam.setAuthorStatus(user.getBanned());
         newsParam.setCommentCount(newsCommentService.getCommentsCountByNewsId(id));
         newsParam.setLikeCount(newsLikeService.getLikeCountsByNewsId(id));
         return newsParam;
@@ -170,6 +171,11 @@ public class NewsServiceImpl implements NewsService {
     @Override
     public List<NewsParam> adminPost4() {
         return initCount(newsMapper.adminPost4());
+    }
+
+    @Override
+    public List<NewsParam> suggest4() {
+        return initCount(newsMapper.suggest4());
     }
 
     /**

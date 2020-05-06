@@ -88,5 +88,6 @@ public class NewsParam implements Serializable {
     private Integer authorStatus;
     private String talk;
     private String userIcon;
+    private Long readCount;
 
 }

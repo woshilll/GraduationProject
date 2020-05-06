@@ -1,15 +1,19 @@
 package com.yang.graduation.front.controller;
 
 import com.google.common.collect.Maps;
+import com.yang.graduation.commons.domain.UserLogs;
 import com.yang.graduation.commons.utils.MapperUtil;
 import com.yang.graduation.commons.utils.OkHttpClientUtil;
 import com.yang.graduation.dto.ResponseResult;
 import com.yang.graduation.front.dto.LoginParam;
 import com.yang.graduation.front.service.UserDetailsServiceImpl;
+import com.yang.graduation.front.utils.WebUtil;
 import com.yang.graduation.provider.api.UserService;
 import okhttp3.Response;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -23,9 +27,11 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
 import java.util.Map;
+import java.util.concurrent.TimeUnit;
 
 /**
  * 登录以及注销
+ *
  * @author woshilll
  * @version v1.0.0
  * @date 2020/3/31 22:22
@@ -48,6 +54,9 @@ public class FrontUserLoginController {
     private TokenStore tokenStore;
     @Reference(version = "1.0.0")
     private UserService userService;
+    @Resource
+    private RedisTemplate<String, String> redisTemplate;
+
     /**
      * 用户登录
      *
@@ -66,6 +75,13 @@ public class FrontUserLoginController {
         //账号被封禁
         if (UserDetailsServiceImpl.BANNED.equals(userDetails.getUsername())) {
             return new ResponseResult<>(ResponseResult.CodeStatus.COUNT_BANNED, "该账号已被封禁!请联系伟大洋洋管理员!", null);
+        }
+        //判断用户是否已经登录
+        String isLogin = redisTemplate.boundValueOps("user_login_" + userDetails.getUsername()).get();
+        if (StringUtils.isNotBlank(isLogin)) {
+            //说明用户已经登录
+            //清理掉token
+            deleteToken(isLogin);
         }
         //请求oauth/token得到token
         Map<String, String> params = Maps.newHashMap();
@@ -87,9 +103,22 @@ public class FrontUserLoginController {
         result.put("name", userDetails.getUsername());
         Integer banned = userService.getUser(userDetails.getUsername()).getBanned();
         result.put("status", banned);
+        //记录登录日志
+        UserLogs userLogs = new UserLogs();
+        userLogs.setName(userDetails.getUsername());
+        initUserLogs(request, userLogs);
+        userService.loginLogs(userLogs);
         //设置登录时间
         userService.updateLoginTime(userDetails.getUsername());
+        //设置登录状态
+        redisTemplate.boundValueOps("user_login_" + userDetails.getUsername()).set(String.valueOf(result.get("token")), 1, TimeUnit.DAYS);
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "登录成功!", result);
+    }
+
+    private void initUserLogs(HttpServletRequest request, UserLogs userLogs) {
+        userLogs.setIp(request.getRemoteAddr());
+        userLogs.setBrowser(WebUtil.getBrowserName(request.getHeader("User-Agent")));
+        userLogs.setCity(WebUtil.getCityByIP(request.getRemoteAddr()));
     }
 
     /**
@@ -98,12 +127,15 @@ public class FrontUserLoginController {
      * @return {@link ResponseResult}
      */
     @PostMapping("/front/logout/{token}")
-    public ResponseResult<Void> logout(@PathVariable String  token) {
+    public ResponseResult<Void> logout(@PathVariable String token) {
+        deleteToken(token);
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "用户已注销");
+    }
+    private void deleteToken(String token) {
         //删除token 注销
         OAuth2AccessToken oAuth2AccessToken = tokenStore.readAccessToken(token);
         if (oAuth2AccessToken != null) {
             tokenStore.removeAccessToken(oAuth2AccessToken);
         }
-        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "用户已注销");
     }
 }

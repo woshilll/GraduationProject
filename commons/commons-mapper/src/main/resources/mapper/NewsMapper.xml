@@ -183,7 +183,7 @@
           and news.status = 1
           and news.user_id = '88888888'
         order by post_time desc
-        limit 4
+        limit 7
     </select>
     <select id="getNewsByCategory" resultType="com.yang.graduation.commons.domain.NewsParam">
         select news.id,
@@ -278,5 +278,32 @@ order by post_time desc
         and n.user_id = #{id}
         order by post_time desc
         limit 1
+    </select>
+    <select id="suggest4" resultType="com.yang.graduation.commons.domain.NewsParam">
+        select news.id,
+               title,
+               content,
+               image,
+               post_time          as postTime,
+               u.name             as authorName,
+               comment_count      as commentCount,
+               like_count         as likeCount,
+               news_category.name as categoryName,
+               category_id as categoryId,
+               user_id as userId,
+               nick_name as nickName,
+               user_icon as userIcon,
+               talk as talk,
+               u.banned as authorStatus
+        from news,
+             news_category,
+             user u
+        where news.user_id = u.id
+          and news.category_id = news_category.id
+          and is_delete = 0
+          and news.status = 1
+          and news.category_id = 1
+        order by post_time desc
+        limit 4
     </select>
 </mapper>

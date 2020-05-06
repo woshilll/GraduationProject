@@ -1,7 +1,9 @@
 package com.yang.graduation.provider.api;
 
+import com.yang.graduation.commons.domain.AdminLogs;
 import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.commons.domain.User;
+import com.yang.graduation.commons.domain.UserLogs;
 import com.yang.graduation.commons.domain.dto.UserHoverDto;
 
 import java.util.Map;
@@ -114,4 +116,11 @@ public interface UserService {
      * @return
      */
     User getUserByEmail(String email);
+
+    /**
+     * 登录日志记录
+     * @param userLogs 日志信息
+     * @return 1 success 0 fail
+     */
+    int loginLogs(UserLogs userLogs);
 }

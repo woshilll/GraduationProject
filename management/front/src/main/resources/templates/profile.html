@@ -229,7 +229,8 @@
                 </div>
                 <div class="ml-3 sm:ml-0 w-2/3 sm:w-full">
                     <p class="text-sm my-2 font-medium sm:font-normal">
-                        <el-link :underline="false" @click="updateNewsDialog(item)">{{item.title}}</el-link>
+                        <el-link :underline="false" @click="updateNewsDialog(item)"
+                                 style="display: block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; width: 150px;">{{item.title}}</el-link>
                     </p>
                 </div>
             </div>
@@ -257,7 +258,8 @@
                 </div>
                 <div class="ml-3 sm:ml-0 w-2/3 sm:w-full">
                     <p class="text-sm my-2 font-medium sm:font-normal">
-                        <el-link :underline="false" @click="updateNewsDialog(item)">{{item.title}}</el-link>
+                        <el-link :underline="false" @click="updateNewsDialog(item)"
+                                 style="display: block;overflow: hidden;white-space: nowrap;text-overflow: ellipsis; width: 150px;">{{item.title}}</el-link>
                     </p>
                 </div>
             </div>
@@ -284,7 +286,7 @@
                 Date().toLocaleDateString()}}</h3>
             <h3 class="text-indigo-dark font-normal mb-6">
                 <el-link :underline="false" href="/index"><strong>返回首页</strong></el-link>
-                <el-link :underline="false" @click="logout"><strong>注销登录</strong></el-link>
+                <el-link :underline="false" ><div @click="logout"><strong>注销登录</strong></div></el-link>
             </h3>
             <el-collapse accordion>
                 <el-collapse-item v-if="user.phone === null || user.phone === ''">
@@ -494,9 +496,7 @@
 </div>
 <script src="/static/assets/profile/bundle.js" async defer></script>
 <script src="/static/assets/js/axios.js"></script>
-<!--<script src="/static/assets/js/vue.js"></script>-->
 <script src="https://cdn.jsdelivr.net/npm/vue@2.6.10"></script>
-<!--<script src="https://unpkg.com/element-ui@2.13.0/lib/index.js"></script>-->
 <script src="/static/assets/js/elementui-2.6.10.js"></script>
 
 </body>
@@ -905,7 +905,7 @@
             createNews(newsForm) {
                 this.newsLoading = true;
                 this.news.contentHtml = tinyMCE.activeEditor.getContent();
-                if (this.news.id !== null) {
+                if (this.news.id !== undefined) {
                     //更新新闻
                     service.post('/profile/updateNews', this.news).then(response => {
                         if (response.code === 20000) {
@@ -941,6 +941,13 @@
                                     });
                                     this.news = {};
                                     tinyMCE.activeEditor.setContent("");
+                                    /**
+                                     * 所有待审核
+                                     */
+                                    service.get('/profile/unReviewed/' + this.user.id).then(response => {
+                                        this.unReviewed = response.data;
+                                    });
+                                    this.dialogNewsVisible = false;
                                 } else {
                                     this.$notify({
                                         title: '失败',
@@ -1019,7 +1026,12 @@
                                     duration: 3 * 1000
                                 });
                                 this.loadingText = '密码修改成功,正在进行自动跳转登录';
-                                service.post('/front/logout', {access_token: localStorage.getItem('token')});
+                                axios.post(`/front/logout/${localStorage.getItem('token')}`, {
+                                        headers: {
+                                            "Authorization": 'Bearer ' + localStorage.getItem("token")
+                                        }
+                                    }
+                                );
                                 localStorage.removeItem('token');
                                 localStorage.removeItem('name');
                                 window.location.href = '/login'

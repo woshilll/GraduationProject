@@ -2,9 +2,11 @@ package com.yang.graduation.provider.service;
 
 import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.commons.domain.User;
+import com.yang.graduation.commons.domain.UserLogs;
 import com.yang.graduation.commons.domain.dto.UserHoverDto;
 import com.yang.graduation.commons.mapper.NewsCommentMapper;
 import com.yang.graduation.commons.mapper.NewsLikeMapper;
+import com.yang.graduation.commons.mapper.UserLogsMapper;
 import com.yang.graduation.commons.mapper.UserMapper;
 import com.yang.graduation.provider.api.UserService;
 import com.yang.graduation.provider.util.IdWorker;
@@ -214,6 +216,21 @@ public class UserServiceImpl implements UserService {
         Example example = new Example(User.class);
         example.createCriteria().andEqualTo("email", email);
         return userMapper.selectOneByExample(example);
+    }
+
+    @Resource
+    private UserLogsMapper userLogsMapper;
+    /**
+     * 记录登录日志
+     * @param userLogs 日志信息
+     * @return 1 0
+     */
+    @Override
+    public int loginLogs(UserLogs userLogs) {
+        User user = getUser(userLogs.getName());
+        userLogs.setUserId(user.getId());
+        userLogs.setLoginTime(new Date());
+        return userLogsMapper.insert(userLogs);
     }
 
     private void initUser(User user) {

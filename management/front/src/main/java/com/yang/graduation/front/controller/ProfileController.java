@@ -49,6 +49,7 @@ public class ProfileController {
     @GetMapping("/user/info/{name}")
     public ResponseResult<User> userInfo(@PathVariable String name) {
         User user = userService.getUser(name);
+        user.setPassword(null);
         return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success", user);
     }
 
@@ -163,7 +164,7 @@ public class ProfileController {
         if (res > 0) {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "success");
         }
-        return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "success");
+        return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "fail");
     }
 
     /**

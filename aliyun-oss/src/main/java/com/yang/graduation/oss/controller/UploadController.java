@@ -42,7 +42,7 @@ public class UploadController {
         try {
             client.putObject(new PutObjectRequest(AliSecret.OSS_BUCKET_NAME.getValue(), newName, new ByteArrayInputStream(multipartFile.getBytes())));
             // 上传文件路径 = http://BUCKET_NAME.ENDPOINT/自定义路径/fileName
-            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "文件上传成功", new FileInfo("http://" + AliSecret.OSS_BUCKET_NAME.getValue() + "." + AliSecret.OSS_ENDPOINT + "/" + newName));
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "文件上传成功", new FileInfo("http://" + AliSecret.OSS_BUCKET_NAME.getValue() + "." + AliSecret.OSS_ENDPOINT.getValue() + "/" + newName));
         } catch (IOException e) {
             return new ResponseResult<>(ResponseResult.CodeStatus.UPLOAD_FAIL, "文件上传失败，请重试");
         } finally {

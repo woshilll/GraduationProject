@@ -5,7 +5,7 @@
     <div class="site-category">
         <ul>
             <li v-for="item in categoryNewsCountParam"><a
-                    :href="'/category/' + item.categoryId">{{item.categoryName}}</a> <span>{{item.newsCount}}</span>
+                    @click="openCategory(item.categoryId)">{{item.categoryName}}</a> <span>{{item.newsCount}}</span>
             </li>
         </ul>
     </div>
@@ -20,12 +20,12 @@
                  aria-labelledby="pills-home-tab">
                 <div class="single-list-post" v-for="item in least4">
                     <div class="list-post-img">
-                        <a :href="'/news/post/' + item.id"><img :src="item.image" alt=""></a>
+                        <a @click="openNews(item.id)"><img :src="item.image" :title="item.title"></a>
                     </div>
                     <div class="list-post-content">
-                        <a :href="'/news/post/' + item.id" class="cl-mint">{{item.title}}</a>
-                        <h4><a>{{item.content}}</a></h4>
-                        <h4><a :href="'/news/post/' + item.id">
+                        <a @click="openNews(item.id)" :title="item.title">{{String(item.title).substr(0, 16) + (item.title.length > 15 ? '...' : '')}}</a>
+                        <h4><a :title="item.title">{{String(item.content).substr(0, 16) + (item.content.length > 15 ? '...' : '')}}</a></h4>
+                        <h4><a @click="openNews(item.id)">
                             {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
                         </a></h4>
                         <div class="post-date">{{item.postTime}}</div>

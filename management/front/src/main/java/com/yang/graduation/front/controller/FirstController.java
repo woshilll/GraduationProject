@@ -28,11 +28,20 @@ public class FirstController {
     }
 
     @GetMapping("/user/{name}/{token}")
-    public String test(@PathVariable(value = "name") String name, @PathVariable(value = "token") String token, Model model) {
+    public String profile(@PathVariable(value = "name") String name, @PathVariable(value = "token") String token, Model model) {
         OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(token);
         if (oAuth2Authentication != null && oAuth2Authentication.getName().equals(name)) {
             model.addAttribute("name", name);
             return "profile";
+        }
+        return "login/toLogin";
+    }
+    @GetMapping("/hover/profile/{name}/{token}")
+    public String hoverProfile(@PathVariable(value = "name") String name, @PathVariable(value = "token") String token, Model model) {
+        OAuth2Authentication oAuth2Authentication = tokenStore.readAuthentication(token);
+        if (oAuth2Authentication != null && oAuth2Authentication.isAuthenticated()) {
+            model.addAttribute("name", name);
+            return "profile/hoverProfile";
         }
         return "login/toLogin";
     }
