@@ -96,46 +96,55 @@
        like_count         as likeCount,
        comment_count as commentCount,
        category_id as categoryId,
-       user_id as userId,
-               nick_name as nickName,
-               user_icon as userIcon,
-               talk as talk,
-               u.banned as authorStatus
-        from news,
+       news.user_id as userId,
+       nick_name as nickName,
+       user_icon as userIcon,
+       talk as talk,
+       u.banned as authorStatus
+from news,
      news_category,
-     user u
-     where news.user_id = u.id
-     and news.category_id = news_category.id
-     and is_delete = 0
-     and news.status = 1
-     order by like_count, comment_count desc
-     limit 4
+     user u,
+     news_comment nc,
+     news_like nl
+where news.user_id = u.id
+  and news.category_id = news_category.id
+  and is_delete = 0
+  and news.status = 1
+  and nl.news_id = news.id
+group by news.id
+order by count(nl.id) desc
+limit 4
+
   </select>
     <select id="commentMost2" resultType="com.yang.graduation.commons.domain.NewsParam">
-        select news.id,
+select news.id,
        title,
        content,
        image,
        post_time          as postTime,
        u.name             as authorName,
-       comment_count as commentCount,
+       count(nc.id) as commentCount,
        like_count         as likeCount,
        news_category.name as categoryName,
        category_id as categoryId,
-       user_id as userId,
-               nick_name as nickName,
-               user_icon as userIcon,
-               talk as talk,
-               u.banned as authorStatus
-        from news,
+       news.user_id as userId,
+       nick_name as nickName,
+       user_icon as userIcon,
+       talk as talk,
+       u.banned as authorStatus
+from news,
      news_category,
-     user u
-     where news.user_id = u.id
-     and news.category_id = news_category.id
-     and is_delete = 0
-     and news.status = 1
-     order by comment_count desc
-     limit 2
+     user u,
+     news_comment nc
+where news.user_id = u.id
+  and news.category_id = news_category.id
+  and is_delete = 0
+  and news.status = 1
+  and nc.status = 0
+  and nc.news_id = news.id
+group by news.id
+order by count(nc.id)  desc
+limit 2;
     </select>
     <select id="random5" resultType="com.yang.graduation.commons.domain.NewsParam">
         select news.id,

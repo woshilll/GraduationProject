@@ -304,6 +304,27 @@ public class NewsServiceImpl implements NewsService {
         return newsMapper.deleteByPrimaryKey(id);
     }
 
+    /**
+     * 批量审核
+     * @param ids
+     * @return
+     */
+    @Override
+    public int batchAudit(String[] ids) {
+        int count = 0;
+        for (String id : ids) {
+            News news = new News();
+            news.setId(id);
+            news.setStatus(1);
+            count += newsMapper.updateByPrimaryKeySelective(news);
+        }
+        return count;
+    }
+
+    /**
+     * 初始化新闻
+     * @param news
+     */
     private void initNews(News news) {
         news.setId(idWorker.nextId() + "");
         news.setPostTime(new Date());

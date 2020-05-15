@@ -1,10 +1,14 @@
 package com.yang.graduation.back.management.controller;
 
+import com.yang.graduation.commons.domain.Admin;
 import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.commons.domain.User;
 import com.yang.graduation.dto.ResponseResult;
 import com.yang.graduation.dto.param.IconParam;
+import com.yang.graduation.provider.api.AdminService;
 import com.yang.graduation.provider.api.UserService;
+import io.netty.util.internal.StringUtil;
+import org.apache.commons.lang3.StringUtils;
 import org.apache.dubbo.config.annotation.Reference;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -26,6 +30,8 @@ public class UserController {
 
     @Reference(version = "1.0.0")
     private UserService userService;
+    @Reference(version = "1.0.0")
+    private AdminService adminService;
     /**
      * 获取个人信息
      *
@@ -82,8 +88,15 @@ public class UserController {
      * @param id 用户id
      * @return {@link ResponseResult}
      */
-    @PostMapping("/delete/{id}")
-    public ResponseResult<Void> delete(@PathVariable String id) {
+    @PostMapping("/delete/{id}/{name}")
+    public ResponseResult<Void> delete(@PathVariable String id, @PathVariable String name) {
+        Admin admin = adminService.getAdmin(name);
+        if (!StringUtils.equals(admin.getId(), "88888888")) {
+            return new ResponseResult<>(401, "没有权限");
+        }
+        if (StringUtils.equals(id, "88888888")) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.DELETE_FAIL, "当前用户为管理员专用用户,无法删除");
+        }
         int res = userService.deleteById(id);
         if (res > 0) {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "删除用户成功!");

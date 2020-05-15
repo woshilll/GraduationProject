@@ -50,10 +50,11 @@ export function selectAll(data) {
 /**
  * 根据用户id删除用户
  * @param data
+ * @param name
  */
-export function deleteById(data) {
+export function deleteById(data, name) {
   return request({
-    url: '/back/user/delete/' + data,
+    url: '/back/user/delete/' + data + '/' + name,
     method: 'post'
   })
 }

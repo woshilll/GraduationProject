@@ -164,18 +164,19 @@
                 <div class="inline-block md:hidden no-underline border-indigo pb-2 px-2 text-sm mr-2 text-indigo-darkest hover:cursor-pointer js-tab relative"
                      data-tab="section-stats">Stats
                 </div>
+
                 <div class="no-underline inline-block border-indigo pb-2 px-2 text-sm mr-2 text-indigo-darkest hover:cursor-pointer js-tab active relative"
-                     data-tab="already-published">已发表 <span class="text-indigo text-xs">({{allNews.length}})</span>
+                      @click="changeStatus('published')" id="published">已发表 <span class="text-indigo text-xs">({{allNews.length}})</span>
                 </div>
                 <div class="no-underline inline-block border-indigo pb-2 px-2 text-sm mr-2 text-indigo-darkest hover:cursor-pointer js-tab relative"
-                     data-tab="un-reviewed">未审核 <span class="text-indigo text-xs">({{unReviewed.length}})</span></div>
+                      @click="changeStatus('unReviewedB')" id="unReviewedB">未审核 <span class="text-indigo text-xs">({{unReviewed.length}})</span></div>
                 <div class="no-underline inline-block border-indigo pb-2 px-2 text-sm mr-2 text-indigo-darkest hover:cursor-pointer js-tab relative"
-                     data-tab="reviewed-fail">审核失败 <span class="text-indigo text-xs">({{reviewedFail.length}})</span>
+                      @click="changeStatus('reviewedFailB')" id="reviewedFailB">审核失败 <span class="text-indigo text-xs">({{reviewedFail.length}})</span>
                 </div>
             </div>
         </div>
         <!-- already-published -->
-        <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane active" id="already-published">
+        <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane active" id="already-published" v-show="published">
             <div class="flex flex-row sm:flex-col items-center sm:items-start w-full xs:w-1/2 sm:w-1/3 md:w-1/5 p-4 js-book"
                  v-for="item in allNews">
                 <div style="position:relative;">
@@ -207,7 +208,7 @@
             </div>
         </div>
         <!--un-reviewed-->
-        <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane" id="un-reviewed">
+        <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane active" id="un-reviewed" v-show="unReviewedB">
             <div class="flex flex-row sm:flex-col items-center sm:items-start w-full xs:w-1/2 sm:w-1/3 md:w-1/5 p-4 js-book"
                  v-for="item in unReviewed">
                 <div style="position:relative;">
@@ -236,7 +237,7 @@
             </div>
         </div>
         <!--reviewed-fail-->
-        <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane" id="reviewed-fail">
+        <div class="hidden px-2 pt-2 md:px-0 flex-wrap order-2 pb-8 js-tab-pane active" id="reviewed-fail" v-show="reviewedFailB">
             <div class="flex flex-row sm:flex-col items-center sm:items-start w-full xs:w-1/2 sm:w-1/3 md:w-1/5 p-4 js-book"
                  v-for="item in reviewedFail">
                 <div style="position:relative;">
@@ -267,7 +268,7 @@
     </div>
     <!-- Profile -->
     <div class="hidden absolute pin-b z-10 lg:relative lg:block w-full lg:w-1/5 bg-grey-lighter-2 px-6 pt-10"
-         id="profile">
+         id="profile" >
         <div class="flex items-center mb-6" @click="dialogFormVisible = true">
             <img :src="user.userIcon" width="60px" height="60px">
             <div class="ml-3">
@@ -700,6 +701,9 @@
                 },
                 emailCodeDisabled: false,
                 emailCodeBtnText: '验证码',
+                published: true,
+                unReviewedB: false,
+                reviewedFailB: false
             };
 
         },
@@ -1203,6 +1207,30 @@
                         })
                     }
                 })
+            },
+            changeStatus(status) {
+                if (status === 'published') {
+                    document.getElementById('published').classList.add('active');
+                    document.getElementById('unReviewedB').classList.remove('active');
+                    document.getElementById('reviewedFailB').classList.remove('active');
+                    this.published = true;
+                    this.unReviewedB = false;
+                    this.reviewedFailB = false;
+                } else if (status === 'unReviewedB') {
+                    document.getElementById('published').classList.remove('active');
+                    document.getElementById('unReviewedB').classList.add('active');
+                    document.getElementById('reviewedFailB').classList.remove('active');
+                    this.published = false;
+                    this.unReviewedB = true;
+                    this.reviewedFailB = false;
+                } else {
+                    document.getElementById('published').classList.remove('active');
+                    document.getElementById('unReviewedB').classList.remove('active');
+                    document.getElementById('reviewedFailB').classList.add('active');
+                    this.published = false;
+                    this.unReviewedB = false;
+                    this.reviewedFailB = true;
+                }
             }
         }
     });

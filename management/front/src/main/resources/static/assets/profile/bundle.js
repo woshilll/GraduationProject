@@ -134,24 +134,24 @@ setTimeout(() => {
     }
   
     // each click event is scoped to the tab_container
-    function tabClick (event) {
-      let clickedTab = event.target;
-      let activePane = get(`#${clickedTab.getAttribute("data-tab")}`);
-  
-      // remove all active tab classes
-      for (let i = 0; i < tabs.length; i++) {
-        tabs[i].classList.remove('active');
-      }
-  
-      // remove all active pane classes
-      for (var i = 0; i < panes.length; i++) {
-        panes[i].classList.remove('active');
-      }
-  
-      // apply active classes on desired tab and pane
-      clickedTab.classList.add('active');
-      activePane.classList.add('active');
-    }
+    // function tabClick (event) {
+    //   let clickedTab = event.target;
+    //   let activePane = get(`#${clickedTab.getAttribute("data-tab")}`);
+    //
+    //   // remove all active tab classes
+    //   for (let i = 0; i < tabs.length; i++) {
+    //     tabs[i].classList.remove('active');
+    //   }
+    //
+    //   // remove all active pane classes
+    //   for (var i = 0; i < panes.length; i++) {
+    //     panes[i].classList.remove('active');
+    //   }
+    //
+    //   // apply active classes on desired tab and pane
+    //   clickedTab.classList.add('active');
+    //   activePane.classList.add('active');
+    // }
   });
 }, 1000);
 

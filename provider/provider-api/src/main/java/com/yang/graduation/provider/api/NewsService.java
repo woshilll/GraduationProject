@@ -150,4 +150,11 @@ public interface NewsService {
      * @return
      */
     int deleteTrueById(String id);
+
+    /**
+     * 批量审核新闻
+     * @param ids
+     * @return
+     */
+    int batchAudit(String[] ids);
 }

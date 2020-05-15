@@ -396,13 +396,16 @@
             margin-top: 2px;
             color: white;
         }
+        [v-cloak] {
+            display: none;
+        }
     </style>
 </head>
 
 <script>
 </script>
 <body>
-<div id="app" class="bg" v-loading="loading">
+<div id="app" class="bg" v-loading="loading" v-cloak>
     <div id="login_wrap">
         <div id="login" v-if="!forgetPwd"><!-- 登录注册切换动画 -->
             <div id="status">
@@ -666,7 +669,17 @@
                                             localStorage.setItem("name", response.data.data.name);
                                             localStorage.setItem("status", response.data.data.status);
                                             // window.location.href = '/index';
-                                            self.location = document.referrer;
+                                            let preUrl = document.referrer;
+                                            console.log(preUrl);
+                                            alert(1)
+                                            if (preUrl.includes('/user/')) {
+                                                location.href = '/index';
+                                            } else if (preUrl.includes('/hover/profile/')) {
+                                                location.href = '/index';
+                                            }
+                                            else {
+                                                self.location = document.referrer;
+                                            }
                                         } else {
                                             this.$message({
                                                 message: response.data.message,

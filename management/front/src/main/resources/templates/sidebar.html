@@ -24,7 +24,7 @@
                     </div>
                     <div class="list-post-content">
                         <a @click="openNews(item.id)" :title="item.title">{{String(item.title).substr(0, 16) + (item.title.length > 15 ? '...' : '')}}</a>
-                        <h4><a :title="item.title">{{String(item.content).substr(0, 16) + (item.content.length > 15 ? '...' : '')}}</a></h4>
+                        <h4><a :title="item.title">{{item.content === null ? '' : (String(item.content).substr(0, 16) + (item.content.length > 15 ? '...' : ''))}}</a></h4>
                         <h4><a @click="openNews(item.id)">
                             {{String(item.likeCount)}}点赞 {{String(item.commentCount)}}评论
                         </a></h4>

@@ -47,6 +47,16 @@
           </el-date-picker>
         </div>
       </el-col>
+      <el-col :span="4">
+        <div class="grid-content bg-purple">
+          <el-button type="primary" @click="selectNews">批量选中</el-button>
+        </div>
+      </el-col>
+      <el-col :span="4">
+        <div class="grid-content bg-purple">
+          <el-button type="primary" @click="batchAudit">批量审核</el-button>
+        </div>
+      </el-col>
     </el-row>
     <!--查询结束---------------------------------------------------- -->
 
@@ -54,15 +64,22 @@
 
     <!--table开始---------------------------------------------------- -->
     <el-table
+      ref="newsTable"
       v-loading="listLoading"
-      :data="userList"
+      :data="newsList"
       style="width: 1302px"
       :max-height="650"
       element-loading-text="Loading"
       :border="true"
       :fit="true"
       highlight-current-row
+      @selection-change="handleSelectionChange"
     >
+      <el-table-column
+        type="selection"
+        width="55"
+        :disabled="true">
+      </el-table-column>
       <el-table-column align="center" label="序号" width="90" :resizable="false" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{ scope.$index }}
@@ -90,7 +107,7 @@
       <el-table-column label="标题" width="200" align="center" :resizable="false" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           <router-link :to="'./edit/'+scope.row.id" class="link-type">
-          <span>{{ scope.row.title }}</span>
+            <span>{{ scope.row.title }}</span>
           </router-link>
           <el-tag size="mini">{{scope.row.categoryName}}</el-tag>
         </template>
@@ -149,7 +166,7 @@
 
 <script>
   import Pagination from '../../components/Pagination'
-  import {selectAll, deleteById} from '@/api/news'
+  import {selectAll, deleteById, batchAudit} from '@/api/news'
   import PanThumb from '../../components/PanThumb'
 
   export default {
@@ -170,7 +187,7 @@
         //加载动画
         listLoading: true,
         //表格数据
-        userList: [],
+        newsList: [],
         //分页及模糊查询条件
         total: 0,
         listQuery: {
@@ -221,6 +238,8 @@
             }
           }]
         },
+        batchBtn: false,
+        multipleSelection: []
       };
     },
     created() {
@@ -234,7 +253,7 @@
       fetchData() {
         this.listLoading = true;
         selectAll(this.listQuery).then(response => {
-          this.userList = response.data.data;
+          this.newsList = response.data.data;
           this.total = response.data.recordsTotal;
           this.listLoading = false;
         }).catch(() => {
@@ -271,6 +290,58 @@
           });
           this.fetchData();
         })
+      },
+      selectNews() {
+        this.$refs.newsTable.clearSelection();
+        this.newsList.forEach(row => {
+          if (row.status !== 1) {
+            this.$refs.newsTable.toggleRowSelection(row);
+          }
+        });
+        if (this.multipleSelection.length === 0) {
+          this.$message({
+            message: '当前页没有需要审核的新闻诶!',
+            type: 'warning',
+            duration: 5 * 1000
+          });
+        }
+      },
+      batchAudit() {
+        if (this.multipleSelection.length === 0) {
+          this.$message({
+            message: '您还未选择!',
+            type: 'error',
+            duration: 5 * 1000
+          });
+          return false;
+        }
+        let batchId = [];
+        this.multipleSelection.forEach(row => {
+          if (row.status !== 1) {
+            batchId.push(row.id);
+          }
+        });
+        console.log(batchId);
+        if (batchId.length === 0) {
+          this.$message({
+            message: '您还未选择未审核或审核失败的新闻!',
+            type: 'error',
+            duration: 5 * 1000
+          });
+          return false;
+        }
+        batchAudit(batchId).then(response => {
+          this.$notify({
+            message: '共审核' + batchId.length + '条新闻,审核成功' + response.data + '条新闻!',
+            type: 'success',
+            duration: 0
+          });
+          this.fetchData();
+        })
+
+      },
+      handleSelectionChange(val) {
+        this.multipleSelection = val;
       }
     }
   }
@@ -279,9 +350,12 @@
 <style scoped>
   .el-row {
     margin-bottom: 20px;
-    &:last-child {
-     margin-bottom: 0;
-   }
+
+  &
+  :last-child {
+    margin-bottom: 0;
+  }
+
   }
   .el-col {
     border-radius: 4px;
@@ -291,9 +365,11 @@
     border-radius: 4px;
     min-height: 36px;
   }
+
   .row-bg {
     padding: 10px 0;
   }
+
   .link-type {
     color: #337ab7;
     cursor: pointer;

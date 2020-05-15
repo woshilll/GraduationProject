@@ -43,7 +43,7 @@
     <el-table
       v-loading="listLoading"
       :data="userList"
-      style="width: 1132px"
+      style="width: 1282px"
       :max-height="500"
       element-loading-text="Loading"
       :border="true"
@@ -58,6 +58,11 @@
       <el-table-column label="用户名" align="center" width="170" :resizable="false" :show-overflow-tooltip="true">
         <template slot-scope="scope">
           {{ scope.row.name }}
+        </template>
+      </el-table-column>
+      <el-table-column label="手机号" align="center" width="170" :resizable="false" :show-overflow-tooltip="true">
+        <template slot-scope="scope">
+          {{ scope.row.phone }}
         </template>
       </el-table-column>
       <el-table-column label="邮箱" width="180" align="center" :resizable="false" :show-overflow-tooltip="true">
@@ -114,6 +119,7 @@
             <el-button
               @click.native.prevent=""
               slot="reference"
+              style="color: red"
               type="text"
               size="small">
               删除
@@ -136,8 +142,11 @@
         <el-form-item label="用户名" :label-width="formLabelWidth">
           <el-input v-model="form.name" autocomplete="off" :disabled="form.name != null"/>
         </el-form-item>
+        <el-form-item label="手机号" :label-width="formLabelWidth">
+          <el-input v-model="form.phone" autocomplete="off" disabled/>
+        </el-form-item>
         <el-form-item label="邮箱" :label-width="formLabelWidth">
-          <el-input v-model="form.email" autocomplete="off"/>
+          <el-input v-model="form.email" autocomplete="off" disabled/>
         </el-form-item>
         <el-form-item label="昵称" :label-width="formLabelWidth">
           <el-input v-model="form.nickName" autocomplete="off"/>
@@ -289,20 +298,15 @@
          * 开始执行删除操作
          */
         this.listLoading = true;
-        deleteById(id).then(response => {
+        deleteById(id, this.$store.getters.name).then(response => {
           this.$message({
             message: response.message + '但是你永远也找不回来喽🥺',
             type: 'success'
           });
           this.listLoading = false;
           this.fetchData();
-        }).catch(() => {
-          this.listLoading = false;
-          this.$message({
-            message: '我们好像出了点问题,等会儿再试吧(。・＿・。)ﾉI’m sorry~',
-            type: 'error'
-          });
         })
+        this.listLoading = false;
       },
 
       /**

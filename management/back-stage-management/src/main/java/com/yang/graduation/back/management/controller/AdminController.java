@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RestController;
 import javax.annotation.Resource;
 import java.util.List;
 import java.util.Map;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * @author woshilll
@@ -91,8 +93,13 @@ public class AdminController {
      * @param id
      * @return
      */
-    @PostMapping("/delete/{id}")
-    public ResponseResult<Void> delete(@PathVariable String id) {
+    @PostMapping("/delete/{id}/{name}")
+    public ResponseResult<Void> delete(@PathVariable String id, @PathVariable String name) {
+        Admin admin = adminService.getAdmin(name);
+        if (!StringUtils.equals(admin.getId(), "88888888")) {
+            return new ResponseResult<>(401, "权限不足");
+
+        }
         int res = adminService.deleteById(id);
         if (res > 0) {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "删除用户成功!");
@@ -136,7 +143,8 @@ public class AdminController {
      */
     @GetMapping("/getAdminLogs")
     public ResponseResult<List<AdminLogs>> getAdminLogs() {
-        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "成功!", adminService.getAdminLogs());
+        List<AdminLogs> adminLogs = adminService.getAdminLogs();
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "成功!", adminLogs.stream().limit(20).collect(Collectors.toList()));
     }
 
     /**

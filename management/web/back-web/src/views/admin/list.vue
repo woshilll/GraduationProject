@@ -333,20 +333,15 @@
          */
 
         this.listLoading = true;
-        deleteById(id).then(response => {
+        deleteById(id,this.$store.getters.name).then(response => {
           this.$message({
             message: response.message + '但是你永远也找不回来喽🥺',
             type: 'success'
           });
           this.listLoading = false;
           this.fetchData();
-        }).catch(() => {
-          this.listLoading = false;
-          this.$message({
-            message: '我们好像出了点问题,等会儿再试吧(。・＿・。)ﾉI’m sorry~',
-            type: 'error'
-          });
-        })
+        });
+        this.listLoading = false;
       },
 
       /**

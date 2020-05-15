@@ -104,4 +104,13 @@ public class NewsController {
         }
         return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "更新失败");
     }
+    @PostMapping("/batch/audit")
+    public ResponseResult<Integer> batchAudit(@RequestBody String[] ids) {
+        assert ids.length > 0;
+        int res = newsService.batchAudit(ids);
+        if (res > 0) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "批量审核成功!", res);
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "批量审核失败");
+    }
 }

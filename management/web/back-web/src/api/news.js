@@ -68,3 +68,14 @@ export function deleteById(id) {
     method: 'post',
   })
 }
+/**
+ * 批量审核
+ * @param data
+ */
+export function batchAudit(data) {
+  return request({
+    url: '/back/news/batch/audit',
+    method: 'post',
+    data
+  })
+}
