@@ -38,6 +38,7 @@ public class Admin implements Serializable {
     private String nickName;
     private String node;
     private Integer status;
+    private Integer root;
 
 
     private static final long serialVersionUID = 1L;

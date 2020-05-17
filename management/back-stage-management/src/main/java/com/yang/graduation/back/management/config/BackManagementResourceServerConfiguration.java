@@ -26,7 +26,9 @@ public class BackManagementResourceServerConfiguration extends ResourceServerCon
                 .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
                 .and()
                 .authorizeRequests()
-                .antMatchers("/**").hasAuthority("USER");
+                .antMatchers("/back/admin/update/**", "/back/admin/modify/**", "/back/admin/delete/**", "/back/admin/insert/**",
+                        "/back/user/delete/**", "/back/news/delete/**").hasAuthority("ROOT")
+                .antMatchers("/**").hasAnyAuthority("USER", "ROOT");
     }
 
     @Override

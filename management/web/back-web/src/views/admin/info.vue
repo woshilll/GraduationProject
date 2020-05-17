@@ -44,7 +44,7 @@
 </template>
 
 <script>
-  import {info, update} from '@/api/admin'
+  import {info, updateInfo} from '@/api/admin'
 
   export default {
     name: "AdminInfo",
@@ -76,7 +76,7 @@
       },
       onSubmit() {
         this.formLoading = true;
-        update(this.form).then(response => {
+        updateInfo(this.form).then(response => {
           this.formLoading = false;
           this.$message({
             message: response.message,

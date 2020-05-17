@@ -1,10 +1,14 @@
 package com.yang.graduation.provider.api;
 
+import com.yang.graduation.commons.domain.Admin;
+import com.yang.graduation.commons.domain.PageInfo;
+import com.yang.graduation.commons.domain.dto.BackCommentsDto;
 import com.yang.graduation.commons.domain.dto.CommentDto;
 import com.yang.graduation.commons.domain.dto.FrontCommentsDto;
 import com.yang.graduation.commons.domain.NewsComment;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author woshilll
@@ -46,4 +50,17 @@ public interface NewsCommentService {
      * @return
      */
     int getCommentsCountByNewsId(String newsId);
+    /**
+     * 得到所有的评论
+     * @param map 模糊查询 + 分页
+     * @return {@link PageInfo}
+     */
+    PageInfo<BackCommentsDto> getCommentList(Map<String, Object> map);
+
+    /**
+     * 获得模糊查询的总量
+     * @param map details
+     * @return {@link Integer}
+     */
+    int count(Map<String, Object> map);
 }

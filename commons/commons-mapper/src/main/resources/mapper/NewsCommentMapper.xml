@@ -1,14 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.yang.graduation.commons.mapper.NewsCommentMapper">
-  <resultMap id="BaseResultMap" type="com.yang.graduation.commons.domain.NewsComment">
-    <id column="id" jdbcType="VARCHAR" property="id" />
-    <result column="news_id" jdbcType="VARCHAR" property="newsId" />
-    <result column="comment_user_id" jdbcType="VARCHAR" property="commentUserId" />
-    <result column="details" jdbcType="VARCHAR" property="details" />
-    <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate" />
-    <result column="status" jdbcType="INTEGER" property="status" />
-  </resultMap>
+    <resultMap id="BaseResultMap" type="com.yang.graduation.commons.domain.NewsComment">
+        <id column="id" jdbcType="VARCHAR" property="id"/>
+        <result column="news_id" jdbcType="VARCHAR" property="newsId"/>
+        <result column="comment_user_id" jdbcType="VARCHAR" property="commentUserId"/>
+        <result column="details" jdbcType="VARCHAR" property="details"/>
+        <result column="comment_date" jdbcType="TIMESTAMP" property="commentDate"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+    </resultMap>
     <select id="getFrontCommentsByNewsId" resultType="com.yang.graduation.commons.domain.dto.FrontCommentsDto">
         select
     c.details,c.comment_date as commentDate, u.name as username, u.user_icon as icon
@@ -18,7 +18,7 @@ where c.comment_user_id = u.id
   and c.news_id = #{id}
 order by comment_date desc
     </select>
-  <select id="getCommentCountByNewsAuthorId" resultType="java.lang.Integer">
+    <select id="getCommentCountByNewsAuthorId" resultType="java.lang.Integer">
 select count(*)
 from news_comment
 where status = 0
@@ -29,5 +29,25 @@ where status = 0
          and is_delete = 0
          and status = 1);
   </select>
+    <select id="page" resultType="com.yang.graduation.commons.domain.dto.BackCommentsDto">
+        select
+        nc.id, nc.news_id as newsId, nc.comment_user_id as userId, nc.details, nc.comment_date as commentDate, nc.status,
+               u.name as username,u.banned as userStatus,n.title as newsTitle,n.is_delete as newsStatus
+        from news_comment nc, user u, news n
+        where u.id = nc.comment_user_id
+        and n.id = nc.news_id
+                <if test="details != null and details != ''">
+                    and nc.details like concat('%', #{details}, '%')
+                </if>
+        limit #{page}, #{limit}
+    </select>
+    <select id="count" resultType="java.lang.Integer">
+        select count(*) from news_comment
+        <where>
+            <if test="details != null and details != ''">
+                and details like concat('%', #{details}, '%')
+            </if>
+        </where>
+    </select>
 
 </mapper>

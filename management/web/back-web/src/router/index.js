@@ -95,11 +95,11 @@ export const constantRoutes = [
 
   //管理员信息管理模块
   {
-    path: '/management',
+    path: '/user',
     component: Layout,
-    redirect: '/management/adminList',
-    name: 'management',
-    meta: {title: '管理', icon: 'peoples'},
+    redirect: '/user/adminList',
+    name: 'user',
+    meta: {title: '用户管理', icon: 'peoples'},
     children: [
       {
         path: 'adminList',
@@ -113,6 +113,16 @@ export const constantRoutes = [
         component: () => import('@/views/user/list'),
         meta: {title: '用户管理', icon: 'people'}
       },
+    ]
+  },
+//新闻信息管理模块
+  {
+    path: '/news',
+    component: Layout,
+    redirect: '/news/newsList',
+    name: 'news',
+    meta: {title: '新闻管理', icon: 'peoples'},
+    children: [
       {
         path: 'newsList',
         name: 'NewsList',
@@ -134,7 +144,29 @@ export const constantRoutes = [
       },
     ]
   },
+//其它管理模块
+  {
+    path: '/others',
+    component: Layout,
+    redirect: '/others/categoryList',
+    name: 'others',
+    meta: {title: '其它管理', icon: 'peoples'},
+    children: [
+      {
+        path: 'categoryList',
+        name: 'CategoryList',
+        component: () => import('@/views/category/list'),
+        meta: {title: '分类信息', icon: 'list'}
+      },
+      {
+        path: 'commentList',
+        name: 'CommentList',
+        component: () => import('@/views/comment/list'),
+        meta: {title: '评论管理', icon: 'list'}
+      },
 
+    ]
+  },
 
   // 404 page must be placed at the end !!!
   {path: '*', redirect: '/404', hidden: true}

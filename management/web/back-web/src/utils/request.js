@@ -65,7 +65,7 @@ service.interceptors.response.use(
         })
       }
       return Promise.reject(new Error(res.message || '未知错误'))
-    } else if (res.code === 401) {
+    } else if (res.code === 401 || res.code === 403) {
       Message({
         message: '权限不足',
         type: 'error',
@@ -76,11 +76,25 @@ service.interceptors.response.use(
     }
   },
   error => {
-    Message({
-      message: error.message,
-      type: 'error',
-      duration: 5 * 1000
-    });
+    if (error.message.includes('403')) {
+      Message({
+        message: '用户组没有该权限!',
+        type: 'error',
+        duration: 5 * 1000
+      });
+    } else if (error.message.includes('401')) {
+      Message({
+        message: '认证失败,请重新登录!',
+        type: 'error',
+        duration: 5 * 1000
+      });
+    } else {
+      Message({
+        message: error.message,
+        type: 'error',
+        duration: 5 * 1000
+      });
+    }
     return Promise.reject(error)
   }
 );

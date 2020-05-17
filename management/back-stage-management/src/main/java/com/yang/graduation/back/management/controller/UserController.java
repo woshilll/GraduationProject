@@ -51,6 +51,10 @@ public class UserController {
      */
     @PostMapping("/update")
     public ResponseResult<Void> update(@RequestBody User user) {
+        assert user != null;
+        if (StringUtils.equals(user.getId(), "88888888")) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "当前用户为管理员专用用户,无法修改");
+        }
         int res = userService.updateById(user);
         if (res > 0) {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "更新成功!");
@@ -90,10 +94,6 @@ public class UserController {
      */
     @PostMapping("/delete/{id}/{name}")
     public ResponseResult<Void> delete(@PathVariable String id, @PathVariable String name) {
-        Admin admin = adminService.getAdmin(name);
-        if (!StringUtils.equals(admin.getId(), "88888888")) {
-            return new ResponseResult<>(401, "没有权限");
-        }
         if (StringUtils.equals(id, "88888888")) {
             return new ResponseResult<>(ResponseResult.CodeStatus.DELETE_FAIL, "当前用户为管理员专用用户,无法删除");
         }

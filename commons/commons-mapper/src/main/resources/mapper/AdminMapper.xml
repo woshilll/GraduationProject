@@ -13,6 +13,7 @@
         <result column="nick_name" jdbcType="VARCHAR" property="nickName"/>
         <result column="node" jdbcType="VARCHAR" property="node"/>
         <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="root" jdbcType="INTEGER" property="root"/>
     </resultMap>
     <select id="page" resultType="com.yang.graduation.commons.domain.Admin">
         select id, name, regist_time as registTime, last_login_time as lastLoginTime,

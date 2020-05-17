@@ -356,9 +356,6 @@
        * @param field
        */
       cropUploadFail(status, field) {
-        console.log('-------- upload fail --------');
-        console.log(status);
-        console.log('field: ' + field);
         this.$message({
           message: status + '上传失败',
           type: 'error'
@@ -376,13 +373,8 @@
           });
           this.dialogFormVisible = false;
           this.fetchData();
-        }).catch(() => {
-          this.dialogFormVisible = false;
-          this.$message({
-            message: '我们好像出了点问题,等会儿再试吧(。・＿・。)ﾉI’m sorry~',
-            type: 'error'
-          });
-        })
+        });
+        this.dialogFormVisible = false;
       }
     }
   }

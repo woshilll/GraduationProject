@@ -1,7 +1,7 @@
 <template>
   <el-row :gutter="40" class="panel-group">
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <router-link to="/management/adminList">
+      <router-link to="/user/adminList">
       <div class="card-panel">
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon icon-class="peoples" class-name="card-panel-icon" />
@@ -16,7 +16,7 @@
       </router-link>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <router-link to="/management/userList">
+      <router-link to="/user/userList">
       <div class="card-panel" >
         <div class="card-panel-icon-wrapper icon-people">
           <svg-icon icon-class="user" class-name="card-panel-icon" />
@@ -31,7 +31,7 @@
       </router-link>
     </el-col>
     <el-col :xs="12" :sm="12" :lg="6" class="card-panel-col">
-      <router-link to="/management/newsList">
+      <router-link to="/news/newsList">
       <div class="card-panel" >
         <div class="card-panel-icon-wrapper icon-money">
           <svg-icon icon-class="documentation" class-name="card-panel-icon" />

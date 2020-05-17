@@ -1,6 +1,9 @@
 package com.yang.graduation.provider.service;
 
+import com.yang.graduation.commons.domain.Admin;
+import com.yang.graduation.commons.domain.PageInfo;
 import com.yang.graduation.commons.domain.User;
+import com.yang.graduation.commons.domain.dto.BackCommentsDto;
 import com.yang.graduation.commons.domain.dto.CommentDto;
 import com.yang.graduation.commons.domain.dto.FrontCommentsDto;
 import com.yang.graduation.commons.domain.NewsComment;
@@ -18,6 +21,7 @@ import tk.mybatis.mapper.entity.Example;
 import javax.annotation.Resource;
 import java.util.Date;
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author woshilll
@@ -93,5 +97,25 @@ public class NewsCommentServiceImpl implements NewsCommentService {
         criteria.andEqualTo("newsId", newsId)
                 .andEqualTo("status", 0);
         return newsCommentMapper.selectCountByExample(example);
+    }
+
+    @Override
+    public PageInfo<BackCommentsDto> getCommentList(Map<String, Object> map) {
+        PageInfo<BackCommentsDto> pageInfo = new PageInfo<>();
+        pageInfo.setDraw(0);
+        map.put("page", ((int)map.get("page") - 1) * 10);
+        pageInfo.setStart((Integer) map.get("page"));
+        pageInfo.setLength((Integer) map.get("limit"));
+        List<BackCommentsDto> backCommentsDtos = newsCommentMapper.page(map);
+        pageInfo.setData(backCommentsDtos);
+        int count = count(map);
+        pageInfo.setRecordsTotal(count);
+        pageInfo.setRecordsFiltered(count);
+        return pageInfo;
+    }
+
+    @Override
+    public int count(Map<String, Object> map) {
+        return newsCommentMapper.count(map);
     }
 }

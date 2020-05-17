@@ -21,6 +21,17 @@ export function update(data) {
     data
   })
 }
+/**
+ * 更新个人信息
+ * @param data
+ */
+export function updateInfo(data) {
+  return request({
+    url: '/back/admin/info/update',
+    method: 'post',
+    data
+  })
+}
 
 /**
  * 更新用户头像
@@ -29,6 +40,17 @@ export function update(data) {
 export function modifyIcon(data) {
   return request({
     url: '/back/admin/modify/icon',
+    method: 'post',
+    data
+  })
+}
+/**
+ * 更新用户头像
+ * @param data
+ */
+export function infoModifyIcon(data) {
+  return request({
+    url: '/back/admin/info/modify/icon',
     method: 'post',
     data
   })

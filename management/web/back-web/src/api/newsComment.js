@@ -20,3 +20,13 @@ export function updateComment(data) {
     data
   })
 }
+/**
+ * 所有评论
+ */
+export function getAll(data) {
+  return request({
+    url: '/back/newsComment/select/all',
+    method: 'post',
+    data
+  })
+}

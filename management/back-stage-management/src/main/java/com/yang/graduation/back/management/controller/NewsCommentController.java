@@ -1,6 +1,9 @@
 package com.yang.graduation.back.management.controller;
 
+import com.yang.graduation.commons.domain.Admin;
 import com.yang.graduation.commons.domain.NewsComment;
+import com.yang.graduation.commons.domain.PageInfo;
+import com.yang.graduation.commons.domain.dto.BackCommentsDto;
 import com.yang.graduation.dto.ResponseResult;
 import com.yang.graduation.provider.api.NewsCommentService;
 import org.apache.dubbo.config.annotation.Reference;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.Map;
 
 /**
  * @author woshilll
@@ -45,5 +49,16 @@ public class NewsCommentController {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "成功");
         }
         return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "更新失败!");
+    }
+
+    /**
+     * 模糊查询所有的评论
+     * @param map page/limit/details
+     * @return
+     */
+    @PostMapping("/select/all")
+    public ResponseResult<PageInfo<BackCommentsDto>> selectAll(@RequestBody Map<String, Object> map) {
+        PageInfo<BackCommentsDto> backCommentsDtoPageInfo = newsCommentService.getCommentList(map);
+        return new ResponseResult<>(ResponseResult.CodeStatus.OK, "查询成功", backCommentsDtoPageInfo);
     }
 }

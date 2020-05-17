@@ -25,7 +25,7 @@
   import ImageCropper from 'vue-image-crop-upload'
   import PanThumb from '@/components/PanThumb'
   import {getToken} from '../../utils/auth'
-  import {modifyIcon} from '@/api/admin'
+  import {infoModifyIcon} from '@/api/admin'
 
   export default {
     name: "AdminIcon",
@@ -62,7 +62,7 @@
        */
       cropUploadSuccess(jsonData, field) {
         // 更新头像
-        modifyIcon({
+        infoModifyIcon({
           name: this.$store.getters.name,
           path: jsonData.data.path
         }).then(response => {

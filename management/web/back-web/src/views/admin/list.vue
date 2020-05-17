@@ -410,13 +410,8 @@
           });
           this.dialogFormVisible = false;
           this.fetchData();
-        }).catch(() => {
-          this.dialogFormVisible = false;
-          this.$message({
-            message: '我们好像出了点问题,等会儿再试吧(。・＿・。)ﾉI’m sorry~',
-            type: 'error'
-          });
-        })
+        });
+        this.dialogFormVisible = false;
       },
 
       handleDownload() {

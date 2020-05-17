@@ -62,6 +62,19 @@ public class AdminController {
         }
         return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "更新失败!");
     }
+    /**
+     * 更新个人信息
+     * @param admin {@link Admin}
+     * @return {@link ResponseResult}
+     */
+    @PostMapping("/info/update")
+    public ResponseResult<Void> updateInfo(@RequestBody Admin admin) {
+        int res = adminService.updateById(admin);
+        if (res > 0) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "更新成功!");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.UPDATE_FAIL, "更新失败!");
+    }
 
     /**
      * 更新用户头像
@@ -70,6 +83,19 @@ public class AdminController {
      */
     @PostMapping("/modify/icon")
     public ResponseResult<Void> modifyIcon(@RequestBody IconParam iconParam) {
+        int res = adminService.modifyIcon(iconParam.getPath(), iconParam.getName());
+        if (res > 0) {
+            return new ResponseResult<>(ResponseResult.CodeStatus.OK, "更新头像成功!");
+        }
+        return new ResponseResult<>(ResponseResult.CodeStatus.UPLOAD_FAIL, "更新头像失败!");
+    }
+    /**
+     * 更新用户头像
+     * @param iconParam {@link IconParam}
+     * @return {@link ResponseResult}
+     */
+    @PostMapping("/info/modify/icon")
+    public ResponseResult<Void> infoModifyIcon(@RequestBody IconParam iconParam) {
         int res = adminService.modifyIcon(iconParam.getPath(), iconParam.getName());
         if (res > 0) {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "更新头像成功!");
@@ -95,11 +121,6 @@ public class AdminController {
      */
     @PostMapping("/delete/{id}/{name}")
     public ResponseResult<Void> delete(@PathVariable String id, @PathVariable String name) {
-        Admin admin = adminService.getAdmin(name);
-        if (!StringUtils.equals(admin.getId(), "88888888")) {
-            return new ResponseResult<>(401, "权限不足");
-
-        }
         int res = adminService.deleteById(id);
         if (res > 0) {
             return new ResponseResult<>(ResponseResult.CodeStatus.OK, "删除用户成功!");

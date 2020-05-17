@@ -41,6 +41,11 @@ public class UserDetailsServiceImpl implements UserDetailsService {
                 //说明账号禁用!
                 return new User(BANNED, admin.getPassword(), Lists.newArrayList(new SimpleGrantedAuthority("BANNED")));
             }
+            if (admin.getRoot() == 1) {
+                //超级管理员
+                GrantedAuthority root = new SimpleGrantedAuthority("ROOT");
+                grantedAuthorities.add(root);
+            }
             return new User(admin.getName(), admin.getPassword(), grantedAuthorities);
         }
         //用户不存在
